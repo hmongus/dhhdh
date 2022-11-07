@@ -151,6 +151,33 @@ void p_presentacion()
     return;
 }
 
+void instrucciones()
+{
+    cursor(38, 5); color(7); cout << R"(
+                    
+                  ___ _  _ ___ _____ ___ _   _  ___ ___ ___ ___  _  _ ___ ___ 
+                 |_ _| \| / __|_   _| _ | | | |/ __/ __|_ _/ _ \| \| | __/ __|
+                  | || .` \__ \ | | |   | |_| | (_| (__ | | (_) | .` | _|\__ \
+                 |___|_|\_|___/ |_| |_|_\\___/ \___\___|___\___/|_|\_|___|___/
+                                                              
+
+                        )" << "\n";
+    cursor(10, 13); color(15); cout << "- Con las teclas direccionales podras mover";
+    cursor(12, 14); color(15); cout << "al personaje principal, el cual cuenta con tan solo 3 vidas.";
+    cursor(10, 15); color(15); cout << "- El personaje principal empezará en un punto A";
+    cursor(12, 16); color(15);cout<<"y tendra como objetivo pasar por un laberinto para llegar a un punto B.";
+    cursor(10, 17); color(15); cout << "- En el punto B estarán los amigos del personaje principal, estos esperan";
+    cursor(12, 18); color(15); cout << "ser rescatados";
+    cursor(10, 19); color(15); cout << "- El laberinto contará con diferentes elementos:";
+    cursor(12, 20); color(15); cout << ".Aliados";
+    cursor(12, 21); color(15); cout << ".Agentes";
+    cursor(12, 22); color(15); cout << ".Vitaminas";
+    cursor(12, 23); color(15); cout << ".Portales";
+    //falta agregarle detalles
+    getch();
+    Console::Clear();
+}
+
 int main()
 {
     ventana(91, 47);
