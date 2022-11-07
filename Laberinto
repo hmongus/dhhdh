@@ -362,6 +362,7 @@ int main()
         }
         //dibujar
         cursor(x, y); color(12); pp_imprime(x, y);
+        _sleep(50);
     }
     system("pause>0");
     return 0;
