@@ -136,7 +136,7 @@ void p_presentacion()
                                                       
                     
                         )" << "\n";
-            cursor(x+2, y + 9); color(12); cout << "PRESIONE ENTER PARA CONTINUAR";
+            cursor(x+2, y + 9); color(12); cout << "PRESIONE ESPACIO PARA CONTINUAR";
 
         }
         if (kbhit())
