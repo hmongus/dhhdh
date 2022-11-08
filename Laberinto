@@ -165,18 +165,22 @@ void instrucciones()
     cursor(10, 13); color(15); cout << "- Con las teclas direccionales podras mover";
     cursor(12, 14); color(15); cout << "al personaje principal, el cual cuenta con tan solo 3 vidas.";
     cursor(10, 15); color(15); cout << "- El personaje principal empezará en un punto A";
-    cursor(12, 16); color(15);cout<<"y tendra como objetivo pasar por un laberinto para llegar a un punto B.";
+    cursor(12, 16); color(15); cout << "y tendra como objetivo pasar por un laberinto para llegar a un punto B.";
     cursor(10, 17); color(15); cout << "- En el punto B estarán los amigos del personaje principal, estos esperan";
     cursor(12, 18); color(15); cout << "ser rescatados";
     cursor(10, 19); color(15); cout << "- El laberinto contará con diferentes elementos:";
-    cursor(12, 20); color(15); cout << ".Aliados";
-    cursor(12, 21); color(15); cout << ".Agentes";
-    cursor(12, 22); color(15); cout << ".Vitaminas";
-    cursor(12, 23); color(15); cout << ".Portales";
+    cursor(12, 20); color(15); cout << ".Aliados "; bcolor(14); cout << " ";
+    cursor(12, 21); bcolor(1); cout << ".Agentes "; bcolor(12); cout << " ";
+    cursor(12, 22); bcolor(1); cout << ".Vitaminas: ";
+    cursor(14, 23); bcolor(10); cout << " "; bcolor(1);cout<< ": Te da una vida extra.";
+    cursor(14, 24); bcolor(13); cout << " "; bcolor(1); cout << ": Reduce la forma del personaje.";
+    cursor(12, 25); color(15); cout << ".Portales "; bcolor(11); cout << " "; bcolor(1); cout << " "; bcolor(13); cout << " ";
+    bcolor(1); cout << " "; bcolor(9); cout << " "; bcolor(1); cout << " "; bcolor(15); cout << " "; bcolor(1); "   "; bcolor(2); cout << " ";bcolor(1); cout << " "; bcolor(6); cout << " "; bcolor(1);
     //falta agregarle detalles
     getch();
     Console::Clear();
 }
+
 
 void niveles()
 {
@@ -331,7 +335,12 @@ int main()
     };
 
     p_presentacion();
-
+    instrucciones();
+    int opcion;
+    //while(true)
+    //{
+      //if(opcion==1)
+      //{
     for (int f = 0; f < FILAS; f++)
     {
         for (int c = 0; c < COLUMNAS; c++)
@@ -363,7 +372,11 @@ int main()
         //dibujar
         cursor(x, y); color(12); pp_imprime(x, y);
         _sleep(50);
-    }
+        }
+        
+        //if(opcion==2)
+        //{}
+    //}
     system("pause>0");
     return 0;
 }
