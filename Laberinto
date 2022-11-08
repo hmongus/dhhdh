@@ -414,9 +414,9 @@ int main()
         //}
         //if(opcion==2)
         //{ 
-             break;
+             //break;
              //no completado, laberinto 2(hard) 
-            }//
+            //}
    
     //}
     system("pause>0");
