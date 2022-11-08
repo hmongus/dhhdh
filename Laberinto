@@ -204,11 +204,16 @@ void instrucciones()
     Console::Clear();
 }
 
-
-void niveles()
+void flecha(int x, int y)
 {
-    int x = 40, y = 15;
+    cursor(x, y); cout << "---" << char(92);
+    cursor(x, y + 1); cout << "---" << char(47);
+}
 
+int niveles()
+{
+    int x, y, topcion;
+    bool print = false;
     while (true)
     {
         int _clr_ = 2 + rand() % 14;
@@ -286,21 +291,29 @@ void niveles()
 
 )" << "\n";
 
-        cursor(x, y); color(4); cout << "*";
         if (kbhit())
         {
-            cursor(x, y); color(15); cout << " ";
-
             char tecla = getch();
-            if (tecla == ARRIBA) { y--; }
-            if (tecla == ABAJO) { y++; }
-            if (tecla == IZQUIERDA) { x--; }
-            if (tecla == DERECHA) { x++; }
-            cursor(x, y); color(4); cout << "*";
+            if (tecla == ARRIBA) 
+            {
+                x = 16, y = 14;
+                print = true;
+            }
+            if (tecla == ABAJO) 
+            { 
+                x=24,y=30;
+                print = true;
+            }      
+            if (x == 16 && y == 14 && tecla == SPACEBAR) { topcion = 1; break; }
+            if (x == 24 && y == 30 && tecla == SPACEBAR) { topcion = 2; break; }
+        }
+        if (print == true)
+        {
+           color(15); flecha(x, y);
         }
     }
 
-    return;
+    return topcion;
 }
 
 
@@ -362,6 +375,7 @@ int main()
     int opcion;
     //while(true)
     //{
+       //opcion=niveles();
       //if(opcion==1)
       //{
     for (int f = 0; f < FILAS; f++)
@@ -397,8 +411,13 @@ int main()
         _sleep(50);
         }
         
+        //}
         //if(opcion==2)
-        //{}
+        //{ 
+             break;
+             //no completado, laberinto 2(hard) 
+            }//
+   
     //}
     system("pause>0");
     return 0;
