@@ -434,6 +434,7 @@ int main()
             cursor(c, f);
             if (matriz[f][c] == 0) color(1);
             if (matriz[f][c] == 1) color(11);
+            //portales
             if (matriz[f][c] == 5) color(9);
             if (matriz[f][c] == 6) color(13);
             if (matriz[f][c] == 7) color(8);
@@ -481,7 +482,7 @@ int main()
         //agentes
         cursor(x_a[i], y_a[i]); a_imprime(x_a[i], y_a[i]);
         i++;
-        if (i > 25)i = 0;
+        if (i > 26)i = 0;
         Sleep(1);
         }
         
