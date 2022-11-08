@@ -246,7 +246,7 @@ void instrucciones()
     cursor(12, 22); bcolor(1); cout << ".Vitaminas: ";
     cursor(14, 23); bcolor(10); cout << " "; bcolor(1);cout<< ": Te da una vida extra.";
     cursor(14, 24); bcolor(13); cout << " "; bcolor(1); cout << ": Reduce la forma del personaje.";
-    cursor(12, 25); color(15); cout << ".Portales "; bcolor(7); cout << " "; bcolor(1); cout << " "; bcolor(13); cout << " ";
+    cursor(12, 25); color(15); cout << ".Portales "; bcolor(8); cout << " "; bcolor(1); cout << " "; bcolor(13); cout << " ";
     bcolor(1); cout << " "; bcolor(9); cout << " "; bcolor(1); cout << " "; bcolor(15); cout << " "; bcolor(1); "   "; bcolor(2); cout << " ";bcolor(1); cout << " "; bcolor(6); cout << " "; bcolor(1);
     //falta agregarle detalles
     getch();
@@ -434,7 +434,12 @@ int main()
             cursor(c, f);
             if (matriz[f][c] == 0) color(1);
             if (matriz[f][c] == 1) color(11);
-
+            if (matriz[f][c] == 5) color(9);
+            if (matriz[f][c] == 6) color(13);
+            if (matriz[f][c] == 7) color(8);
+            if (matriz[f][c] == 8) color(15);
+            if (matriz[f][c] == 9) color(2);
+            if (matriz[f][c] == 10) color(6);
             cout << (char)219;
         }
         //cout << endl;
