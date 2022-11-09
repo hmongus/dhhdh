@@ -422,11 +422,11 @@ int main()
     p_presentacion();
     instrucciones();
     int opcion;
-    //while(true)
-    //{
-       //opcion=niveles();
-      //if(opcion==1)
-      //{
+  while(true)
+   {
+      opcion=niveles();
+      if(opcion==1)
+      {
     for (int f = 0; f < FILAS; f++)
     {
         for (int c = 0; c < COLUMNAS; c++)
@@ -506,14 +506,14 @@ int main()
         Sleep(1);
         }
         
-        //}
-        //if(opcion==2)
-        //{ 
+        }
+       if(opcion==2)
+        { 
              //break;
              //no completado, laberinto 2(hard) 
-            //}
+         }
    
-    //}
+    }
     system("pause>0");
     return 0;
 }
