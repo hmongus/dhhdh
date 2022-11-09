@@ -441,6 +441,9 @@ int main()
             if (matriz[f][c] == 8) color(15);
             if (matriz[f][c] == 9) color(2);
             if (matriz[f][c] == 10) color(6);
+            //vitaminas
+            if (matriz[f][c] == 4) color(10);
+            if (matriz[f][c] == 3) color(13);
             cout << (char)219;
         }
     }
