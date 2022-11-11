@@ -618,7 +618,7 @@ int main()
                 if (matriz[enemigos[i].y_a - 1][enemigos[i].x_a] == 1)enemigos[i].dy_a *= -1;
                 if (matriz[enemigos[i].y_a + 3][enemigos[i].x_a] == 1)enemigos[i].dy_a *= -1;
                 
-                for (int i = 0; i < num_agentes; i++)
+               */ for (int i = 0; i < num_agentes; i++)
                 {
                     if (x == enemigos[i].x_a + 2)
                     {
@@ -630,7 +630,7 @@ int main()
                         }
                         num_agentes--;
                     }
-                }
+                }*\
                
                 
                 enemigos[i].y_a -= enemigos[i].dy_a;
