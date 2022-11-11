@@ -410,6 +410,7 @@ int niveles()
 
     return topcion;
 }
+
 struct agentes {
     int x_a;
     int y_a;
@@ -628,6 +629,15 @@ int main()
                     cursor(x_boom, y_boom);
                     color(3); cout << "<";
                 }
+                
+                if ((y >= 43 || y + 1 >= 43 || y+2>=44) && (x == 3))
+                { 
+                    Console::Clear();
+                    opcion = felicitaciones();
+                    if (opcion == 3) { break; }
+                    if (opcion == 4)break;
+                }
+                
                 i++;
                 if (i > 26)i = 0;
                 Sleep(1);
@@ -639,8 +649,21 @@ int main()
             //break;
             //no completado, laberinto 2(hard) 
         }
+        
+        if (opcion == 3)
+        {
+            Console::Clear();
+            continue;
+        }
+        
+        if (opcion == 4)
+        {
+            Console::Clear();
+            break;
+        }
 
     }
+    //creditos
     system("pause>0");
     return 0;
 }
