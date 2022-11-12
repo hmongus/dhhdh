@@ -411,6 +411,61 @@ int niveles()
     return topcion;
 }
 
+int felicitaciones()
+{
+    char _T = 0;
+    int tdesicion;
+    while (true)
+    {
+        cursor(1, 10); color(11); cout << R"(                              
+       ######
+    ########## 
+   ######    _\_
+   ##===----[.].]
+   #(     ,   _\ 
+    #      )\__|
+     \        / 
+      `-._``-' 
+          >@
+           |
+           |
+           |
+           |
+           |
+           |
+           |
+           |
+           |
+           |
+)" << "\n";
+
+        _sleep(50);
+        cursor(20, 15); color(13); cout << R"(
+                       __      __  ______   __    __        __       __  ______  __    __ 
+                      /  \    /  |/      \ /  |  /  |      /  |  _  /  |/      |/  \  /  |
+                      $$  \  /$$//$$$$$$  |$$ |  $$ |      $$ | / \ $$ |$$$$$$/ $$  \ $$ |
+                       $$  \/$$/ $$ |  $$ |$$ |  $$ |      $$ |/$  \$$ |  $$ |  $$$  \$$ |
+                        $$  $$/  $$ |  $$ |$$ |  $$ |      $$ /$$$  $$ |  $$ |  $$$$  $$ |
+                         $$$$/   $$ |  $$ |$$ |  $$ |      $$ $$/$$ $$ |  $$ |  $$ $$ $$ |
+                          $$ |   $$ \__$$ |$$ \__$$ |      $$$$/  $$$$ | _$$ |_ $$ |$$$$ |
+                          $$ |   $$    $$/ $$    $$/       $$$/    $$$ |/ $$   |$$ | $$$ |
+                          $$/     $$$$$$/   $$$$$$/        $$/      $$/ $$$$$$/ $$/   $$/ 
+
+)" << "\n";
+
+        cursor(48, 27); color(15); cout <<char(173)<< "FELICIDADES!";
+        cursor(39, 28); cout << "SI DESEA JUGAR DE NUEVO, PRESIONE N";
+        cursor(36, 29); cout << "SI DESEA TERMINAR EL JUEGO, PRESIONE ESC";
+        if (_kbhit())
+        {
+            char _tecla = _getch();
+            if (_tecla == 'N') { tdesicion = 3; break; }
+            if (_tecla == 2) { tdesicion = 4; break; }
+        }
+    }
+    return tdesicion;
+}
+
 struct agentes {
     int x_a;
     int y_a;
