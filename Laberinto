@@ -680,9 +680,6 @@ int main()
                      if ((x == enemigos[i3].x_a + 2) && ((y >= enemigos[i3].y_a && y <= enemigos[i3].y_a + 2) || (y + 1 >= enemigos[i3].y_a && y + 1 <= enemigos[i3].y_a + 2) || (y + 2 >= enemigos[i3].y_a && y + 2 <= enemigos[i3].y_a + 2)))
                      { 
                          //cuando el personaje se encuentra a un agente por la izquierda
-                         //PSDT:He estado revisando, y creo que no es necesario poner dentro de las funciones de borrar e impimir agente, el paramentro numero_agentes.
-                         //ni tampoco el primer loop de dichas funciones que tiene como limite 27, ya que en este loop principal no estamos usando for, sino 
-                         //la variable "i". Dale una reviasada a eso :)
                          a_borra(enemigos[i3].x_a, enemigos[i3].y_a, num_agentes);
                          for (int _i = i3; _i < num_agentes; _i++)
                          {
