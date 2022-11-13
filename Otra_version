@@ -1,0 +1,676 @@
+#include "pch.h"
+#include "iostream"
+#include "windows.h"
+#include <conio.h>
+#define FILAS 47
+#define COLUMNAS 91
+#define IZQUIERDA 75
+#define DERECHA 77
+#define ABAJO 80
+#define ARRIBA 72
+#define SPACEBAR 32
+using namespace System;
+using namespace std;
+void ventana(int x, int y) {
+    Console::SetWindowSize(x, y);
+}
+void cursor(int x, int y) {
+    Console::SetCursorPosition(x, y);
+    Console::CursorVisible = false;
+}
+void color(int c)
+{
+    switch (c)
+    {
+    case 1: Console::ForegroundColor = ConsoleColor::Black; break;
+    case 2: Console::ForegroundColor = ConsoleColor::DarkBlue; break;
+    case 3: Console::ForegroundColor = ConsoleColor::DarkGreen; break;
+    case 4: Console::ForegroundColor = ConsoleColor::DarkRed; break;
+    case 5: Console::ForegroundColor = ConsoleColor::DarkMagenta; break;
+    case 6: Console::ForegroundColor = ConsoleColor::DarkYellow; break;
+    case 7: Console::ForegroundColor = ConsoleColor::Gray; break;
+    case 8: Console::ForegroundColor = ConsoleColor::DarkGray; break;
+    case 9: Console::ForegroundColor = ConsoleColor::Blue; break;
+    case 10: Console::ForegroundColor = ConsoleColor::Green; break;
+    case 11: Console::ForegroundColor = ConsoleColor::Cyan; break;
+    case 12: Console::ForegroundColor = ConsoleColor::Red; break;
+    case 13: Console::ForegroundColor = ConsoleColor::Magenta; break;
+    case 14: Console::ForegroundColor = ConsoleColor::Yellow; break;
+    case 15: Console::ForegroundColor = ConsoleColor::White; break;
+    }
+}
+
+void bcolor(int c)
+{
+    switch (c)
+    {
+    case 1: Console::BackgroundColor = ConsoleColor::Black; break;
+    case 2: Console::BackgroundColor = ConsoleColor::DarkBlue; break;
+    case 3: Console::BackgroundColor = ConsoleColor::DarkGreen; break;
+    case 4: Console::BackgroundColor = ConsoleColor::DarkRed; break;
+    case 5: Console::BackgroundColor = ConsoleColor::DarkMagenta; break;
+    case 6: Console::BackgroundColor = ConsoleColor::DarkYellow; break;
+    case 7: Console::BackgroundColor = ConsoleColor::Gray; break;
+    case 8: Console::BackgroundColor = ConsoleColor::DarkGray; break;
+    case 9: Console::BackgroundColor = ConsoleColor::Blue; break;
+    case 10: Console::BackgroundColor = ConsoleColor::Green; break;
+    case 11: Console::BackgroundColor = ConsoleColor::Cyan; break;
+    case 12: Console::BackgroundColor = ConsoleColor::Red; break;
+    case 13: Console::BackgroundColor = ConsoleColor::Magenta; break;
+    case 14: Console::BackgroundColor = ConsoleColor::Yellow; break;
+    case 15: Console::BackgroundColor = ConsoleColor::White; break;
+    }
+}
+
+void pp_imprime(int x, int y) { //imprime al presonaje principal
+
+    int temporalx;
+    temporalx = x;  //para regenar el valor de x inicial
+    char matriz_p[3][3] = {
+        {32,111,32},
+        {45,197,45},
+        {179,32,92},
+    };
+    color(15);
+    for (int f = 0; f < 3; f++, y++)
+    {
+        for (int c = 0; c < 3; c++, x++)
+        {
+            cursor(x, y);
+            cout << matriz_p[f][c];
+        }
+        x = temporalx;
+    }
+}
+void a_imprime(int xxx, int yyy, int num_agentes) { //imprime agentes, luego lo unimos en una sola funcion de impresion
+    char matriz_a[3][3] = {
+                {200,32,188},
+                {32,219,32},
+                {201,32,187},
+    };
+    color(12);
+    for (int i = 0; i < num_agentes; i++) {
+        int xx = xxx;
+        int yy = yyy;
+
+        for (int f = 0; f < 3; f++, yy++)
+        {
+
+            for (int c = 0; c < 3; c++, xx++)
+            {
+                cursor(xx, yy);
+                cout << matriz_a[f][c];
+            }
+            xx = xxx;
+        }
+    }
+}
+void ali_imprime(int xxx, int yyy) { //imprime agentes, luego lo unimos en una sola funcion de impresion
+    char matriz_a[3][2] = {
+                {'0',32},
+                {219,'{'},
+                {'W',32},
+    };
+    color(12);
+    for (int i = 0; i < 27; i++) {
+        int xx = xxx;
+        int yy = yyy;
+
+        for (int f = 0; f < 3; f++, yy++)
+        {
+
+            for (int c = 0; c < 2; c++, xx++)
+            {
+                cursor(xx, yy);
+                cout << matriz_a[f][c];
+            }
+            xx = xxx;
+        }
+    }
+}
+void pp_borra(int x, int y) { //borra al presonaje principal
+
+    int temporalx;
+    temporalx = x; //para regenar el valor de x inicial
+    char mati[3][3] = {
+        {32,32,32},
+        {32,32,32},
+        {32,32,32},
+    };
+    color(1);
+    for (int f = 0; f < 3; f++, y++)
+    {
+        for (int c = 0; c < 3; c++, x++)
+        {
+            cursor(x, y);
+            cout << mati[f][c];
+        }
+        x = temporalx;
+    }
+}
+void a_borra(int xxx, int yyy, int num_agentes) { //agentes borra
+    char matriz_a[3][3] = {
+                {32,32,32},
+                {32,32,32},
+                {32,32,32},
+    };
+    color(1);
+    for (int i = 0; i < num_agentes; i++) {
+        int xx = xxx;
+        int yy = yyy;
+
+        for (int f = 0; f < 3; f++, yy++)
+        {
+
+            for (int c = 0; c < 3; c++, xx++)
+            {
+                cursor(xx, yy);
+                cout << matriz_a[f][c];
+            }
+            xx = xxx;
+        }
+    }
+}
+void ali_borra(int xxx, int yyy) {
+    char matriz_a[3][2] = {
+                {32,32},
+                {32,32},
+                {32,32},
+    };
+    color(1);
+    for (int i = 0; i < 27; i++) {
+        int xx = xxx;
+        int yy = yyy;
+
+        for (int f = 0; f < 3; f++, yy++)
+        {
+
+            for (int c = 0; c < 2; c++, xx++)
+            {
+                cursor(xx, yy);
+                cout << matriz_a[f][c];
+            }
+            xx = xxx;
+        }
+    }
+}
+
+void p_presentacion()
+{
+    int x = 30, y = 1, dy = 1;
+    int clr = 2 + rand() % 14;
+    Console::SetCursorPosition(x, y); color(clr); cout << R"(
+                    ___  ___ ___  ___________ ___________  ___ ______ _____ 
+                    |  \/  |/ _ \|___  |  ___/  __ | ___ \/ _ \|  ___|_   _|
+                    | .  . / /_\ \  / /| |__ | /  \| |_/ / /_\ | |_    | |  
+                    | |\/| |  _  | / / |  __|| |   |    /|  _  |  _|   | |  
+                    | |  | | | | ./ /__| |___| \__/| |\ \| | | | |     | |  
+                    \_|  |_\_| |_\_____\____/ \____\_| \_\_| |_\_|     \_/                                                         
+                    
+                        )" << "\n";
+
+    while (true)
+    {
+        clr = 2 + rand() % 14;
+        Console::SetCursorPosition(x, y); color(1); cout << R"(
+                    ___  ___ ___  ___________ ___________  ___ ______ _____ 
+                    |  \/  |/ _ \|___  |  ___/  __ | ___ \/ _ \|  ___|_   _|
+                    | .  . / /_\ \  / /| |__ | /  \| |_/ / /_\ | |_    | |  
+                    | |\/| |  _  | / / |  __|| |   |    /|  _  |  _|   | |  
+                    | |  | | | | ./ /__| |___| \__/| |\ \| | | | |     | |  
+                    \_|  |_\_| |_\_____\____/ \____\_| \_\_| |_\_|     \_/                                                         
+                    
+                        )" << "\n";
+        y += dy;
+        Console::SetCursorPosition(x, y); color(clr); cout << R"(
+                    ___  ___ ___  ___________ ___________  ___ ______ _____ 
+                    |  \/  |/ _ \|___  |  ___/  __ | ___ \/ _ \|  ___|_   _|
+                    | .  . / /_\ \  / /| |__ | /  \| |_/ / /_\ | |_    | |  
+                    | |\/| |  _  | / / |  __|| |   |    /|  _  |  _|   | |  
+                    | |  | | | | ./ /__| |___| \__/| |\ \| | | | |     | |  
+                    \_|  |_\_| |_\_____\____/ \____\_| \_\_| |_\_|     \_/                                                         
+                    
+                        )" << "\n";
+
+        if (y == 20)
+        {
+            dy = 0;
+            Console::SetCursorPosition(x, 1); color(clr); cout << R"(
+                                        _________-----_____
+                             _____------           __      ----_
+                     ___----             ___------              \
+                        ----________        ----                 \
+                                    -----__    |             _____)
+                                         __-                /     \
+                             _______-----    ___--          \    /)\
+                       ------_______      ---____            \__/  /
+                                    -----__    \ --    _          /\
+                                          --__--__     \_____/   \_/\
+                                                  ----|   /          |
+                                                      |  |___________|
+                                                      |  | ((_(_)| )_)
+                                                      |  \_((_(_)|/(_)
+                                                      \             (
+                                                       \_____________)
+                                                      
+                    
+                        )" << "\n";
+            cursor(x + 2, y + 9); color(12); cout << "PRESIONE ESPACIO PARA CONTINUAR";
+
+        }
+        if (kbhit())
+        {
+            char tecla = getch();
+            if (tecla == SPACEBAR)break;
+        }
+        _sleep(100);
+    }
+    Console::Clear();
+    return;
+}
+
+void instrucciones()
+{
+    cursor(38, 5); color(7); cout << R"(
+                    
+                  ___ _  _ ___ _____ ___ _   _  ___ ___ ___ ___  _  _ ___ ___ 
+                 |_ _| \| / __|_   _| _ | | | |/ __/ __|_ _/ _ \| \| | __/ __|
+                  | || .` \__ \ | | |   | |_| | (_| (__ | | (_) | .` | _|\__ \
+                 |___|_|\_|___/ |_| |_|_\\___/ \___\___|___\___/|_|\_|___|___/
+                                                              
+
+                        )" << "\n";
+    cursor(10, 13); color(15); cout << "- Con las teclas direccionales podras mover";
+    cursor(12, 14); color(15); cout << "al personaje principal, el cual cuenta con tan solo 3 vidas.";
+    cursor(10, 15); color(15); cout << "- El personaje principal empezará en un punto A";
+    cursor(12, 16); color(15); cout << "y tendra como objetivo pasar por un laberinto para llegar a un punto B.";
+    cursor(10, 17); color(15); cout << "- En el punto B estarán los amigos del personaje principal, estos esperan";
+    cursor(12, 18); color(15); cout << "ser rescatados";
+    cursor(10, 19); color(15); cout << "- El laberinto contará con diferentes elementos:";
+    cursor(12, 20); color(15); cout << ".Aliados "; bcolor(14); cout << " ";
+    cursor(12, 21); bcolor(1); cout << ".Agentes "; bcolor(12); cout << " ";
+    cursor(12, 22); bcolor(1); cout << ".Vitaminas: ";
+    cursor(14, 23); bcolor(10); cout << " "; bcolor(1); cout << ": Te da una vida extra.";
+    cursor(14, 24); bcolor(13); cout << " "; bcolor(1); cout << ": Reduce la forma del personaje.";
+    cursor(12, 25); color(15); cout << ".Portales "; bcolor(8); cout << " "; bcolor(1); cout << " "; bcolor(13); cout << " ";
+    bcolor(1); cout << " "; bcolor(9); cout << " "; bcolor(1); cout << " "; bcolor(15); cout << " "; bcolor(1); "   "; bcolor(2); cout << " "; bcolor(1); cout << " "; bcolor(6); cout << " "; bcolor(1);
+    //falta agregarle detalles
+    getch();
+    Console::Clear();
+}
+
+void flecha(int x, int y)
+{
+    cursor(x, y); cout << "---" << char(92);
+    cursor(x, y + 1); cout << "---" << char(47);
+}
+
+int niveles()
+{
+    int x, y, topcion;
+    bool print = false;
+    while (true)
+    {
+        int _clr_ = 2 + rand() % 14;
+        cursor(3, 2); color(_clr_); cout << R"(          
+      _   _ 
+     | \ | |                                                        
+     |  \| |                   
+     | . ` |
+     | |\  |
+     \_| \_/ 
+      _____ 
+     |_   _|
+       | |  
+       | |  
+      _| |_ 
+      \___/   
+      _   _ 
+     | | | |
+     | | | |
+     | | | |
+     \ \_/ /
+      \___/ 
+      _____ 
+     |  ___|
+     | |__  
+     |  __| 
+     | |___ 
+     \____/   
+      _     
+     | |    
+     | |    
+     | |    
+     | |____
+     \_____/       
+      _____ 
+     |  ___|
+     | |__  
+     |  __| 
+     | |___ 
+     \____/   
+     _____ 
+    /  ___|
+    \ `--. 
+     `--. \
+    /\__/ /
+    \____/ 
+                        )" << "\n";
+        _sleep(50);
+        cursor(12, 9); color(10); cout << R"(
+                     .-------------------------------------------------------------. 
+                     |   _    _  _____  _____    __   __  _____  __                |  
+                     |  | |  | ||     ||   _ |  |  |_|  ||  _  ||  |     ,-.___,-. |
+                     |  |  |_| ||  _  ||  | ||  |       || |_| ||  |     \_/_ _\_/ |
+                     |  |      || | | ||  |_||_ |       ||     ||  |       )O_O(   |
+                     |  |  _   || |_| ||   __  ||       ||     ||  |__    { (_) }  |
+                     |  | | |  ||     ||  |  | || ||_|| ||  _  ||     |    `-^-'   |
+                     |  |_|  |_||_____||__|  |_||_|   |_||_| |_||_____|            |
+                     '-------------------------------------------------------------' 
+
+
+                                               
+
+
+
+
+
+                                ------------------------------------------.
+                               |  __ __   ____  ____   ___                |
+                               | |  |  | /    ||    \ |   \      . - .    |
+                               | |  |  ||  o  ||  D  )|    \     (o o)    |
+                               | |  _  ||     ||    / |  D  |    | O \    |
+                               | |  |  ||  _  ||    \ |     |    \    \   |
+                               | |__|__||__|__||__|\_||_____|     `~~~'   |
+                               '------------------------------------------'
+
+)" << "\n";
+
+        if (kbhit())
+        {
+            char tecla = getch();
+            if (tecla == ARRIBA)
+            {
+                x = 16, y = 14;
+                print = true;
+            }
+            if (tecla == ABAJO)
+            {
+                x = 24, y = 30;
+                print = true;
+            }
+            if (x == 16 && y == 14 && tecla == SPACEBAR) { topcion = 1; break; }
+            if (x == 24 && y == 30 && tecla == SPACEBAR) { topcion = 2; break; }
+        }
+        if (print == true)
+        {
+            color(15); flecha(x, y);
+        }
+    }
+
+    return topcion;
+}
+struct agentes {
+    int x_a;
+    int y_a;
+    int dy_a;
+};
+void informacion_nivel(int vidas, int boomerangs, int num_agentes, int vitaminas, int portales, int aliados) {
+    cursor(1, 47); color(15); cout << "Vidas: " << vidas;
+    cout << " Boomerangs: " << boomerangs;
+    cout << endl;
+    cout << " Agentes: " << num_agentes << " Vitaminas: " << vitaminas << endl;
+    cout << " Portales " << portales << " Aliados " << aliados;
+}
+agentes* elimina_agente(agentes* enemigos, int& num_agentes, int k) {
+    agentes* temporal;
+    temporal = new agentes[num_agentes - 1];
+    if (k != num_agentes - 1) {
+        for (int i = 0, h = 0; i < num_agentes - 1; i++, h++) {
+            if (h == k) { h++; }
+            temporal[i] = enemigos[h];
+        }
+        num_agentes--;
+    }
+    else {
+        for (int i = 0, h = 0; i < num_agentes - 1; i++, h++) {
+            temporal[i] = enemigos[h];
+        }
+        num_agentes--;
+    }
+    
+    return temporal;
+}
+int main()
+{
+    ventana(91, 50);
+    int matriz[FILAS][COLUMNAS] = {
+{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
+{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+{1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,},
+{1,0,0,4,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,10,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,10,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,10,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,1,1,0,0,0,0,0,0,1,0,0,0,1,1,1,1,1,},
+{1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,1,0,0,0,0,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,0,0,0,0,1,1,1,1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,3,0,1,0,0,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,},
+{1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,6,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,1,6,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
+{1,0,8,8,8,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,6,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,1,1,1,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,0,0,0,0,1,10,10,10,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,1,0,0,0,1,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,1,0,0,0,1,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,1,0,0,0,1,0,0,0,0,0,1,},
+{1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,},
+{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,},
+{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,},
+{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,},
+{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,},
+{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,},
+{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,1,0,0,0,0,0,1,},
+{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,},
+{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,0,0,0,0,0,0,1,8,0,0,0,0,0,0,0,0,0,0,0,1,},
+{0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,0,0,0,0,0,0,1,8,0,0,0,0,0,0,0,0,0,0,0,1,},
+{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,0,0,0,0,0,0,1,8,0,0,0,0,0,0,0,0,0,0,0,1,},
+{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,},
+{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
+    };
+
+    p_presentacion();
+    instrucciones();
+    int opcion;
+    //informacion de niveles
+    int vidas = 3;
+    int num_agentes = 27;
+    int num_boomerangs = 0;
+    int num_vitaminas = 4;
+    int num_portales = 6;
+    int num_aliados = 2;
+
+    while (true)
+    {
+        opcion = niveles();
+        if (opcion == 1)
+        {
+            for (int f = 0; f < FILAS; f++)
+            {
+                for (int c = 0; c < COLUMNAS; c++)
+                {
+                    cursor(c, f);
+                    if (matriz[f][c] == 0) color(1);
+                    if (matriz[f][c] == 1) color(11);
+                    //portales
+                    if (matriz[f][c] == 5) color(9);
+                    if (matriz[f][c] == 6) color(13);
+                    if (matriz[f][c] == 7) color(8);
+                    if (matriz[f][c] == 8) color(15);
+                    if (matriz[f][c] == 9) color(2);
+                    if (matriz[f][c] == 10) color(6);
+                    //vitaminas
+                    if (matriz[f][c] == 4) color(10);
+                    if (matriz[f][c] == 3) color(13);
+                    cout << (char)219;
+                }
+            }
+
+            //personaje principal
+            int x = 85, y = 2;
+            cursor(x, y); pp_imprime(x, y);
+            //variables para los agentes con uso de una estructura
+            agentes* enemigos; enemigos = new agentes[num_agentes];
+            int x_aa[27] = { 6,53,56,59,62,65,68,38,64,24,52,70,76,8,15,20,34,42,55,67,81,31,36,41,46,51,57 };
+            int y_aa[27] = { 2,2,2,2,2,2,2,8,9,15,15,18,16,24,24,24,25,25,29,27,36,42,42,42,42,42,42 };
+            int dy_aa[27] = { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 };
+            for (int i = 0; i < num_agentes; i++) {
+                enemigos[i].x_a = x_aa[i];
+                enemigos[i].y_a = y_aa[i];
+                enemigos[i].dy_a = dy_aa[i];
+            }
+            for (int i = 0; i < num_agentes; i++) {
+                a_imprime(enemigos[i].x_a, enemigos[i].y_a, num_agentes);
+            }
+
+            //aliado 1
+            color(3); cursor(74, 31); cout << " 0"; cursor(74, 32); cout << "}|"; cursor(74, 33); cout << " w";
+            // aliado 2
+            int x1 = 23, y1 = 43;
+
+            //boomerang, si choca con un enemigo, o una pared no regresa, si no choca con nada regresa
+            bool activador_boomerang = false;
+            int x_boom = 74, y_boom = 31, dy_boom = 0, dx_boom = 0;
+            int e = 10;//potencia del boomerang, se puede desplazar 10 caracteres como maximo
+
+            int i = 0;
+            while (1) {
+                informacion_nivel(vidas, num_boomerangs, num_agentes, num_vitaminas, num_portales, num_aliados);
+                //BORRAR
+
+                cursor(enemigos[i].x_a, enemigos[i].y_a); a_borra(enemigos[i].x_a, enemigos[i].y_a, num_agentes); //agentes
+                cursor(x1, y1); ali_borra(x1, y1);//aliado 2
+                if (activador_boomerang == true) {
+                    cursor(x_boom, y_boom); color(1); cout << " ";
+                }
+                //MOVER
+                //personaje principal
+                //uso de bool
+                if ((x == 73 && y == 28) || (x == 72 && y == 28) || (x == 71 && y == 30) || (x == 71 && y == 31)) {
+                    activador_boomerang = true;
+                    x_boom = x + 1;
+                    y_boom = y + 1;
+                    num_boomerangs = 5;
+                }
+                if (_kbhit()) {
+                    char tecla = getch();
+                    pp_borra(x, y); //personaje principal
+                    if (tecla == DERECHA && matriz[y][x + 3] != 1 && matriz[y + 2][x + 3] != 1 && matriz[y + 1][x + 3] != 1) { x++; } //si el boomerang esta desplegado no se puede mover el personaje
+                    if (tecla == IZQUIERDA && matriz[y][x - 1] != 1 && matriz[y + 2][x - 1] != 1 && matriz[y + 1][x - 1] != 1) { x--; }
+                    if (tecla == ABAJO && matriz[y + 3][x] != 1 && matriz[y + 3][x + 2] != 1 && matriz[y + 3][x + 1] != 1) { y++; }
+                    if (tecla == ARRIBA && matriz[y - 1][x] != 1 && matriz[y - 1][x + 2] != 1 && matriz[y - 1][x + 1] != 1) { y--; }
+                    if (activador_boomerang == true && num_boomerangs >= 1) { //teclas para activar al boomerang
+                        if (tecla == 'W' || tecla == 'w') { x_boom = x + 1; y_boom = y - 1; dy_boom = 1; e = 10; } //hacia arriba
+                        if (tecla == 'S' || tecla == 's') { x_boom = x + 1; y_boom = y + 3; dy_boom = -1; e = -13; } //hacia abajo
+                        if (tecla == 'A' || tecla == 'a') { x_boom = x - 1; y_boom = y + 1; dx_boom = 1; e = 10; } //hacia la izquierda
+                        if (tecla == 'D' || tecla == 'd') { x_boom = x + 3; y_boom = y + 1; dx_boom = -1; e = -13; } //hacia la derecha
+                    }
+                    //if(bool=false), y designa que el choque con enemigos baja vida o no
+                }
+                if (activador_boomerang == true) {
+                    if (y_boom == y - e) { dy_boom *= -1; }
+                    if (y_boom == y) { dy_boom = 0; }
+                    if (matriz[y_boom - 1][x_boom] == 1) { dy_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; }//si choca con una pared hacia arriba
+                    if (matriz[y_boom + 1][x_boom] == 1) { dy_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; } //si choca con una pared hacia abajo
+                    y_boom -= dy_boom;
+
+                    if (x_boom == x - e) { dx_boom *= -1; }
+                    if (x_boom == x) { dx_boom = 0; }
+                    if (matriz[y_boom][x_boom - 1] == 1) { dx_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; } //si choca con una pared hacia la izquierda
+                    if (matriz[y_boom][x_boom + 1] == 1) { dx_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; } //si choca con una pared hacia la derecha
+                    x_boom -= dx_boom;
+
+                    for (int k = 0; k < num_agentes; k++) {//si choca con un agente
+                        for (int u = 0, o = 0; o < 3; u++) {
+                            if (enemigos[k].y_a + o == y_boom && enemigos[k].x_a + u == x_boom) { dy_boom = 0; dx_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; a_borra(enemigos[k].x_a, enemigos[k].y_a, num_agentes); enemigos = elimina_agente(enemigos, num_agentes, k); }
+                            if (u == 2) { u = 0; o++; }
+                        }
+                    }
+                }
+
+                for (int k = 0; k < num_agentes; k++) {//personaje principal si choca con un agente
+                    for (int u = 0, o = 0; o < 3; u++) {
+                        for (int m = 0, z = 0; z < 3; m++) {
+                            if (enemigos[k].y_a + o == y + z && enemigos[k].x_a + u == x + m) { vidas--; a_borra(enemigos[k].x_a, enemigos[k].y_a, num_agentes); enemigos = elimina_agente(enemigos, num_agentes, k); u = 0; o = 0; m = 0; z = 0; }
+                            if (m == 2) { m = 0; z++; }
+                        }
+                        if (u == 2) { u = 0; o++; }
+                    }
+                }
+
+                //PORTALES
+                //portal azul 
+                if (matriz[y][x] == 5 || matriz[y + 1][x] == 5) x = 15, y = 2;
+                if (matriz[y][x + 2] == 5 || matriz[y + 1][x + 2] == 5) x = 8, y = 8;
+                //portal magenta
+                if ((matriz[y][x] == 6 || matriz[y + 1][x] == 6) && x == 24) x = 60, y = 23;
+                if ((matriz[y][x] == 6 || matriz[y + 1][x] == 6) && x == 59) x = 25, y = 2;
+                //portal gris oscuro
+                if ((matriz[y][x + 2] == 7 || matriz[y + 1][x + 2] == 7) && x + 2 == 70) x = 42, y = 2;
+                if ((matriz[y][x + 2] == 7 || matriz[y + 1][x + 2] == 7) && x + 2 == 45) x = 67, y = 36;
+                //portal blanco
+                if ((matriz[y][x] == 8 || matriz[y + 1][x] == 8) && x == 78) x = 2, y = 26;
+                if ((matriz[y][x] == 8 || matriz[y][x + 1] == 8) && y == 25) x = 79, y = 42;
+                //portal azul oscuro
+                if (matriz[y][x] == 9 || matriz[y + 1][x] == 9 || matriz[y + 2][x] == 9) x = 67, y = 42;
+                if (matriz[y][x + 2] == 9 || matriz[y + 1][x + 2] == 9) x = 52, y = 31;
+                //portal anaranjado
+                if (matriz[y][x] == 10 && y == 29) x = 70, y = 13;
+                if (matriz[y][x] == 10 && x == 69) x = 12, y = 30;
+                //agentes
+                if (matriz[enemigos[i].y_a - 1][enemigos[i].x_a] == 1)enemigos[i].dy_a *= -1;
+                if (matriz[enemigos[i].y_a + 3][enemigos[i].x_a] == 1)enemigos[i].dy_a *= -1;
+
+                enemigos[i].y_a -= enemigos[i].dy_a;
+
+                //DIBUJAR
+                pp_imprime(x, y);//p principal
+                cursor(enemigos[i].x_a, enemigos[i].y_a); a_imprime(enemigos[i].x_a, enemigos[i].y_a, num_agentes);//agentes
+
+                cursor(x1, y1); ali_imprime(x1, y1);//aliado 2
+
+                if ((activador_boomerang == true) && (dy_boom != 0 || dx_boom != 0)) {//boomerang
+                    cursor(x_boom, y_boom);
+                    color(3); cout << "<";
+                }
+                i++;
+                if (i >= num_agentes)i = 0;
+            }
+
+        }
+        if (opcion == 2)
+        {
+            //break;
+            //no completado, laberinto 2(hard) 
+        }
+
+    }
+
+
+    return 0;
+}
