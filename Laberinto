@@ -89,7 +89,6 @@ void a_imprime(int xxx, int yyy) { //imprime agentes, luego lo unimos en una sol
                 {201,32,187},
     };
     color(12);
-    for (int i = 0; i < 27; i++) {
         int xx = xxx;
         int yy = yyy;
 
@@ -103,7 +102,6 @@ void a_imprime(int xxx, int yyy) { //imprime agentes, luego lo unimos en una sol
             }
             xx = xxx;
         }
-    }
 }
 void ali_imprime(int xxx, int yyy) { //imprime agentes, luego lo unimos en una sola funcion de impresion
     char matriz_a[3][2] = {
@@ -155,7 +153,6 @@ void a_borra(int xxx, int yyy) { //agentes borra
                 {32,32,32},
     };
     color(1);
-    for (int i = 0; i < 27; i++) {
         int xx = xxx;
         int yy = yyy;
 
@@ -169,7 +166,6 @@ void a_borra(int xxx, int yyy) { //agentes borra
             }
             xx = xxx;
         }
-    }
 }
 void ali_borra(int xxx, int yyy) {
     char matriz_a[3][2] = {
