@@ -287,13 +287,13 @@ void instrucciones()
     cursor(10, 17); color(15); cout << "- En el punto B estarán los amigos del personaje principal, estos esperan";
     cursor(12, 18); color(15); cout << "ser rescatados";
     cursor(10, 19); color(15); cout << "- El laberinto contará con diferentes elementos:";
-    cursor(12, 20); color(15); cout << ".Aliados "; bcolor(14); cout << " ";
+    cursor(12, 20); color(15); cout << ".Aliados "; bcolor(3); cout << " ";
     cursor(12, 21); bcolor(1); cout << ".Agentes "; bcolor(12); cout << " ";
     cursor(12, 22); bcolor(1); cout << ".Vitaminas: ";
-    cursor(14, 23); bcolor(10); cout << " "; bcolor(1); cout << ": Te da una vida extra.";
-    cursor(14, 24); bcolor(13); cout << " "; bcolor(1); cout << ": Reduce la forma del personaje.";
-    cursor(12, 25); color(15); cout << ".Portales "; bcolor(8); cout << " "; bcolor(1); cout << " "; bcolor(13); cout << " ";
-    bcolor(1); cout << " "; bcolor(9); cout << " "; bcolor(1); cout << " "; bcolor(15); cout << " "; bcolor(1); "   "; bcolor(2); cout << " "; bcolor(1); cout << " "; bcolor(6); cout << " "; bcolor(1);
+    cursor(14, 23); bcolor(11); cout << " "; bcolor(1); cout << ": Te da una vida extra.";
+    cursor(14, 24); bcolor(14); cout << " "; bcolor(1); cout << ": Reduce la forma del personaje.";
+    cursor(12, 25); color(15); cout << ".Portales "; bcolor(9); cout << " "; bcolor(1); cout << " "; bcolor(13); cout << " ";
+    bcolor(1); cout << " "; bcolor(8); cout << " "; bcolor(1); cout << " "; bcolor(15); cout << " "; bcolor(1); "   "; bcolor(2); cout << " "; bcolor(1); cout << " "; bcolor(6); cout << " "; bcolor(1);
     //falta agregarle detalles
     getch();
     Console::Clear();
@@ -562,8 +562,8 @@ int main()
                     if (matriz[f][c] == 9) color(2);
                     if (matriz[f][c] == 10) color(6);
                     //vitaminas
-                    if (matriz[f][c] == 4) color(10);
-                    if (matriz[f][c] == 3) color(13);
+                    if (matriz[f][c] == 4) color(11);
+                    if (matriz[f][c] == 3) color(14);
                     cout << (char)219;
                 }
             }
@@ -680,7 +680,7 @@ int main()
                      if ((x == enemigos[i3].x_a + 2) && ((y >= enemigos[i3].y_a && y <= enemigos[i3].y_a + 2) || (y + 1 >= enemigos[i3].y_a && y + 1 <= enemigos[i3].y_a + 2) || (y + 2 >= enemigos[i3].y_a && y + 2 <= enemigos[i3].y_a + 2)))
                      { 
                          //cuando el personaje se encuentra a un agente por la izquierda
-                         a_borra(enemigos[i3].x_a, enemigos[i3].y_a, num_agentes);
+                         a_borra(enemigos[i3].x_a, enemigos[i3].y_a);
                          for (int _i = i3; _i < num_agentes; _i++)
                          {
                              enemigos[_i].x_a = enemigos[_i + 1].x_a;
