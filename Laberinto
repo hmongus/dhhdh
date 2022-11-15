@@ -449,7 +449,7 @@ int felicitaciones()
 
 )" << "\n";
 
-        cursor(48, 27); color(15); cout <<char(173)<< "FELICIDADES!";
+        cursor(48, 27); color(15); cout <<char(173)<< "NO TE RINDAS!";
         cursor(39, 28); cout << "SI DESEA JUGAR DE NUEVO, PRESIONE N";
         cursor(36, 29); cout << "SI DESEA TERMINAR EL JUEGO, PRESIONE ESC";
         if (_kbhit())
@@ -741,7 +741,13 @@ int main()
                     if (opcion == 4)break;
                 }
                 
-                
+                if(vidas==0)
+                {
+                    Console::Clear();
+                    opcion = go();
+                    if (opcion == 3) { break; }
+                    if (opcion == 4)break;
+                }
                 
                 i++;
                 if (i > num_agentes-1)i = 0;
