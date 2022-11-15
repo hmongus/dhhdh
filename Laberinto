@@ -525,6 +525,25 @@ void informacion_nivel(int vidas, int boomerangs, int num_agentes, int vitaminas
     cout << " Agentes: " << num_agentes << " Vitaminas: " << vitaminas << endl;
     cout << " Portales " << portales << " Aliados " << aliados;
 }
+agentes* elimina_agente(agentes* enemigos, int& num_agentes, int k) {
+    agentes* temporal;
+    temporal = new agentes[num_agentes - 1];
+    if (k != num_agentes - 1) {
+        for (int i = 0, h = 0; i < num_agentes - 1; i++, h++) {
+            if (h == k) { h++; }
+            temporal[i] = enemigos[h];
+        }
+        num_agentes--;
+    }
+    else {
+        for (int i = 0, h = 0; i < num_agentes - 1; i++, h++) {
+            temporal[i] = enemigos[h];
+        }
+        num_agentes--;
+    }
+
+    return temporal;
+}
 int main()
 {
     ventana(91, 50);
@@ -688,14 +707,23 @@ int main()
                     if (matriz[y_boom][x_boom + 1] == 1) { dx_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; } //si choca con una pared hacia la derecha
                     x_boom -= dx_boom;
 
-                    for (int k = 0; k < 27; k++) {//si choca con un agente
+                      for (int k = 0; k < num_agentes; k++) {//si choca con un agente
                         for (int u = 0, o = 0; o < 3; u++) {
-                            if (enemigos[k].y_a + o == y_boom && enemigos[k].x_a + u == x_boom) { dy_boom = 0; dx_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; }
+                            if (enemigos[k].y_a + o == y_boom && enemigos[k].x_a + u == x_boom) { dy_boom = 0; dx_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; a_borra(enemigos[k].x_a, enemigos[k].y_a); enemigos = elimina_agente(enemigos, num_agentes, k); u = 0; o = 0; }
                             if (u == 2) { u = 0; o++; }
                         }
                     }
                 }
-                   
+
+                for (int k = 0; k < num_agentes; k++) {//personaje principal si choca con un agente
+                    for (int u = 0, o = 0; o < 3; u++) {
+                        for (int m = 0, z = 0; z < 3; m++) {
+                            if (enemigos[k].y_a + o == y + z && enemigos[k].x_a + u == x + m) { vidas--; a_borra(enemigos[k].x_a, enemigos[k].y_a); enemigos = elimina_agente(enemigos, num_agentes, k); u = 0; o = 0; m = 0; z = 0; }
+                            if (m == 2) { m = 0; z++; }
+                        }
+                        if (u == 2) { u = 0; o++; }
+                    }
+                }
                 
                 //PORTALES
                 //portal azul 
