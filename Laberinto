@@ -558,6 +558,17 @@ agentes* elimina_agente(agentes* enemigos, int& num_agentes, int k) {
     return temporal;
 }
 
+void elimina_agente2(int i, int &num_agentes, agentes*enemigos)
+{
+    for (int k = i; k < num_agentes - 1; k++)
+    {
+        enemigos[i].x_a = enemigos[i + 1].x_a;
+        enemigos[i].y_a = enemigos[i + 1].y_a;
+        enemigos[i].dy_a = enemigos[i + 1].dy_a;
+    }
+    num_agentes--;
+}
+
 void vitaminas(int matriz[FILAS][COLUMNAS], int x, int y, int& vidas, bool& tam)
 {
     //perosnaje va por la derecha (tam)
@@ -586,7 +597,8 @@ void vitaminas(int matriz[FILAS][COLUMNAS], int x, int y, int& vidas, bool& tam)
 int main()
 {
     ventana(91, 50);
-    int matriz[FILAS][COLUMNAS] = {
+    int matriz[FILAS][COLUMNAS];
+    int matriz1[FILAS][COLUMNAS] = {
 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
@@ -635,7 +647,13 @@ int main()
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,},
 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
     };
-
+    int matriz2[FILAS][COLUMNAS];
+    int vidas = 0;
+    int num_agentes = 0;
+    int num_boomerangs = 0;
+    int num_vitaminas = 0;
+    int num_portales = 0;
+    int num_aliados = 0;
     p_presentacion();
     instrucciones();
     int opcion;
@@ -643,16 +661,31 @@ int main()
     while (true)
     {
         opcion = niveles();
-        if (opcion == 1)
+        if (opcion == 1) {
+            vidas = 3;
+            num_agentes = 33;
+            num_boomerangs = 0;
+            num_vitaminas = 4;
+            num_portales = 4;
+            num_aliados = 1;
+
+        }
+        if (opcion == 2)
         {
-           //informacion de nivel 1
-           int vidas = 3;
-           int num_agentes = 27;
-           int num_boomerangs = 0;
-           int num_vitaminas = 4;
-           int num_portales = 6;
-           int num_aliados = 2;
-        
+            //informacion de nivel 1
+            vidas = 3;
+            num_agentes = 27;
+            num_boomerangs = 0;
+            num_vitaminas = 4;
+            num_portales = 6;
+            num_aliados = 2;
+            for (int f = 0; f < FILAS; f++)
+            {
+                for (int c = 0; c < COLUMNAS; c++)
+                {
+                    matriz[f][c] = matriz1[f][c];
+                }
+            }
             for (int f = 0; f < FILAS; f++)
             {
                 for (int c = 0; c < COLUMNAS; c++)
@@ -673,24 +706,27 @@ int main()
                     cout << (char)219;
                 }
             }
-            
+
             //personaje principal
             int x = 85, y = 2;
             bool tam = false;
             cursor(x, y); pp_imprime(x, y);
             //variables para los agentes con uso de una estructura
             agentes* enemigos; enemigos = new agentes[27];
-            int x_aa[27] = { 6,53,56,59,62,65,68,38,64,24,52,70,76,8,15,20,34,42,55,67,81,31,36,41,46,51,57 };
-            int y_aa[27] = { 2,2,2,2,2,2,2,8,9,15,15,18,16,24,24,24,25,25,29,27,36,42,42,42,42,42,42 };
-            int dy_aa[27] = { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 };
-            for (int i = 0; i < 27; i++) {
-                enemigos[i].x_a = x_aa[i];
-                enemigos[i].y_a = y_aa[i];
-                enemigos[i].dy_a = dy_aa[i];
+            if (opcion = 2) {
+                int x_aa[27] = { 6,53,56,59,62,65,68,38,64,24,52,70,76,8,15,20,34,42,55,67,81,31,36,41,46,51,57 };
+                int y_aa[27] = { 2,2,2,2,2,2,2,8,9,15,15,18,16,24,24,24,25,25,29,27,36,42,42,42,42,42,42 };
+                int dy_aa[27] = { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 };
+                for (int i = 0; i < 27; i++) {
+                    enemigos[i].x_a = x_aa[i];
+                    enemigos[i].y_a = y_aa[i];
+                    enemigos[i].dy_a = dy_aa[i];
+                }
+                for (int i = 0; i < 27; i++) {
+                    a_imprime(enemigos[i].x_a, enemigos[i].y_a);
+                }
             }
-            for (int i = 0; i < 27; i++) {
-                a_imprime(enemigos[i].x_a, enemigos[i].y_a);
-            }
+
 
             //aliado 1
             color(3); cursor(74, 31); cout << " 0"; cursor(74, 32); cout << "}|"; cursor(74, 33); cout << " w";
@@ -716,11 +752,11 @@ int main()
                 //uso de bool
                 if ((x == 73 && y == 28) || (x == 72 && y == 28) || (x == 71 && y == 30) || (x == 71 && y == 31)) {
                     activador_boomerang = true;
-                    x_boom = x+1;
-                    y_boom = y+1;
+                    x_boom = x + 1;
+                    y_boom = y + 1;
                     num_boomerangs = 5;
                 }
-               if (_kbhit()) {
+                if (_kbhit()) {
 
                     char tecla = getch();
                     if (tam == false) {
@@ -732,9 +768,9 @@ int main()
                     }
                     if (tam == true) {
                         pp2_borra(x, y); //personaje principal reducido
-                        if (tecla == DERECHA && matriz[y][x +1] != 1) { x++; } //si el boomerang esta desplegado no se puede mover el personaje
-                        if (tecla == IZQUIERDA && matriz[y][x - 1] !=1) { x--; }
-                        if (tecla == ABAJO && matriz[y + 1][x] !=1) { y++; }
+                        if (tecla == DERECHA && matriz[y][x + 1] != 1) { x++; } //si el boomerang esta desplegado no se puede mover el personaje
+                        if (tecla == IZQUIERDA && matriz[y][x - 1] != 1) { x--; }
+                        if (tecla == ABAJO && matriz[y + 1][x] != 1) { y++; }
                         if (tecla == ARRIBA && matriz[y - 1][x] != 1) { y--; }
                     }
                     if (activador_boomerang == true && num_boomerangs >= 1) { //teclas para activar al boomerang
@@ -778,25 +814,39 @@ int main()
                         }
                     }
                 }
-                 if (tam == true)//personaje principal reducido si choca
-                {
-                    for (int i = 0; i < num_agentes; i++)
-                    {
-                        //personaje va por su derecha
-                        if ((x == enemigos[i].x_a) && ((y == enemigos[i].y_a) || (y == enemigos[i].y_a + 1) || (y == enemigos[i].y_a + 2))) { vidas = 0; }
-                        //p va por su izquierda 
-                        if ((x == enemigos[i].x_a + 2) && ((y == enemigos[i].y_a) || (y == enemigos[i].y_a + 1) || (y == enemigos[i].y_a + 2))) { vidas = 0; }
-                        //p va por arriba 
-                        if (((x == enemigos[i].x_a + 2) || (x == enemigos[i].x_a) || (x == enemigos[i].x_a + 1)) && (y == enemigos[i].y_a + 2)) { vidas = 0; }
-                        //p va por abajo
-                        if (((x == enemigos[i].x_a + 2) || (x == enemigos[i].x_a) || (x == enemigos[i].x_a + 1)) && (y == enemigos[i].y_a)) { vidas = 0; } 
-                    }
-                }
-                
+                //if (tam == true)//personaje principal reducido
+                //{
+                //    for (int i = 0; i < num_agentes;i++)
+                //    {
+                //        //personaje va por su derecha
+                //        if ((x == enemigos[i].x_a) && ((y == enemigos[i].y_a) || (y == enemigos[i].y_a + 1) || (y == enemigos[i].y_a+2)))
+                //        {
+                //            a_borra(enemigos[i].x_a, enemigos[i].y_a);
+                //            elimina_agente2(i, num_agentes, enemigos);
+                //        }
+                //        //p va por su izquierda 
+                //        if ((x == enemigos[i].x_a + 2) && ((y == enemigos[i].y_a) || (y == enemigos[i].y_a + 1) || (y == enemigos[i].y_a + 2)))
+                //        {
+                //            a_borra(enemigos[i].x_a, enemigos[i].y_a);
+                //            elimina_agente2(i, num_agentes, enemigos);
+                //        }
+                //        //p va por arriba 
+                //        if (((x == enemigos[i].x_a + 2) || (x == enemigos[i].x_a) || (x == enemigos[i].x_a + 1)) && (y == enemigos[i].y_a + 2))
+                //        {
+                //            a_borra(enemigos[i].x_a, enemigos[i].y_a);
+                //            elimina_agente2(i, num_agentes, enemigos);
+                //        }
+                //        //p va por abajo
+                //        if (((x == enemigos[i].x_a + 2) || (x == enemigos[i].x_a) || (x == enemigos[i].x_a + 1)) && (y == enemigos[i].y_a))
+                //        {
+                //            a_borra(enemigos[i].x_a, enemigos[i].y_a);
+                //            elimina_agente2(i, num_agentes, enemigos);
+                //        }
+
+                //    }
+                //  }
+
                 //PORTALES
-                //portal azul 
-                if(tam==false)
-                {
                 //portal azul 
                 if (matriz[y][x] == 5 || matriz[y + 1][x] == 5) x = 15, y = 2;
                 if (matriz[y][x + 2] == 5 || matriz[y + 1][x + 2] == 5) x = 8, y = 8;
@@ -815,71 +865,58 @@ int main()
                 //portal anaranjado
                 if (matriz[y][x] == 10 && y == 29) x = 70, y = 13;
                 if (matriz[y][x] == 10 && x == 69) x = 12, y = 30;
-                }
                 //agentes
                 if (matriz[enemigos[i].y_a - 1][enemigos[i].x_a] == 1)enemigos[i].dy_a *= -1;
                 if (matriz[enemigos[i].y_a + 3][enemigos[i].x_a] == 1)enemigos[i].dy_a *= -1;
+
                 enemigos[i].y_a -= enemigos[i].dy_a;
-                
-                //if(tam==true)
-                //{
-                //}
-                
                 //interaccion con vitaminas
                 vitaminas(matriz, x, y, vidas, tam);
- 
-                 
+
+
                 //DIBUJAR
                 if (tam == false) { pp_imprime(x, y); }//p principal
                 if (tam == true) { pp2_imprime(x, y); }//p principal reducido
                 cursor(enemigos[i].x_a, enemigos[i].y_a); a_imprime(enemigos[i].x_a, enemigos[i].y_a);//agentes
                 cursor(x1, y1); ali_imprime(x1, y1);//aliado 2
-                
+
                 if ((activador_boomerang == true) && (dy_boom != 0 || dx_boom != 0)) {//boomerang
                     cursor(x_boom, y_boom);
                     color(3); cout << "<";
                 }
-                
-                if ((y >= 43 || y + 1 >= 43 || y+2>=44) && (x == 3))
-                { 
+
+                if ((y >= 43 || y + 1 >= 43 || y + 2 >= 44) && (x == 3))
+                {
                     Console::Clear();
                     opcion = felicitaciones();
                     if (opcion == 3) { break; }
                     if (opcion == 4)break;
                 }
-                
-                if(vidas==0)
+
+                if (vidas == 0)
                 {
                     Console::Clear();
                     opcion = go();
                     if (opcion == 3) { break; }
                     if (opcion == 4)break;
                 }
-                
+
                 i++;
-                if (i > num_agentes-1)i = 0;
+                if (i > num_agentes - 1)i = 0;
                 Sleep(1);
             }
-
         }
-        if (opcion == 2)
-        {
-            //break;
-            //no completado, laberinto 2(hard) 
-        }
-        
+       
         if (opcion == 3)
         {
             Console::Clear();
             continue;
         }
-        
         if (opcion == 4)
         {
             Console::Clear();
             break;
         }
-
     }
     //creditos
     system("pause>0");
