@@ -703,7 +703,6 @@ int main()
             while (1) {
                 informacion_nivel(vidas, num_boomerangs, num_agentes, num_vitaminas, num_portales, num_aliados);
                 //BORRAR
-                pp_borra(x, y); //personaje principal
                 cursor(enemigos[i].x_a, enemigos[i].y_a); a_borra(enemigos[i].x_a, enemigos[i].y_a); //agentes
                 cursor(x1, y1); ali_borra(x1, y1);//aliado 2
                 if (activador_boomerang == true) {
@@ -718,17 +717,28 @@ int main()
                     y_boom = y+1;
                     num_boomerangs = 5;
                 }
-                if (_kbhit()) {
+               if (_kbhit()) {
+
                     char tecla = getch();
-                    if (tecla == DERECHA && matriz[y][x + 3] != 1 && matriz[y + 2][x + 3] != 1 && matriz[y + 1][x + 3] != 1) { x++; } //si el boomerang esta desplegado no se puede mover el personaje
-                    if (tecla == IZQUIERDA && matriz[y][x - 1] != 1 && matriz[y + 2][x - 1] != 1 && matriz[y + 1][x - 1] != 1) { x--; }
-                    if (tecla == ABAJO && matriz[y + 3][x] != 1 && matriz[y + 3][x + 2] != 1 && matriz[y + 3][x + 1] != 1) { y++; }
-                    if (tecla == ARRIBA && matriz[y - 1][x] != 1 && matriz[y - 1][x + 2] != 1 && matriz[y - 1][x + 1] != 1) { y--; }
+                    if (tam == false) {
+                        pp_borra(x, y); //personaje principal
+                        if (tecla == DERECHA && matriz[y][x + 3] != 1 && matriz[y + 2][x + 3] != 1 && matriz[y + 1][x + 3] != 1) { x++; } //si el boomerang esta desplegado no se puede mover el personaje
+                        if (tecla == IZQUIERDA && matriz[y][x - 1] != 1 && matriz[y + 2][x - 1] != 1 && matriz[y + 1][x - 1] != 1) { x--; }
+                        if (tecla == ABAJO && matriz[y + 3][x] != 1 && matriz[y + 3][x + 2] != 1 && matriz[y + 3][x + 1] != 1) { y++; }
+                        if (tecla == ARRIBA && matriz[y - 1][x] != 1 && matriz[y - 1][x + 2] != 1 && matriz[y - 1][x + 1] != 1) { y--; }
+                    }
+                    if (tam == true) {
+                        pp2_borra(x, y); //personaje principal reducido
+                        if (tecla == DERECHA && matriz[y][x +1] != 1) { x++; } //si el boomerang esta desplegado no se puede mover el personaje
+                        if (tecla == IZQUIERDA && matriz[y][x - 1] !=1) { x--; }
+                        if (tecla == ABAJO && matriz[y + 1][x] !=1) { y++; }
+                        if (tecla == ARRIBA && matriz[y - 1][x] != 1) { y--; }
+                    }
                     if (activador_boomerang == true && num_boomerangs >= 1) { //teclas para activar al boomerang
-                        if (tecla == 'W' || tecla == 'w') { x_boom = x+1; y_boom = y-1; dy_boom = 1; e = 10; } //hacia arriba
-                        if (tecla == 'S' || tecla == 's') { x_boom = x+1; y_boom = y + 3; dy_boom = -1; e = -13; } //hacia abajo
-                        if (tecla == 'A' || tecla == 'a') { x_boom = x - 1; y_boom = y+1; dx_boom = 1; e = 10; } //hacia la izquierda
-                        if (tecla == 'D' || tecla == 'd') { x_boom = x + 3; y_boom = y+1; dx_boom = -1; e = -13; } //hacia la derecha
+                        if (tecla == 'W' || tecla == 'w') { x_boom = x + 1; y_boom = y - 1; dy_boom = 1; e = 10; } //hacia arriba
+                        if (tecla == 'S' || tecla == 's') { x_boom = x + 1; y_boom = y + 3; dy_boom = -1; e = -13; } //hacia abajo
+                        if (tecla == 'A' || tecla == 'a') { x_boom = x - 1; y_boom = y + 1; dx_boom = 1; e = 10; } //hacia la izquierda
+                        if (tecla == 'D' || tecla == 'd') { x_boom = x + 3; y_boom = y + 1; dx_boom = -1; e = -13; } //hacia la derecha
                     }
                     //if(bool=false), y designa que el choque con enemigos baja vida o no
                 }
@@ -745,7 +755,7 @@ int main()
                     if (matriz[y_boom][x_boom + 1] == 1) { dx_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; } //si choca con una pared hacia la derecha
                     x_boom -= dx_boom;
 
-                      for (int k = 0; k < num_agentes; k++) {//si choca con un agente
+                    for (int k = 0; k < num_agentes; k++) {//si choca con un agente
                         for (int u = 0, o = 0; o < 3; u++) {
                             if (enemigos[k].y_a + o == y_boom && enemigos[k].x_a + u == x_boom) { dy_boom = 0; dx_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; a_borra(enemigos[k].x_a, enemigos[k].y_a); enemigos = elimina_agente(enemigos, num_agentes, k); u = 0; o = 0; }
                             if (u == 2) { u = 0; o++; }
@@ -753,15 +763,49 @@ int main()
                     }
                 }
 
-                for (int k = 0; k < num_agentes; k++) {//personaje principal si choca con un agente
-                    for (int u = 0, o = 0; o < 3; u++) {
-                        for (int m = 0, z = 0; z < 3; m++) {
-                            if (enemigos[k].y_a + o == y + z && enemigos[k].x_a + u == x + m) { vidas--; a_borra(enemigos[k].x_a, enemigos[k].y_a); enemigos = elimina_agente(enemigos, num_agentes, k); u = 0; o = 0; m = 0; z = 0; }
-                            if (m == 2) { m = 0; z++; }
+                if (tam == false)
+                {
+                    for (int k = 0; k < num_agentes; k++) {//personaje principal si choca con un agente
+                        for (int u = 0, o = 0; o < 3; u++) {
+                            for (int m = 0, z = 0; z < 3; m++) {
+                                if (enemigos[k].y_a + o == y + z && enemigos[k].x_a + u == x + m) { vidas--; a_borra(enemigos[k].x_a, enemigos[k].y_a); enemigos = elimina_agente(enemigos, num_agentes, k); u = 0; o = 0; m = 0; z = 0; }
+                                if (m == 2) { m = 0; z++; }
+                            }
+                            if (u == 2) { u = 0; o++; }
                         }
-                        if (u == 2) { u = 0; o++; }
                     }
                 }
+                //if (tam == true)//personaje principal reducido
+                //{
+                //    for (int i = 0; i < num_agentes;i++)
+                //    {
+                //        //personaje va por su derecha
+                //        if ((x == enemigos[i].x_a) && ((y == enemigos[i].y_a) || (y == enemigos[i].y_a + 1) || (y == enemigos[i].y_a+2)))
+                //        {
+                //            a_borra(enemigos[i].x_a, enemigos[i].y_a);
+                //            elimina_agente2(i, num_agentes, enemigos);
+                //        }
+                //        //p va por su izquierda 
+                //        if ((x == enemigos[i].x_a + 2) && ((y == enemigos[i].y_a) || (y == enemigos[i].y_a + 1) || (y == enemigos[i].y_a + 2)))
+                //        {
+                //            a_borra(enemigos[i].x_a, enemigos[i].y_a);
+                //            elimina_agente2(i, num_agentes, enemigos);
+                //        }
+                //        //p va por arriba 
+                //        if (((x == enemigos[i].x_a + 2) || (x == enemigos[i].x_a) || (x == enemigos[i].x_a + 1)) && (y == enemigos[i].y_a + 2))
+                //        {
+                //            a_borra(enemigos[i].x_a, enemigos[i].y_a);
+                //            elimina_agente2(i, num_agentes, enemigos);
+                //        }
+                //        //p va por abajo
+                //        if (((x == enemigos[i].x_a + 2) || (x == enemigos[i].x_a) || (x == enemigos[i].x_a + 1)) && (y == enemigos[i].y_a))
+                //        {
+                //            a_borra(enemigos[i].x_a, enemigos[i].y_a);
+                //            elimina_agente2(i, num_agentes, enemigos);
+                //        }
+
+                //    }
+                //  }
                 
                 //PORTALES
                 //portal azul 
@@ -790,7 +834,8 @@ int main()
  
                  
                 //DIBUJAR
-                pp_imprime(x, y);//p principal
+                if (tam == false) { pp_imprime(x, y); }//p principal
+                if (tam == true) { pp2_imprime(x, y); }//p principal reducido
                 cursor(enemigos[i].x_a, enemigos[i].y_a); a_imprime(enemigos[i].x_a, enemigos[i].y_a);//agentes
                 cursor(x1, y1); ali_imprime(x1, y1);//aliado 2
                 
