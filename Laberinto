@@ -797,6 +797,7 @@ int main()
                 //portal azul 
                 if(tam==false)
                 {
+                //portal azul 
                 if (matriz[y][x] == 5 || matriz[y + 1][x] == 5) x = 15, y = 2;
                 if (matriz[y][x + 2] == 5 || matriz[y + 1][x + 2] == 5) x = 8, y = 8;
                 //portal magenta
@@ -814,14 +815,16 @@ int main()
                 //portal anaranjado
                 if (matriz[y][x] == 10 && y == 29) x = 70, y = 13;
                 if (matriz[y][x] == 10 && x == 69) x = 12, y = 30;
+                }
                 //agentes
                 if (matriz[enemigos[i].y_a - 1][enemigos[i].x_a] == 1)enemigos[i].dy_a *= -1;
                 if (matriz[enemigos[i].y_a + 3][enemigos[i].x_a] == 1)enemigos[i].dy_a *= -1;
-                }
+                enemigos[i].y_a -= enemigos[i].dy_a;
+                
                 //if(tam==true)
                 //{
                 //}
-                enemigos[i].y_a -= enemigos[i].dy_a;
+                
                 //interaccion con vitaminas
                 vitaminas(matriz, x, y, vidas, tam);
  
