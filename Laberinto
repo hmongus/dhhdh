@@ -674,6 +674,7 @@ int main()
             //personaje principal
             int x = 85, y = 2;
             bool tam = false;
+            int contador = 0, contador2 = 0, contador3 = 0;
             cursor(x, y); pp_imprime(x, y);
             //variables para los agentes con uso de una estructura
             agentes* enemigos; enemigos = new agentes[27];
@@ -831,6 +832,8 @@ int main()
                 if (matriz[enemigos[i].y_a + 3][enemigos[i].x_a] == 1)enemigos[i].dy_a *= -1;
                  
                 enemigos[i].y_a -= enemigos[i].dy_a;
+                //interaccion con vitaminas
+                vitaminas(matriz, x, y, vidas, tam, contador);
  
                  
                 //DIBUJAR
