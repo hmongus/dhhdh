@@ -558,17 +558,6 @@ agentes* elimina_agente(agentes* enemigos, int& num_agentes, int k) {
     return temporal;
 }
 
-void elimina_agente2(int i, int &num_agentes, agentes*enemigos)
-{
-    for (int k = i; k < num_agentes - 1; k++)
-    {
-        enemigos[i].x_a = enemigos[i + 1].x_a;
-        enemigos[i].y_a = enemigos[i + 1].y_a;
-        enemigos[i].dy_a = enemigos[i + 1].dy_a;
-    }
-    num_agentes--;
-}
-
 void vitaminas(int matriz[FILAS][COLUMNAS], int x, int y, int& vidas, bool& tam)
 {
     //perosnaje va por la derecha (tam)
@@ -789,40 +778,25 @@ int main()
                         }
                     }
                 }
-                //if (tam == true)//personaje principal reducido
-                //{
-                //    for (int i = 0; i < num_agentes;i++)
-                //    {
-                //        //personaje va por su derecha
-                //        if ((x == enemigos[i].x_a) && ((y == enemigos[i].y_a) || (y == enemigos[i].y_a + 1) || (y == enemigos[i].y_a+2)))
-                //        {
-                //            a_borra(enemigos[i].x_a, enemigos[i].y_a);
-                //            elimina_agente2(i, num_agentes, enemigos);
-                //        }
-                //        //p va por su izquierda 
-                //        if ((x == enemigos[i].x_a + 2) && ((y == enemigos[i].y_a) || (y == enemigos[i].y_a + 1) || (y == enemigos[i].y_a + 2)))
-                //        {
-                //            a_borra(enemigos[i].x_a, enemigos[i].y_a);
-                //            elimina_agente2(i, num_agentes, enemigos);
-                //        }
-                //        //p va por arriba 
-                //        if (((x == enemigos[i].x_a + 2) || (x == enemigos[i].x_a) || (x == enemigos[i].x_a + 1)) && (y == enemigos[i].y_a + 2))
-                //        {
-                //            a_borra(enemigos[i].x_a, enemigos[i].y_a);
-                //            elimina_agente2(i, num_agentes, enemigos);
-                //        }
-                //        //p va por abajo
-                //        if (((x == enemigos[i].x_a + 2) || (x == enemigos[i].x_a) || (x == enemigos[i].x_a + 1)) && (y == enemigos[i].y_a))
-                //        {
-                //            a_borra(enemigos[i].x_a, enemigos[i].y_a);
-                //            elimina_agente2(i, num_agentes, enemigos);
-                //        }
-
-                //    }
-                //  }
+                 if (tam == true)//personaje principal reducido si choca
+                {
+                    for (int i = 0; i < num_agentes; i++)
+                    {
+                        //personaje va por su derecha
+                        if ((x == enemigos[i].x_a) && ((y == enemigos[i].y_a) || (y == enemigos[i].y_a + 1) || (y == enemigos[i].y_a + 2))) { vidas = 0; }
+                        //p va por su izquierda 
+                        if ((x == enemigos[i].x_a + 2) && ((y == enemigos[i].y_a) || (y == enemigos[i].y_a + 1) || (y == enemigos[i].y_a + 2))) { vidas = 0; }
+                        //p va por arriba 
+                        if (((x == enemigos[i].x_a + 2) || (x == enemigos[i].x_a) || (x == enemigos[i].x_a + 1)) && (y == enemigos[i].y_a + 2)) { vidas = 0; }
+                        //p va por abajo
+                        if (((x == enemigos[i].x_a + 2) || (x == enemigos[i].x_a) || (x == enemigos[i].x_a + 1)) && (y == enemigos[i].y_a)) { vidas = 0; } 
+                    }
+                }
                 
                 //PORTALES
                 //portal azul 
+                if(tam==false)
+                {
                 if (matriz[y][x] == 5 || matriz[y + 1][x] == 5) x = 15, y = 2;
                 if (matriz[y][x + 2] == 5 || matriz[y + 1][x + 2] == 5) x = 8, y = 8;
                 //portal magenta
@@ -843,7 +817,10 @@ int main()
                 //agentes
                 if (matriz[enemigos[i].y_a - 1][enemigos[i].x_a] == 1)enemigos[i].dy_a *= -1;
                 if (matriz[enemigos[i].y_a + 3][enemigos[i].x_a] == 1)enemigos[i].dy_a *= -1;
-                 
+                }
+                //if(tam==true)
+                //{
+                //}
                 enemigos[i].y_a -= enemigos[i].dy_a;
                 //interaccion con vitaminas
                 vitaminas(matriz, x, y, vidas, tam);
