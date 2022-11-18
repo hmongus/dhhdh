@@ -1117,7 +1117,7 @@ int main()
                 cursor(enemigos[i].x_a, enemigos[i].y_a); a_imprime(enemigos[i].x_a, enemigos[i].y_a);//agentes
                 
                 //activacion aliado2
-                */if(x==65 && (y>=41 && y<=45))
+                if(x==65 && (y>=41 && y<=45))
                 {  
                    if(contador==0){ act_aliado2=true; contador++;}
                    if(act_aliado2==true)
@@ -1141,7 +1141,7 @@ int main()
                      }
                    }
                    }
-                }\*
+                }
                 
 
                 if ((activador_boomerang == true) && (dy_boom != 0 || dx_boom != 0)) {//boomerang
