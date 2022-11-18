@@ -1091,13 +1091,12 @@ int main()
                     //portal gris oscuro
                     if (x ==70 && (y >=36 && y <=38 ))x=43, y =3;
                     if (x == 45 && (y >=2  && y <=4 ))x = 68, y =37;
-
                     //portal blanco
                     if (y == 25 && (x >= 2 && x <= 4)) x = 79, y = 43;
                     if (x == 78 && (y >= 42 && y <= 44)) x = 3, y = 26;
                     //portal azul oscuro 
-
-
+                    if (x == 51 && (y >= 31 && y <=33)) x = 68, y = 43;
+                    if (x == 70 && (y >= 42 && y <= 44)) x = 53, y = 32;
                     //portal anaranjado
                     if (y == 29 && (x >= 12 && x <= 14)) x = 70, y = 14;
                     if (x == 69 && (y >= 13 && y <= 15)) x = 13, y = 30;
