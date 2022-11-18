@@ -630,6 +630,15 @@ void vitaminas(int matriz[FILAS][COLUMNAS], int x, int y, int& vidas, bool& tam)
     }
 
 }
+
+void vitaminas2(int matriz[FILAS][COLUMNAS], int x, int y, int& vidas)
+{
+       //personaje va por abajo (vida)
+        if (matriz[y + 2][x] == 4 || matriz[y + 2][x + 1] == 4 || matriz[y + 2][x + 2] == 4) { vidas++; matriz[38][48] = 0;}
+        //perosnaje va por la derecha (vida)
+        if (matriz[y][x + 2] == 4 || matriz[y + 1][x + 2] == 4 || matriz[y + 2][x + 2] == 4) { vidas++; matriz[3][64] = 0; }
+}
+
 int main()
 {
     ventana(91, 50);
@@ -750,6 +759,9 @@ int main()
 
     while (true)
     {
+        int contador = 0;
+        bool act_aliado2 = false;
+        bool sub_aliado2 = false;
         opcion = niveles();
         if (opcion == 1) {
             x = 85; y = 2; //ubicacion inicial personaje principal
@@ -820,12 +832,12 @@ int main()
                 }
                 //BORRAR
                 cursor(enemigos1[i].x_a, enemigos1[i].y_a); a_borra(enemigos1[i].x_a, enemigos1[i].y_a); //agentes
-                cursor(x1, y1); ali_borra(x1, y1);//aliado 2
                 //MOVER
                 //personaje principal
                 //uso de bool
-               
-                if (_kbhit()) {
+                if(act_aliado2==false)
+                {
+                 if (_kbhit()) {
 
                     char tecla = getch();
                         pp_borra(x, y); //personaje principal
@@ -833,6 +845,7 @@ int main()
                         if (tecla == IZQUIERDA && matriz[y][x - 1] != 1 && matriz[y + 2][x - 1] != 1 && matriz[y + 1][x - 1] != 1) { x--; }
                         if (tecla == ABAJO && matriz[y + 3][x] != 1 && matriz[y + 3][x + 2] != 1 && matriz[y + 3][x + 1] != 1) { y++; }
                         if (tecla == ARRIBA && matriz[y - 1][x] != 1 && matriz[y - 1][x + 2] != 1 && matriz[y - 1][x + 1] != 1) { y--; }
+                 }
                 }
                 
                 //PORTALES
@@ -853,7 +866,38 @@ int main()
 
                 enemigos1[i].y_a -= enemigos1[i].dy_a;
                 //interaccion con vitaminas
-                vitaminas(matriz, x, y, vidas, tam);
+                vitaminas2(matriz, x, y, vidas);
+                
+                if (y == 32 && (x >= 86 && x <= 88))
+                {
+                    {
+                        if (contador == 0  && sub_aliado2==true) { act_aliado2 = true; contador++; }
+                        if (y1 == 28) { sub_aliado2 = true; }
+                        if (sub_aliado2 == false) { y1--; }
+                        if (act_aliado2 ==  true && sub_aliado2==true)
+                        {
+                            ali_borra(x1, y1);
+                            if (x1 == 87 && y1 == 28)act_aliado2 = false;
+                            x1++;
+                            for (int i4 = 0; i4 < num_agentes; i4++)
+                            {
+                                if (x1 + 1 == enemigos1[i4].x_a && (y1 == enemigos1[i4].y_a || y1 == enemigos1[i4].y_a + 1 || y1 == enemigos1[i4].y_a + 2))//borrar elementos del arreglo enemigos
+                                {
+                                    a_borra(enemigos1[i4].x_a, enemigos1[i4].y_a);
+                                    for (int i5 = i4; i5 < num_agentes - 1; i5++)
+                                    {
+                                        enemigos1[i5].x_a = enemigos1[i5 + 1].x_a;
+                                        enemigos1[i5].y_a = enemigos1[i5 + 1].y_a;
+                                        enemigos1[i5].dy_a = enemigos1[i5 + 1].dy_a;
+                                    }
+                                    num_agentes--;
+                                }
+                            }
+                            ali_imprime(x1, y1);
+                        }
+                    }
+
+                 }
 
                 //DIBUJAR
                 pp_imprime(x, y);//p principal
@@ -884,7 +928,6 @@ int main()
         
        if (opcion == 2)
         {
-            int contador = 0;
             x = 85; y = 2; //ubicacion inicial personaje principal
             //informacion de nivel 2
             vidas = 10;
@@ -894,7 +937,6 @@ int main()
             num_portales = 6;
             num_aliados = 2;
             bool tam = false;
-            bool act_aliado2 = false;
             //asigna valores a la matriz general
             for (int f = 0; f < FILAS; f++)
             {
