@@ -1015,7 +1015,6 @@ int main()
                 informacion_nivel(vidas, num_boomerangs, num_agentes, num_vitaminas, num_portales, num_aliados);
                 //BORRAR
                 cursor(enemigos[i].x_a, enemigos[i].y_a); a_borra(enemigos[i].x_a, enemigos[i].y_a); //agentes
-                cursor(x1, y1); ali_borra(x1, y1);//aliado 2
                 if (activador_boomerang == true) {
                     cursor(x_boom, y_boom); color(1); cout << " ";
                 }
