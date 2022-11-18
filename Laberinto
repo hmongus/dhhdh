@@ -890,9 +890,9 @@ int main()
             }
         }
         
-        if (opcion == 2)
+       if (opcion == 2)
         {
-            int contador=0;
+            int contador = 0;
             x = 85; y = 2; //ubicacion inicial personaje principal
             //informacion de nivel 2
             vidas = 10;
@@ -902,7 +902,7 @@ int main()
             num_portales = 6;
             num_aliados = 2;
             bool tam = false;
-            bool act_aliado2=false;
+            bool act_aliado2 = false;
             //asigna valores a la matriz general
             for (int f = 0; f < FILAS; f++)
             {
@@ -962,7 +962,7 @@ int main()
             int e = 10;//potencia del boomerang, se puede desplazar 10 caracteres como maximo
 
             int i = 0;
-            while (1) { 
+            while (1) {
 
                 if (tam == false)//personaje principal si choca con un agente
                 {
@@ -1027,35 +1027,35 @@ int main()
                     y_boom = y + 1;
                     num_boomerangs = 5;
                 }
-                
-               if(act_aliado2==false)
-               {
-                if (_kbhit()) {
 
-                    char tecla = getch();
-                    if (tam == false) {
-                        pp_borra(x, y); //personaje principal
-                        if (tecla == DERECHA && matriz[y][x + 3] != 1 && matriz[y + 2][x + 3] != 1 && matriz[y + 1][x + 3] != 1) { x++; } //si el boomerang esta desplegado no se puede mover el personaje
-                        if (tecla == IZQUIERDA && matriz[y][x - 1] != 1 && matriz[y + 2][x - 1] != 1 && matriz[y + 1][x - 1] != 1) { x--; }
-                        if (tecla == ABAJO && matriz[y + 3][x] != 1 && matriz[y + 3][x + 2] != 1 && matriz[y + 3][x + 1] != 1) { y++; }
-                        if (tecla == ARRIBA && matriz[y - 1][x] != 1 && matriz[y - 1][x + 2] != 1 && matriz[y - 1][x + 1] != 1) { y--; }
+                if (act_aliado2 == false)
+                {
+                    if (_kbhit()) {
+
+                        char tecla = getch();
+                        if (tam == false) {
+                            pp_borra(x, y); //personaje principal
+                            if (tecla == DERECHA && matriz[y][x + 3] != 1 && matriz[y + 2][x + 3] != 1 && matriz[y + 1][x + 3] != 1) { x++; } //si el boomerang esta desplegado no se puede mover el personaje
+                            if (tecla == IZQUIERDA && matriz[y][x - 1] != 1 && matriz[y + 2][x - 1] != 1 && matriz[y + 1][x - 1] != 1) { x--; }
+                            if (tecla == ABAJO && matriz[y + 3][x] != 1 && matriz[y + 3][x + 2] != 1 && matriz[y + 3][x + 1] != 1) { y++; }
+                            if (tecla == ARRIBA && matriz[y - 1][x] != 1 && matriz[y - 1][x + 2] != 1 && matriz[y - 1][x + 1] != 1) { y--; }
+                        }
+                        if (tam == true) {
+                            pp2_borra(x, y); //personaje principal reducido
+                            if (tecla == DERECHA && matriz[y][x + 1] != 1) { x++; } //si el boomerang esta desplegado no se puede mover el personaje
+                            if (tecla == IZQUIERDA && matriz[y][x - 1] != 1) { x--; }
+                            if (tecla == ABAJO && matriz[y + 1][x] != 1) { y++; }
+                            if (tecla == ARRIBA && matriz[y - 1][x] != 1) { y--; }
+                        }
+                        if (activador_boomerang == true && num_boomerangs >= 1) { //teclas para activar al boomerang
+                            if (tecla == 'W' || tecla == 'w') { x_boom = x + 1; y_boom = y - 1; dy_boom = 1; e = 10; } //hacia arriba
+                            if (tecla == 'S' || tecla == 's') { x_boom = x + 1; y_boom = y + 3; dy_boom = -1; e = -13; } //hacia abajo
+                            if (tecla == 'A' || tecla == 'a') { x_boom = x - 1; y_boom = y + 1; dx_boom = 1; e = 10; } //hacia la izquierda
+                            if (tecla == 'D' || tecla == 'd') { x_boom = x + 3; y_boom = y + 1; dx_boom = -1; e = -13; } //hacia la derecha
+                        }
+                        //if(bool=false), y designa que el choque con enemigos baja vida o no
                     }
-                    if (tam == true) {
-                        pp2_borra(x, y); //personaje principal reducido
-                        if (tecla == DERECHA && matriz[y][x + 1] != 1) { x++; } //si el boomerang esta desplegado no se puede mover el personaje
-                        if (tecla == IZQUIERDA && matriz[y][x - 1] != 1) { x--; }
-                        if (tecla == ABAJO && matriz[y + 1][x] != 1) { y++; }
-                        if (tecla == ARRIBA && matriz[y - 1][x] != 1) { y--; }
-                    }
-                    if (activador_boomerang == true && num_boomerangs >= 1) { //teclas para activar al boomerang
-                        if (tecla == 'W' || tecla == 'w') { x_boom = x + 1; y_boom = y - 1; dy_boom = 1; e = 10; } //hacia arriba
-                        if (tecla == 'S' || tecla == 's') { x_boom = x + 1; y_boom = y + 3; dy_boom = -1; e = -13; } //hacia abajo
-                        if (tecla == 'A' || tecla == 'a') { x_boom = x - 1; y_boom = y + 1; dx_boom = 1; e = 10; } //hacia la izquierda
-                        if (tecla == 'D' || tecla == 'd') { x_boom = x + 3; y_boom = y + 1; dx_boom = -1; e = -13; } //hacia la derecha
-                    }
-                    //if(bool=false), y designa que el choque con enemigos baja vida o no
                 }
-              }
 
                 //PORTALES
                 if (tam == false)
@@ -1080,29 +1080,29 @@ int main()
                     if (matriz[y][x] == 10 && x == 69) x = 12, y = 30;
                 }
 
-               if(tam==true) //personaje tam. reducido
+                if (tam == true) //personaje tam. reducido
                 {
-                 //portal azul
-                 if(x==18 && (y>=2 && y<=4)) x=8, y=9;
-                 if(x==7 && (y>=8 && y<=10)) x=17, y=3;
-                 //portal magenta
-                 if(x==24 && (y>=2 && y<=4)) x=60, y=24;
-                 if(x==59 && (y>=23 && y<=25)) x=25, y=3;
-                 //portal gris oscuro
-                 
-                 
-                 //portal blanco
-                 if(y==25 && (x>=2 && x<=4)) x=79, y=43;
-                 if(x==78 && (y>=42 && y<=44)) x=3, y=26;
-                 //portal azul oscuro 
-                 
-                 
-                 //portal anaranjado
-                 if(y==29 && (x>=12 && x<=14)) x=70, y=14;
-                 if(x==69 && (y>=13 && y<=15)) x=13, y=30;
+                    //portal azul
+                    if (x == 18 && (y >= 2 && y <= 4)) x = 8, y = 9;
+                    if (x == 7 && (y >= 8 && y <= 10)) x = 17, y = 3;
+                    //portal magenta
+                    if (x == 24 && (y >= 2 && y <= 4)) x = 60, y = 24;
+                    if (x == 59 && (y >= 23 && y <= 25)) x = 25, y = 3;
+                    //portal gris oscuro
+
+
+                    //portal blanco
+                    if (y == 25 && (x >= 2 && x <= 4)) x = 79, y = 43;
+                    if (x == 78 && (y >= 42 && y <= 44)) x = 3, y = 26;
+                    //portal azul oscuro 
+
+
+                    //portal anaranjado
+                    if (y == 29 && (x >= 12 && x <= 14)) x = 70, y = 14;
+                    if (x == 69 && (y >= 13 && y <= 15)) x = 13, y = 30;
                 }
-                
-                
+
+
                 //agentes
                 if (matriz[enemigos[i].y_a - 1][enemigos[i].x_a] == 1)enemigos[i].dy_a *= -1;
                 if (matriz[enemigos[i].y_a + 3][enemigos[i].x_a] == 1)enemigos[i].dy_a *= -1;
@@ -1115,40 +1115,40 @@ int main()
                 if (tam == false) { pp_imprime(x, y); }//p principal
                 if (tam == true) { pp2_imprime(x, y); }//p principal reducido
                 cursor(enemigos[i].x_a, enemigos[i].y_a); a_imprime(enemigos[i].x_a, enemigos[i].y_a);//agentes
-                
-                //activacion aliado2
-                if(x==65 && (y>=41 && y<=45))
-                {  
-                   if(contador==0){ act_aliado2=true; contador++;}
-                   if(act_aliado2==true)
-                   {
-                   ali_borra(x1, y1);
-                   if(x1==62 && y1==42)act_aliado2==false;
-                   x1++;
-                   for(int i4=0; i4<num_agentes;i4++)
-                   {
-                     a_borra(enemigos[i4].x_a, enemigos[i4].y_a);
-                     if(x1 + 1 == enemigos[i4].x_a && (y1 == enemigos[i4].y_a || y1 == enemigos[i4].y_a + 1 || y1 == enemigos[i4].y_a + 2))//borrar elementos del arreglo enemigos
-                     {
-                        for(int i5=i4; i5<num_agentes-1;i5++)
-                        {
-                         enemigos[i5].x_a=enemigos[i5+1].x_a;
-                         enemigos[i5].y_a=enemigos[i5+1].y_a;
-                         enemigos[i5].dy_a=enemigos[i5+1].dy_a;
-                        }
-                        num_agentes--;
-                     }
-                   }
-                   
-                   ali_imprime(x1, y1);
-                   }
-                }
-                
 
-                if ((activador_boomerang == true) && (dy_boom != 0 || dx_boom != 0)) {//boomerang
-                    cursor(x_boom, y_boom);
-                    color(3); cout << "<";
+                //activacion aliado2
+                if (x == 65 && (y >= 41 && y <= 45))
+                {
+                    if (contador == 0) { act_aliado2 = true; contador++; }
+                    if (act_aliado2 == true)
+                    {
+                        ali_borra(x1, y1);
+                        if (x1 == 62 && y1 == 42)act_aliado2 = false;
+                        x1++;
+                        for (int i4 = 0; i4 < num_agentes; i4++)
+                        {
+                            if (x1 + 1 == enemigos[i4].x_a && (y1 == enemigos[i4].y_a || y1 == enemigos[i4].y_a + 1 || y1 == enemigos[i4].y_a + 2))//borrar elementos del arreglo enemigos
+                            {
+                                a_borra(enemigos[i4].x_a, enemigos[i4].y_a);
+                                for (int i5 = i4; i5 < num_agentes - 1; i5++)
+                                {
+                                    enemigos[i5].x_a = enemigos[i5 + 1].x_a;
+                                    enemigos[i5].y_a = enemigos[i5 + 1].y_a;
+                                    enemigos[i5].dy_a = enemigos[i5 + 1].dy_a;
+                                }
+                                num_agentes--;
+                            }
+                        }
+                        ali_imprime(x1, y1);
+                       
+                    }
                 }
+
+
+                    if ((activador_boomerang == true) && (dy_boom != 0 || dx_boom != 0)) {//boomerang
+                        cursor(x_boom, y_boom);
+                        color(3); cout << "<";
+                    }
 
                 if ((y >= 43 || y + 1 >= 43 || y + 2 >= 44) && (x == 3))
                 {
