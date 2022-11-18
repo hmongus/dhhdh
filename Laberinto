@@ -1125,7 +1125,6 @@ int main()
                    ali_borra(x1, y1);
                    if(x1==62 && y1==42)act_aliado2==false;
                    x1++;
-                   ali_imprime(x1, y1);
                    for(int i4=0; i4<num_agentes;i4++)
                    {
                      a_borra(enemigos[i4].x_a, enemigos[i4].y_a);
@@ -1140,6 +1139,8 @@ int main()
                         num_agentes--;
                      }
                    }
+                   
+                   ali_imprime(x1, y1);
                    }
                 }
                 
