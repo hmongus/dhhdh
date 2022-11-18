@@ -1124,18 +1124,18 @@ int main()
                    if(act_aliado2==true)
                    {
                    ali_borra(x1, y1);
-                   if(x1==62 && y1==42)act_aliado2==false:
+                   if(x1==62 && y1==42)act_aliado2==false;
                    x1++;
                    ali_imprime(x1, y1);
-                   for(int i4=0; i4<num_enemigos;i4++)
+                   for(int i4=0; i4<num_agentes;i4++)
                    {
                      if(x1+1==enemigos[i4].x_a && y1==enemigos[i4].y_a)//borrar elementos del arreglo enemigos
                      {
                         for(int i5=i4; i4<num_agentes-1;i5++)
                         {
-                         enemigos[i5].x_a==enmigos[i5+1].x_a;
-                         enemigos[i5].y_a==enmigos[i5+1].y_a;
-                         enemigos[i5].dy_a==enmigos[i5+1].dy_a;
+                         enemigos[i5].x_a==enemigos[i5+1].x_a;
+                         enemigos[i5].y_a==enemigos[i5+1].y_a;
+                         enemigos[i5].dy_a==enemigos[i5+1].dy_a;
                         }
                         num_agentes--;
                      }
