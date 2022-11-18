@@ -549,13 +549,18 @@ int go()
 void creditos()
 {
     _sleep(50);
-    cursor(30, 15); color(13); cout << R"(
-                    ___  ___ ___  ___________ ___________  ___ ______ _____ 
-                    |  \/  |/ _ \|___  |  ___/  __ | ___ \/ _ \|  ___|_   _|
-                    | .  . / /_\ \  / /| |__ | /  \| |_/ / /_\ | |_    | |  
-                    | |\/| |  _  | / / |  __|| |   |    /|  _  |  _|   | |  
-                    | |  | | | | ./ /__| |___| \__/| |\ \| | | | |     | |  
-                    \_|  |_\_| |_\_____\____/ \____\_| \_\_| |_\_|     \_/                     
+     cursor(30, 15); color(13); cout << R"(
+                    
+                              ___  ____   __    ___  __   __   ____ 
+                             / __)(  _ \ / _\  / __)(  ) / _\ / ___)
+                            ( (_ \ )   //    \( (__  )( /    \\___ \
+                             \___/(__\_)\_/\_/ \___)(__)\_/\_/(____/
+
+                         ____   __  ____      __  _  _   ___   __   ____ 
+                        (  _ \ /  \(  _ \   _(  )/ )( \ / __) / _\ (  _ \
+                         ) __/(  O ))   /  / \) \) \/ (( (_ \/    \ )   /
+                        (__)   \__/(__\_)  \____/\____/ \___/\_/\_/(__\_)
+
 )" << "\n";
 
     cursor(49, 29); color(15); cout << char(173) << "GRACIAS POR JUGAR!";
@@ -571,6 +576,7 @@ struct agentes {
     int y_a;
     int dy_a;
 };
+
 void informacion_nivel(int vidas, int boomerangs, int num_agentes, int vitaminas, int portales, int aliados) {
     cursor(1, 47); color(15); cout << "Vidas: " << vidas;
     cout << " Boomerangs: " << boomerangs;
@@ -578,6 +584,7 @@ void informacion_nivel(int vidas, int boomerangs, int num_agentes, int vitaminas
     cout << " Agentes: " << num_agentes << " Vitaminas: " << vitaminas << endl;
     cout << " Portales " << portales << " Aliados " << aliados;
 }
+
 agentes* elimina_agente(agentes* enemigos, int& num_agentes, int k) {
     agentes* temporal;
     temporal = new agentes[num_agentes - 1];
@@ -736,8 +743,7 @@ int main()
     int opcion;
     //personaje principal
     int x = 0, y = 0;
-    bool tam = false;
-    bool act_aliado2=false;
+    
 
     // aliado 2
     int x1 = 0, y1 = 0;
@@ -883,8 +889,10 @@ int main()
                 Sleep(1);
             }
         }
+        
         if (opcion == 2)
         {
+            int contador=0;
             x = 85; y = 2; //ubicacion inicial personaje principal
             //informacion de nivel 2
             vidas = 10;
@@ -893,6 +901,8 @@ int main()
             num_vitaminas = 4;
             num_portales = 6;
             num_aliados = 2;
+            bool tam = false;
+            bool act_aliado2=false;
             //asigna valores a la matriz general
             for (int f = 0; f < FILAS; f++)
             {
@@ -1018,6 +1028,9 @@ int main()
                     y_boom = y + 1;
                     num_boomerangs = 5;
                 }
+                
+               if(act_aliado2==false)
+               {
                 if (_kbhit()) {
 
                     char tecla = getch();
@@ -1043,7 +1056,7 @@ int main()
                     }
                     //if(bool=false), y designa que el choque con enemigos baja vida o no
                 }
-                
+              }
 
                 //PORTALES
                 if (tam == false)
@@ -1104,12 +1117,14 @@ int main()
                 if (tam == true) { pp2_imprime(x, y); }//p principal reducido
                 cursor(enemigos[i].x_a, enemigos[i].y_a); a_imprime(enemigos[i].x_a, enemigos[i].y_a);//agentes
                 
+                //activacion aliado2
                 */if(x==65 && (y>=41 && y<=45))
                 {  
-                   if(act_aliado2==false)
+                   if(contador==0){ act_aliado2=true; contador++;}
+                   if(act_aliado2==true)
                    {
                    ali_borra(x1, y1);
-                   if(x1==62 && y1==42)act_aliado2==true:
+                   if(x1==62 && y1==42)act_aliado2==false:
                    x1++;
                    ali_imprime(x1, y1);
                    for(int i4=0; i4<num_enemigos;i4++)
