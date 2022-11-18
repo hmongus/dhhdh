@@ -873,7 +873,7 @@ int main()
                     {
                         if (contador == 0  && sub_aliado2==true) { act_aliado2 = true; contador++; }
                         if (y1 == 28) { sub_aliado2 = true; }
-                        if (sub_aliado2 == false) { y1--; }
+                        if (sub_aliado2 == false) { ali_borra(x1, y1); y1--; }
                         if (act_aliado2 ==  true && sub_aliado2==true)
                         {
                             ali_borra(x1, y1);
