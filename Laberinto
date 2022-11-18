@@ -849,15 +849,15 @@ int main()
                 }
                 
                 //PORTALES
-                //portal azul 
-                if (matriz[y][x] == 5 || matriz[y][x+1] == 5 ||matriz[y][x+2]==5) x = 47, y = 34;
-                if ((matriz[y][x] == 5 || matriz[y][x + 1] == 5 || matriz[y][x + 2] == 5) && y==33) x = 2, y = 2;
-                //portal magenta
-                if (matriz[y][x] == 6 || matriz[y + 1][x] == 6 || matriz[y+2][x]==5) x = 2, y = 35;
-                if ((matriz[y+2][x] == 6 || matriz[y + 2][x+1] == 6 || matriz[y+2][x+2]==6)) x = 47, y = 28;
-                //portal anaranjado
-                if (matriz[y+2][x] == 10 || matriz[y+2][x+1]==10 || matriz[y+2][x+2]==10) x = 10, y = 13;
-                if (matriz[y][x+2] == 10 || matriz[y+1][x+2]==10 || matriz[y+2][x+2]==10) x = 47, y = 21;
+                    //portal azul 
+                if ((matriz[y][x] == 5 || matriz[y][x + 1] == 5) && y == 1) { x = 47; y = 34; }
+                if ((matriz[y][x] == 5 || matriz[y][x + 1] == 5) && y == 33) { x = 2; y = 2; }
+                    //portal magenta
+                if ((matriz[y][x] == 6 || matriz[y + 1][x] == 6) && x == 46) { x = 2, y = 36; }
+                if ((matriz[y + 2][x] == 6 || matriz[y + 2][x + 1] == 6) && y+2 == 9) { x = 47; y = 28; }
+                    //portal anaranjado
+                if ((matriz[y + 2][x] == 10 || matriz[y + 2][x + 1] == 10) && y+2 == 25) { x = 10; y = 13; }
+                if ((matriz[y][x+2] == 10 || matriz[y + 1][x + 2] == 10) && x+2 == 13) { x = 47; y = 22; }
 
 
                 //agentes
@@ -1065,29 +1065,27 @@ int main()
                 if (act_aliado2 == false)
                 {
                     if (_kbhit()) {
-
-                        char tecla = getch();
-                        if (tam == false) {
-                            pp_borra(x, y); //personaje principal
-                            if (tecla == DERECHA && matriz[y][x + 3] != 1 && matriz[y + 2][x + 3] != 1 && matriz[y + 1][x + 3] != 1) { x++; } //si el boomerang esta desplegado no se puede mover el personaje
-                            if (tecla == IZQUIERDA && matriz[y][x - 1] != 1 && matriz[y + 2][x - 1] != 1 && matriz[y + 1][x - 1] != 1) { x--; }
-                            if (tecla == ABAJO && matriz[y + 3][x] != 1 && matriz[y + 3][x + 2] != 1 && matriz[y + 3][x + 1] != 1) { y++; }
-                            if (tecla == ARRIBA && matriz[y - 1][x] != 1 && matriz[y - 1][x + 2] != 1 && matriz[y - 1][x + 1] != 1) { y--; }
-                        }
-                        if (tam == true) {
-                            pp2_borra(x, y); //personaje principal reducido
-                            if (tecla == DERECHA && matriz[y][x + 1] != 1) { x++; } //si el boomerang esta desplegado no se puede mover el personaje
-                            if (tecla == IZQUIERDA && matriz[y][x - 1] != 1) { x--; }
-                            if (tecla == ABAJO && matriz[y + 1][x] != 1) { y++; }
-                            if (tecla == ARRIBA && matriz[y - 1][x] != 1) { y--; }
-                        }
-                        if (activador_boomerang == true && num_boomerangs >= 1) { //teclas para activar al boomerang
-                            if (tecla == 'W' || tecla == 'w') { x_boom = x + 1; y_boom = y - 1; dy_boom = 1; e = 10; } //hacia arriba
-                            if (tecla == 'S' || tecla == 's') { x_boom = x + 1; y_boom = y + 3; dy_boom = -1; e = -13; } //hacia abajo
-                            if (tecla == 'A' || tecla == 'a') { x_boom = x - 1; y_boom = y + 1; dx_boom = 1; e = 10; } //hacia la izquierda
-                            if (tecla == 'D' || tecla == 'd') { x_boom = x + 3; y_boom = y + 1; dx_boom = -1; e = -13; } //hacia la derecha
-                        }
-                        //if(bool=false), y designa que el choque con enemigos baja vida o no
+                         char tecla = getch();
+                    if (tam == false && dy_boom == 0 && dx_boom == 0 && activa_kamehameha == false) { //se mueve si el boomerang no esta en movimiento y cuando no esta activado el aliado 2
+                        pp_borra(x, y); //personaje principal
+                        if (tecla == DERECHA && matriz[y][x + 3] != 1 && matriz[y + 2][x + 3] != 1 && matriz[y + 1][x + 3] != 1) { x++; } //si el boomerang esta desplegado no se puede mover el personaje
+                        if (tecla == IZQUIERDA && matriz[y][x - 1] != 1 && matriz[y + 2][x - 1] != 1 && matriz[y + 1][x - 1] != 1) { x--; }
+                        if (tecla == ABAJO && matriz[y + 3][x] != 1 && matriz[y + 3][x + 2] != 1 && matriz[y + 3][x + 1] != 1) { y++; }
+                        if (tecla == ARRIBA && matriz[y - 1][x] != 1 && matriz[y - 1][x + 2] != 1 && matriz[y - 1][x + 1] != 1) { y--; }
+                    }
+                    if (tam == true && dy_boom == 0 && activa_kamehameha == false) { //se mueve si el boomerang no esta en movimiento
+                        pp2_borra(x, y); //personaje principal reducido
+                        if (tecla == DERECHA && matriz[y][x + 1] != 1) { x++; } //si el boomerang esta desplegado no se puede mover el personaje
+                        if (tecla == IZQUIERDA && matriz[y][x - 1] != 1) { x--; }
+                        if (tecla == ABAJO && matriz[y + 1][x] != 1) { y++; }
+                        if (tecla == ARRIBA && matriz[y - 1][x] != 1) { y--; }
+                    }
+                    if (activador_boomerang == true && num_boomerangs >= 1) { //teclas para activar al boomerang
+                        if (tecla == 'W' || tecla == 'w') { x_boom = x + 1; y_boom = y - 1; dy_boom = 1; e = 10; } //hacia arriba
+                        if (tecla == 'S' || tecla == 's') { x_boom = x + 1; y_boom = y + 3; dy_boom = -1; e = -13; } //hacia abajo
+                        if (tecla == 'A' || tecla == 'a') { x_boom = x - 1; y_boom = y + 1; dx_boom = 1; e = 10; } //hacia la izquierda
+                        if (tecla == 'D' || tecla == 'd') { x_boom = x + 3; y_boom = y + 1; dx_boom = -1; e = -13; } //hacia la derecha
+                    }
                     }
                 }
 
