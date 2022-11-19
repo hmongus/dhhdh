@@ -737,7 +737,7 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
         a_borra(enemigos2[i].x_a, enemigos2[i].y_a); //agentes
         cursor(x_boom, y_boom); color(1); cout << " ";
         
-        if(duracion>=0.10){ jefe_final_borrar(x_j, y_j);}
+        jefe_final_borrar(x_j, y_j);
 
         //MOVER
         //personaje principal
@@ -815,7 +815,7 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
         //DIBUJAR
         pp_imprime(x, y);//p principal
     a_imprime(enemigos2[i].x_a, enemigos2[i].y_a);//agentes
-    if(duracion>=010){ jefe_final_imprime(x_j, y_j); inicio = clock();} //jefe final
+    jefe_final_imprime(x_j, y_j); inicio = clock(); //jefe final
 
     if (dy_boom != 0 || dx_boom != 0) {//boomerang
         cursor(x_boom, y_boom);
