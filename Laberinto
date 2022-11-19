@@ -1253,6 +1253,7 @@ int main()
             int x_boom = 74, y_boom = 31, dy_boom = 0, dx_boom = 0;
             int e = 10;//potencia del boomerang, se puede desplazar 10 caracteres como maximo
 
+            int c_tv = 0;
             int i = 0;
             while (1) {
                 informacion_nivel(vidas, num_boomerangs, num_agentes, num_vitaminas, num_portales, num_aliados);
@@ -1297,6 +1298,8 @@ int main()
                         }
                     }
                 }
+                
+               if (c_tv == 0 && tam == true) { vidas = 1; c_tv++; }
 
                 //PORTALES
                 if (tam == false)
