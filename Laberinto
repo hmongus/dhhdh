@@ -1289,7 +1289,7 @@ int main()
                             if (tecla == ABAJO && matriz[y + 1][x] != 1) { y++; }
                             if (tecla == ARRIBA && matriz[y - 1][x] != 1) { y--; }
                         }
-                        if (activador_boomerang == true && num_boomerangs >= 1) { //teclas para activar al boomerang
+                        if (activador_boomerang == true && num_boomerangs >= 1 && tam== false) { //teclas para activar al boomerang
                             if (tecla == 'W' || tecla == 'w') { x_boom = x + 1; y_boom = y - 1; dy_boom = 1; e = 10; } //hacia arriba
                             if (tecla == 'S' || tecla == 's') { x_boom = x + 1; y_boom = y + 3; dy_boom = -1; e = -13; } //hacia abajo
                             if (tecla == 'A' || tecla == 'a') { x_boom = x - 1; y_boom = y + 1; dx_boom = 1; e = 10; } //hacia la izquierda
