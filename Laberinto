@@ -1066,14 +1066,14 @@ int main()
                 {
                     if (_kbhit()) {
                          char tecla = getch();
-                    if (tam == false && dy_boom == 0 && dx_boom == 0 && activa_kamehameha == false) { //se mueve si el boomerang no esta en movimiento y cuando no esta activado el aliado 2
+                    if (tam == false && dy_boom == 0 && dx_boom == 0) { //se mueve si el boomerang no esta en movimiento y cuando no esta activado el aliado 2
                         pp_borra(x, y); //personaje principal
                         if (tecla == DERECHA && matriz[y][x + 3] != 1 && matriz[y + 2][x + 3] != 1 && matriz[y + 1][x + 3] != 1) { x++; } //si el boomerang esta desplegado no se puede mover el personaje
                         if (tecla == IZQUIERDA && matriz[y][x - 1] != 1 && matriz[y + 2][x - 1] != 1 && matriz[y + 1][x - 1] != 1) { x--; }
                         if (tecla == ABAJO && matriz[y + 3][x] != 1 && matriz[y + 3][x + 2] != 1 && matriz[y + 3][x + 1] != 1) { y++; }
                         if (tecla == ARRIBA && matriz[y - 1][x] != 1 && matriz[y - 1][x + 2] != 1 && matriz[y - 1][x + 1] != 1) { y--; }
                     }
-                    if (tam == true && dy_boom == 0 && activa_kamehameha == false) { //se mueve si el boomerang no esta en movimiento
+                    if (tam == true && dy_boom == 0) { //se mueve si el boomerang no esta en movimiento
                         pp2_borra(x, y); //personaje principal reducido
                         if (tecla == DERECHA && matriz[y][x + 1] != 1) { x++; } //si el boomerang esta desplegado no se puede mover el personaje
                         if (tecla == IZQUIERDA && matriz[y][x - 1] != 1) { x--; }
