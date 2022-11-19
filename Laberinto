@@ -2,6 +2,7 @@
 #include "iostream"
 #include "windows.h"
 #include <conio.h>
+#include "time.h"
 #define FILAS 47
 #define COLUMNAS 91
 #define IZQUIERDA 75
@@ -724,6 +725,10 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
     for (int i = 0; i < 10; i++) {
         a_imprime(enemigos2[i].x_a, enemigos2[i].y_a);
     }
+    
+    //variables para el tiempo
+    clock_t inicio, fin;
+    double duracion=0.0;
 
     int i = 0;
     while (1) {
@@ -731,7 +736,8 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
         //BORRAR
         a_borra(enemigos2[i].x_a, enemigos2[i].y_a); //agentes
         cursor(x_boom, y_boom); color(1); cout << " ";
-        jefe_final_borrar(x_j, y_j);
+        
+        if(duracion>=0.10){ jefe_final_borrar(x_j, y_j);}
 
         //MOVER
         //personaje principal
@@ -809,7 +815,7 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
         //DIBUJAR
         pp_imprime(x, y);//p principal
     a_imprime(enemigos2[i].x_a, enemigos2[i].y_a);//agentes
-    jefe_final_imprime(x_j, y_j); //jefe final
+    if(duracion>=010){ jefe_final_imprime(x_j, y_j); inicio = clock();} //jefe final
 
     if (dy_boom != 0 || dx_boom != 0) {//boomerang
         cursor(x_boom, y_boom);
@@ -823,6 +829,11 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
         if (opcion == 3) { break; }
         if (opcion == 4)break;
     }
+    
+    
+    //fin del reloj
+    fin = clock();
+    duracion = (double)(fin - inicio) / CLOCKS_PER_SEC;
 
     i++;
     if (i > num_agentes - 1)i = 0;
