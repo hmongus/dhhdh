@@ -126,7 +126,7 @@ void ali_imprime(int xxx, int yyy) { //imprime agentes, luego lo unimos en una s
         }
     }
 }
-void jefe_final(int xxx, int yyy) {
+void jefe_final_imprime(int xxx, int yyy) { //imprime jefe final
     char matriz_a[6][19] = {
         {' ',' ',' ','(','_','(',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
         {' ',' ','(',239,239,')',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
@@ -135,14 +135,14 @@ void jefe_final(int xxx, int yyy) {
         {' ',' ',' ',' ',' ',' ','/','/','/',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
         {' ',' ',' ',' ',' ',' ',34,'-',34,' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
     };
-    color(12);
+    color(7);
     int xx = xxx;
     int yy = yyy;
 
-    for (int f = 0; f < 3; f++, yy++)
+    for (int f = 0; f < 6; f++, yy++)
     {
 
-        for (int c = 0; c < 2; c++, xx++)
+        for (int c = 0; c < 19; c++, xx++)
         {
             cursor(xx, yy);
             cout << matriz_a[f][c];
@@ -212,6 +212,24 @@ void ali_borra(int xxx, int yyy) {
             }
             xx = xxx;
         }
+    }
+}
+void jefe_final_borrar(int xxx, int yyy) {
+    char matriz_a[6][19];
+    color(7);
+    int xx = xxx;
+    int yy = yyy;
+
+    for (int f = 0; f < 6; f++, yy++)
+    {
+
+        for (int c = 0; c < 19; c++, xx++)
+        {
+            matriz_a[f][c] = 32;
+            cursor(xx, yy);
+            cout << matriz_a[f][c];
+        }
+        xx = xxx;
     }
 }
 
@@ -639,6 +657,148 @@ void vitaminas2(int matriz[FILAS][COLUMNAS], int x, int y, int& vidas)
     if (matriz[y][x + 2] == 4 || matriz[y + 1][x + 2] == 4 || matriz[y + 2][x + 2] == 4) { vidas++; matriz[3][64] = 0; }
 }
 
+void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_agentes, int num_boomerangs, int num_vitaminas, int num_portales, int num_aliados, int y_boom, int x_boom, int dy_boom, int dx_boom, bool& tam, int opcion, int e) {
+    //informacion de boss fight
+    vidas = 20;
+    num_agentes = 10;
+    num_boomerangs = 100;
+    num_vitaminas = 4;
+    num_portales = 0;
+    int x_j = 42, y_j = 21;
+    //imprime laberinto boss fight
+    for (int f = 0; f < FILAS; f++)
+    {
+        for (int c = 0; c < COLUMNAS; c++)
+        {
+            cursor(c, f);
+            if (matriz[f][c] == 0) color(1);
+            if (matriz[f][c] == 1) color(11);
+            //vitaminas
+            if (matriz[f][c] == 4) color(3);
+            cout << (char)219;
+        }
+    }
+    //personaje principal
+    pp_imprime(x, y);
+    //jefe final
+    jefe_final_imprime(x_j, y_j);
+
+    //variables para los agentes del nivel boss fight con uso de una estructura
+    agentes* enemigos2; enemigos2 = new agentes[10];
+
+    int x_aa[10] = { 11, 14, 20, 28,34, 34, 57, 57, 68, 77 };
+    int y_aa[10] = { 34, 8, 17, 31,12, 38, 2, 33, 9, 37 };
+    int dy_aa[10] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+    for (int i = 0; i < 10; i++) {
+        enemigos2[i].x_a = x_aa[i];
+        enemigos2[i].y_a = y_aa[i];
+        enemigos2[i].dy_a = dy_aa[i];
+    }
+    for (int i = 0; i < 10; i++) {
+        a_imprime(enemigos2[i].x_a, enemigos2[i].y_a);
+    }
+
+    int i = 0;
+    while (1) {
+        
+
+        informacion_nivel(vidas, num_boomerangs, num_agentes, num_vitaminas, num_portales, num_aliados);
+        //BORRAR
+        a_borra(enemigos2[i].x_a, enemigos2[i].y_a); //agentes
+        cursor(x_boom, y_boom); color(1); cout << " ";
+        jefe_final_borrar(x_j, y_j);
+        //MOVER
+        //personaje principal
+
+
+        if (_kbhit()) {
+            char tecla = getch();
+            if (dy_boom == 0 && dx_boom == 0) { //se mueve si el boomerang no esta en movimiento y cuando no esta activado el aliado 2
+                pp_borra(x, y); //personaje principal
+                if (tecla == DERECHA && matriz[y][x + 3] != 1 && matriz[y + 2][x + 3] != 1 && matriz[y + 1][x + 3] != 1) { x++; } //si el boomerang esta desplegado no se puede mover el personaje
+                if (tecla == IZQUIERDA && matriz[y][x - 1] != 1 && matriz[y + 2][x - 1] != 1 && matriz[y + 1][x - 1] != 1) { x--; }
+                if (tecla == ABAJO && matriz[y + 3][x] != 1 && matriz[y + 3][x + 2] != 1 && matriz[y + 3][x + 1] != 1) { y++; }
+                if (tecla == ARRIBA && matriz[y - 1][x] != 1 && matriz[y - 1][x + 2] != 1 && matriz[y - 1][x + 1] != 1) { y--; }
+            }
+            if (num_boomerangs >= 1) { //teclas para activar al boomerang
+                if (tecla == 'W' || tecla == 'w') { x_boom = x + 1; y_boom = y - 1; dy_boom = 1; e = 10; } //hacia arriba
+                if (tecla == 'S' || tecla == 's') { x_boom = x + 1; y_boom = y + 3; dy_boom = -1; e = -13; } //hacia abajo
+                if (tecla == 'A' || tecla == 'a') { x_boom = x - 1; y_boom = y + 1; dx_boom = 1; e = 10; } //hacia la izquierda
+                if (tecla == 'D' || tecla == 'd') { x_boom = x + 3; y_boom = y + 1; dx_boom = -1; e = -13; } //hacia la derecha
+            }
+        }
+
+        //agentes
+        if (matriz[enemigos2[i].y_a - 1][enemigos2[i].x_a] == 1)enemigos2[i].dy_a *= -1;
+        if (matriz[enemigos2[i].y_a + 3][enemigos2[i].x_a] == 1)enemigos2[i].dy_a *= -1;
+
+        enemigos2[i].y_a -= enemigos2[i].dy_a;
+        
+        for (int k = 0; k < num_agentes; k++) {//personaje principal si choca con un agente
+            for (int u = 0, o = 0; o < 3; u++) {
+                for (int m = 0, z = 0; z < 3; m++) {
+                    if (enemigos2[k].y_a + o == y + z && enemigos2[k].x_a + u == x + m) { vidas--; a_borra(enemigos2[k].x_a, enemigos2[k].y_a); enemigos2 = elimina_agente(enemigos2, num_agentes, k); u = 0; o = 0; m = 0; z = 0; }
+                    if (m == 2) { m = 0; z++; }
+                }
+                if (u == 2) { u = 0; o++; }
+            }
+        }
+        for (int k = 0; k < num_agentes; k++) {//personaje principal si choca con un agente
+            for (int u = 0, o = 0; o < 3; u++) {
+                for (int m = 0, z = 0; z < 3; m++) {
+                    if (enemigos2[k].y_a + o == y + z && enemigos2[k].x_a + u == x + m) { vidas--; a_borra(enemigos2[k].x_a, enemigos2[k].y_a); enemigos2 = elimina_agente(enemigos2, num_agentes, k); u = 0; o = 0; m = 0; z = 0; }
+                    if (m == 2) { m = 0; z++; }
+                }
+                if (u == 2) { u = 0; o++; }
+            }
+        }
+
+        if (y_boom == y - e) { dy_boom *= -1; }
+        if (y_boom == y) { dy_boom = 0; }
+        if (matriz[y_boom - 1][x_boom] == 1) { dy_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; }//si choca con una pared hacia arriba
+        if (matriz[y_boom + 1][x_boom] == 1) { dy_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; } //si choca con una pared hacia abajo
+        y_boom -= dy_boom;
+
+        if (x_boom == x - e) { dx_boom *= -1; }
+        if (x_boom == x) { dx_boom = 0; }
+        if (matriz[y_boom][x_boom - 1] == 1) { dx_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; } //si choca con una pared hacia la izquierda
+        if (matriz[y_boom][x_boom + 1] == 1) { dx_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; } //si choca con una pared hacia la derecha
+        x_boom -= dx_boom;
+
+        for (int k = 0; k < num_agentes; k++) {//si choca con un agente
+            for (int u = 0, o = 0; o < 3; u++) {
+                if (enemigos2[k].y_a + o == y_boom && enemigos2[k].x_a + u == x_boom) { dy_boom = 0; dx_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; a_borra(enemigos2[k].x_a, enemigos2[k].y_a); enemigos2 = elimina_agente(enemigos2, num_agentes, k); u = 0; o = 0; }
+                if (u == 2) { u = 0; o++; }
+            }
+        }
+        //interaccion con vitaminas
+        vitaminas(matriz, x, y, vidas, tam);
+
+        //DIBUJAR
+        if (tam == false) { pp_imprime(x, y); }//p principal
+        if (tam == true) { pp2_imprime(x, y); }//p principal reducido
+        a_imprime(enemigos2[i].x_a, enemigos2[i].y_a);//agentes
+        jefe_final_imprime(x_j, y_j);
+
+        if (dy_boom != 0 || dx_boom != 0) {//boomerang
+            cursor(x_boom, y_boom);
+            color(3); cout << "<";
+        }
+
+        if (vidas == 0)
+        {
+            Console::Clear();
+            opcion = go();
+            if (opcion == 3) { break; }
+            if (opcion == 4)break;
+        }
+
+        i++;
+        if (i > num_agentes - 1)i = 0;
+        Sleep(1);
+    }
+}
+
 int main()
 {
     ventana(91, 50);
@@ -741,6 +901,55 @@ int main()
           {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
           {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
     };
+    int matriz_boss_fight[FILAS][COLUMNAS] = {
+        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,4,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,8,8,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,4,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
+        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
+    };
     int vidas = 0;
     int num_agentes = 0;
     int num_boomerangs = 0;
@@ -821,15 +1030,7 @@ int main()
             int i = 0;
             while (1) {
                 informacion_nivel(vidas, num_boomerangs, num_agentes, num_vitaminas, num_portales, num_aliados);
-                for (int k = 0; k < num_agentes; k++) {//si choca con un agente
-                    for (int u = 0, o = 0; o < 3; u++) {
-                        for (int m = 0, z = 0; z < 3; m++) {
-                            if (enemigos1[k].y_a + o == y + z && enemigos1[k].x_a + u == x + m) { vidas--; a_borra(enemigos1[k].x_a, enemigos1[k].y_a); enemigos1 = elimina_agente(enemigos1, num_agentes, k); u = 0; o = 0; m = 0; z = 0; }
-                            if (m == 2) { m = 0; z++; }
-                        }
-                        if (u == 2) { u = 0; o++; }
-                    }
-                }
+                
                 //BORRAR
                 cursor(enemigos1[i].x_a, enemigos1[i].y_a); a_borra(enemigos1[i].x_a, enemigos1[i].y_a); //agentes
                 //MOVER
@@ -841,7 +1042,7 @@ int main()
 
                         char tecla = getch();
                         pp_borra(x, y); //personaje principal
-                        if (tecla == DERECHA && matriz[y][x + 3] != 1 && matriz[y + 2][x + 3] != 1 && matriz[y + 1][x + 3] != 1) { x++; } //si el boomerang esta desplegado no se puede mover el personaje
+                        if (tecla == DERECHA && matriz[y][x + 3] != 1 && matriz[y + 2][x + 3] != 1 && matriz[y + 1][x + 3] != 1) { x++; }
                         if (tecla == IZQUIERDA && matriz[y][x - 1] != 1 && matriz[y + 2][x - 1] != 1 && matriz[y + 1][x - 1] != 1) { x--; }
                         if (tecla == ABAJO && matriz[y + 3][x] != 1 && matriz[y + 3][x + 2] != 1 && matriz[y + 3][x + 1] != 1) { y++; }
                         if (tecla == ARRIBA && matriz[y - 1][x] != 1 && matriz[y - 1][x + 2] != 1 && matriz[y - 1][x + 1] != 1) { y--; }
@@ -865,6 +1066,16 @@ int main()
                 if (matriz[enemigos1[i].y_a + 3][enemigos1[i].x_a] == 1)enemigos1[i].dy_a *= -1;
 
                 enemigos1[i].y_a -= enemigos1[i].dy_a;
+                
+                for (int k = 0; k < num_agentes; k++) {//si choca con un agente
+                    for (int u = 0, o = 0; o < 3; u++) {
+                        for (int m = 0, z = 0; z < 3; m++) {
+                            if (enemigos1[k].y_a + o == y + z && enemigos1[k].x_a + u == x + m) { vidas--; a_borra(enemigos1[k].x_a, enemigos1[k].y_a); enemigos1 = elimina_agente(enemigos1, num_agentes, k); u = 0; o = 0; m = 0; z = 0; i--; }
+                            if (m == 2) { m = 0; z++; }
+                        }
+                        if (u == 2) { u = 0; o++; }
+                    }
+                }
                 //interaccion con vitaminas
                 vitaminas2(matriz, x, y, vidas);
 
@@ -928,9 +1139,10 @@ int main()
 
         if (opcion == 2)
         {
+
             x = 85; y = 2; //ubicacion inicial personaje principal
             //informacion de nivel 2
-            vidas = 10;
+            vidas = 18;
             num_agentes = 27;
             num_boomerangs = 0;
             num_vitaminas = 4;
@@ -998,34 +1210,7 @@ int main()
             int i = 0;
             while (1) {
 
-                if (tam == false)//personaje principal si choca con un agente
-                {
-                    for (int k = 0; k < num_agentes; k++) {
-                        for (int u = 0, o = 0; o < 3; u++) {
-                            for (int m = 0, z = 0; z < 3; m++) {
-                                if (enemigos[k].y_a + o == y + z && enemigos[k].x_a + u == x + m) { vidas--; a_borra(enemigos[k].x_a, enemigos[k].y_a); enemigos = elimina_agente(enemigos, num_agentes, k); u = 0; o = 0; m = 0; z = 0; }
-                                if (m == 2) { m = 0; z++; }
-                            }
-                            if (u == 2) { u = 0; o++; }
-                        }
-                    }
-                }
-
-                if (tam == true)//personaje principal reducido si choca, (al ser mas pequeño es mas debil)
-                {
-                    for (int u = 0; u < num_agentes; u++)
-                    {
-                        //personaje va por su derecha
-                        if ((x == enemigos[i].x_a) && ((y == enemigos[i].y_a) || (y == enemigos[i].y_a + 1) || (y == enemigos[i].y_a + 2))) { vidas = 0; }
-                        //p va por su izquierda 
-                        if ((x == enemigos[i].x_a + 2) && ((y == enemigos[i].y_a) || (y == enemigos[i].y_a + 1) || (y == enemigos[i].y_a + 2))) { vidas = 0; }
-                        //p va por arriba 
-                        if (((x == enemigos[i].x_a + 2) || (x == enemigos[i].x_a) || (x == enemigos[i].x_a + 1)) && (y == enemigos[i].y_a + 2)) { vidas = 0; }
-                        //p va por abajo
-                        if (((x == enemigos[i].x_a + 2) || (x == enemigos[i].x_a) || (x == enemigos[i].x_a + 1)) && (y == enemigos[i].y_a)) { vidas = 0; }
-
-                    }
-                }
+               
                 informacion_nivel(vidas, num_boomerangs, num_agentes, num_vitaminas, num_portales, num_aliados);
                 //BORRAR
                 cursor(enemigos[i].x_a, enemigos[i].y_a); a_borra(enemigos[i].x_a, enemigos[i].y_a); //agentes
@@ -1113,7 +1298,14 @@ int main()
                     if (y == 29 && (x >= 12 && x <= 14)) x = 70, y = 14;
                     if (x == 69 && (y >= 13 && y <= 15)) x = 13, y = 30;
                 }
-                //boonmerang
+                
+
+                //agentes
+                if (matriz[enemigos[i].y_a - 1][enemigos[i].x_a] == 1)enemigos[i].dy_a *= -1;
+                if (matriz[enemigos[i].y_a + 3][enemigos[i].x_a] == 1)enemigos[i].dy_a *= -1;
+                enemigos[i].y_a -= enemigos[i].dy_a;
+
+                //boomerang
                 if (activador_boomerang == true) {
                     if (y_boom == y - e) { dy_boom *= -1; }
                     if (y_boom == y) { dy_boom = 0; }
@@ -1129,17 +1321,39 @@ int main()
 
                     for (int k = 0; k < num_agentes; k++) {//si choca con un agente
                         for (int u = 0, o = 0; o < 3; u++) {
-                            if (enemigos[k].y_a + o == y_boom && enemigos[k].x_a + u == x_boom) { dy_boom = 0; dx_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; a_borra(enemigos[k].x_a, enemigos[k].y_a); enemigos = elimina_agente(enemigos, num_agentes, k); u = 0; o = 0; }
+                            if (enemigos[k].y_a + o == y_boom && enemigos[k].x_a + u == x_boom) { dy_boom = 0; dx_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; a_borra(enemigos[k].x_a, enemigos[k].y_a); enemigos = elimina_agente(enemigos, num_agentes, k); u = 0; o = 0; i--; }
+                            if (u == 2) { u = 0; o++; }
+                        }
+                    }
+                }
+                if (tam == false)//personaje principal si choca con un agente
+                {
+                    for (int k = 0; k < num_agentes; k++) {
+                        for (int u = 0, o = 0; o < 3; u++) {
+                            for (int m = 0, z = 0; z < 3; m++) {
+                                if (enemigos[k].y_a + o == y + z && enemigos[k].x_a + u == x + m) { vidas--; a_borra(enemigos[k].x_a, enemigos[k].y_a); enemigos = elimina_agente(enemigos, num_agentes, k); u = 0; o = 0; m = 0; z = 0; i--; }
+                                if (m == 2) { m = 0; z++; }
+                            }
                             if (u == 2) { u = 0; o++; }
                         }
                     }
                 }
 
-                //agentes
-                if (matriz[enemigos[i].y_a - 1][enemigos[i].x_a] == 1)enemigos[i].dy_a *= -1;
-                if (matriz[enemigos[i].y_a + 3][enemigos[i].x_a] == 1)enemigos[i].dy_a *= -1;
+                if (tam == true)//personaje principal reducido si choca, (al ser mas pequeño es mas debil)
+                {
+                    for (int u = 0; u < num_agentes; u++)
+                    {
+                        //personaje va por su derecha
+                        if ((x == enemigos[i].x_a) && ((y == enemigos[i].y_a) || (y == enemigos[i].y_a + 1) || (y == enemigos[i].y_a + 2))) { vidas = 0; }
+                        //p va por su izquierda 
+                        if ((x == enemigos[i].x_a + 2) && ((y == enemigos[i].y_a) || (y == enemigos[i].y_a + 1) || (y == enemigos[i].y_a + 2))) { vidas = 0; }
+                        //p va por arriba 
+                        if (((x == enemigos[i].x_a + 2) || (x == enemigos[i].x_a) || (x == enemigos[i].x_a + 1)) && (y == enemigos[i].y_a + 2)) { vidas = 0; }
+                        //p va por abajo
+                        if (((x == enemigos[i].x_a + 2) || (x == enemigos[i].x_a) || (x == enemigos[i].x_a + 1)) && (y == enemigos[i].y_a)) { vidas = 0; }
 
-                enemigos[i].y_a -= enemigos[i].dy_a;
+                    }
+                }
                 //interaccion con vitaminas
                 vitaminas(matriz, x, y, vidas, tam);
 
@@ -1181,10 +1395,19 @@ int main()
                     cursor(x_boom, y_boom);
                     color(3); cout << "<";
                 }
-
                 if ((y >= 43 || y + 1 >= 43 || y + 2 >= 44) && (x == 3))
                 {
                     Console::Clear();
+                    //asigna valores a la matriz general
+                    for (int f = 0; f < FILAS; f++)
+                    {
+                        for (int c = 0; c < COLUMNAS; c++)
+                        {
+                            matriz[f][c] = matriz_boss_fight[f][c];
+                        }
+                    }
+                    boss_fight(matriz, x, y, vidas, num_agentes, num_boomerangs, num_vitaminas, num_portales, num_aliados, y_boom, x_boom, dy_boom, dx_boom, tam, opcion, e);
+
                     opcion = felicitaciones();
                     if (opcion == 3) { break; }
                     if (opcion == 4)break;
