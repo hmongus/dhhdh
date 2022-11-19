@@ -125,26 +125,25 @@ void ali_imprime(int xxx, int yyy) { //imprime agentes, luego lo unimos en una s
         xx = xxx;
     }
 }
-void jefe_final_imprime(int xxx, int yyy) { //imprime jefe final
-    char matriz_a[6][19] = {
-        {' ',' ',' ','(','_','(',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-        {' ',' ','(',239,239,')',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-        {' ',' ',' ','"',92,' ',')','>',',','_',' ',' ',' ',' ',' ','.','-','-','>'},
-        {'_','>','-','-','w','/','(','(','_',' ','>',',','_','.',239,'.','-','-','>'},
-        {' ',' ',' ',' ',' ',' ','/','/','/',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-        {' ',' ',' ',' ',' ',' ',34,'-',34,' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-    };
+void jefe_final_imprime( int xxx, int yyy) { //imprime jefe final
     color(7);
     int xx = xxx;
     int yy = yyy;
-
+    char matriz_jf[6][14] = { //matriz jefe final
+        {' ',' ',' ','(','_','(',' ',' ',' ',' ',' ',' ',' ',' '},
+        {' ',' ','(',239,239,')',' ',' ',' ',' ',' ',' ',' ',' '},
+        {' ',' ',' ','"',92,' ',')','>',',','_',' ',' ',' ',' '},
+        {'_','>','-','-','w','/','(','(','_',' ','>',',','_','>'},
+        {' ',' ',' ',' ',' ',' ','/','/','/',' ',' ',' ',' ',' '},
+        {' ',' ',' ',' ',' ',' ',34,'-',34,' ',' ',' ',' ',' '},
+    };
     for (int f = 0; f < 6; f++, yy++)
     {
 
-        for (int c = 0; c < 19; c++, xx++)
+        for (int c = 0; c < 14; c++, xx++)
         {
             cursor(xx, yy);
-            cout << matriz_a[f][c];
+            cout << matriz_jf[f][c];
         }
         xx = xxx;
     }
@@ -237,7 +236,7 @@ void ali_borra(int xxx, int yyy) {
 }
 
 void jefe_final_borrar(int xxx, int yyy) {
-    char matriz_a[6][19];
+    char matriz_a[6][14];
     color(7);
     int xx = xxx;
     int yy = yyy;
@@ -245,7 +244,7 @@ void jefe_final_borrar(int xxx, int yyy) {
     for (int f = 0; f < 6; f++, yy++)
     {
 
-        for (int c = 0; c < 19; c++, xx++)
+        for (int c = 0; c < 14; c++, xx++)
         {
             matriz_a[f][c] = 32;
             cursor(xx, yy);
@@ -687,8 +686,9 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
     num_vitaminas = 4;
     num_portales = 0;
     x = 85; y = 2; //ubicacion inicial personaje principal
+    int x_a = 45, y_a = 43; //ubicacion amigo
+    int x_j = 47, y_j = 21; //ubicacion jefe_final
 
-    int x_j = 42, y_j = 21;
     //imprime laberinto boss fight
     for (int f = 0; f < FILAS; f++)
     {
@@ -706,6 +706,8 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
     pp_imprime(x, y);
     //jefe final
     jefe_final_imprime(x_j, y_j);
+    //amigo
+    amigo_imprime(x_a, y_a);
 
     //variables para los agentes del nivel boss fight con uso de una estructura
     agentes* enemigos2; enemigos2 = new agentes[10];
@@ -766,16 +768,7 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
                 if (u == 2) { u = 0; o++; }
             }
         }
-        for (int k = 0; k < num_agentes; k++) {//personaje principal si choca con un agente
-            for (int u = 0, o = 0; o < 3; u++) {
-                for (int m = 0, z = 0; z < 3; m++) {
-                    if (enemigos2[k].y_a + o == y + z && enemigos2[k].x_a + u == x + m) { vidas--; a_borra(enemigos2[k].x_a, enemigos2[k].y_a); enemigos2 = elimina_agente(enemigos2, num_agentes, k); u = 0; o = 0; m = 0; z = 0; }
-                    if (m == 2) { m = 0; z++; }
-                }
-                if (u == 2) { u = 0; o++; }
-            }
-        }
-
+        
         if (dy_boom != 0) {
             if (y_boom == y - e) { dy_boom *= -1; }
             if (y_boom == y) { dy_boom = 0; }
@@ -1238,7 +1231,20 @@ int main()
             int e = 10;//potencia del boomerang, se puede desplazar 10 caracteres como maximo
 
             int i = 0;
-        
+            Console::Clear();
+            //asigna valores a la matriz general
+            for (int f = 0; f < FILAS; f++)
+            {
+                for (int c = 0; c < COLUMNAS; c++)
+                {
+                    matriz[f][c] = matriz_boss_fight[f][c];
+                }
+            }
+            boss_fight(matriz, x, y, vidas, num_agentes, num_boomerangs, num_vitaminas, num_portales, num_aliados, y_boom, x_boom, dy_boom, dx_boom, tam, opcion, e);
+
+            opcion = felicitaciones();
+            if (opcion == 3) { break; }
+            if (opcion == 4)break;
             while (1) {
                 informacion_nivel(vidas, num_boomerangs, num_agentes, num_vitaminas, num_portales, num_aliados);
                 //BORRAR
