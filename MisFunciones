@@ -871,7 +871,7 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
             c_boss++;
         }
 
-        if (x + 1 == 45 && y + 3 == 43)
+        if (x >= 43 && x <= 49 && y + 3 == 40)
         {
             Console::Clear();
             opcion = felicitaciones();
