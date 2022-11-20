@@ -791,7 +791,7 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
                     { 
                     vidas--; dx_j *= -1.0; x_j += 2; 
                     if(x_j>=38){pp_borra(x,y); x -= 2;}
-                    if(x_j<38){pp_borra(x,y); x -= 1;}
+                    if(x_j<38 && x_j>=37){pp_borra(x,y); x -= 1;}
                     }
                     if (m == 2) { m = 0; z++; }
                 }
