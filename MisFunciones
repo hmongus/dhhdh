@@ -520,7 +520,7 @@ int felicitaciones()
         {
             char _tecla = _getch();
             if (_tecla == 'N' || _tecla == 'n') { tdesicion = 3; break; }
-            if (_tecla == 'F' || _tecla== 'f') { tdesicion = 4; break; }
+            if (_tecla == 'F' || _tecla == 'f') { tdesicion = 4; break; }
         }
     }
     return tdesicion;
@@ -684,16 +684,20 @@ void vitaminasboss(int matriz[FILAS][COLUMNAS], int x, int y, int& vidas)
     if (matriz[y + 1][x] == 4) { vidas++; matriz[37][62] = 0; cursor(62, 37); color(1); cout << " "; }
 }
 
-void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_agentes, int num_boomerangs, int num_vitaminas, int num_portales, int num_aliados, int y_boom, int x_boom, int dy_boom, int dx_boom, bool& tam, int opcion, int e) {
+void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_agentes, int num_boomerangs, int num_vitaminas, int num_portales, int num_aliados, int y_boom, int x_boom, int dy_boom, int dx_boom, bool& tam, int& opcion, int e)
+{
     //informacion de boss fight
-    vidas = 20;
+    vidas = 10;
     num_agentes = 10;
-    num_boomerangs = 0;
+    num_boomerangs = 9;
     num_vitaminas = 4;
     num_portales = 0;
+    num_aliados = 0;
+    int v_boss = 6;
+    int c_boss = 0;
     x = 85; y = 2; //ubicacion inicial personaje principal
     int x_a = 45, y_a = 43; //ubicacion amigo
-    double x_j = 47, y_j = 21, dx_j = 0, dy_j = 0; //variables jefe final
+    double x_j = 47, y_j = 22, dx_j = 0, dy_j = 0; //variables jefe final
     int cierra_puerta = 0;
     char matriz_jf[6][14] = { //matriz jefe final
         {' ',' ',' ','(','_','(',' ',' ',' ',' ',' ',' ',' ',' '},
@@ -746,11 +750,12 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
     int i = 0;
     while (1) {
         informacion_nivel(vidas, num_boomerangs, num_agentes, num_vitaminas, num_portales, num_aliados);
+        cursor(27, 48); color(15);  cout << "Vidas del Jefe: " << v_boss;
         //BORRAR
         a_borra(enemigos2[i].x_a, enemigos2[i].y_a); //agentes
         cursor(x_boom, y_boom); color(1); cout << " ";
 
-        jefe_final_borrar(x_j, y_j);
+        if (c_boss == 0)jefe_final_borrar(x_j, y_j);
 
         //MOVER
         //personaje principal
@@ -779,11 +784,11 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
 
         enemigos2[i].y_a -= enemigos2[i].dy_a;
 
-       
+
         if (cierra_puerta == 1) {
             for (int u = 0, o = 0; o < 6; u++) {//personaje principal si choca con jefe final, pierde vidas
                 for (int m = 0, z = 0; z < 3; m++) {
-                    if (y_j + o == y + z && x_j + u == x + m) { vidas--; }
+                    if (y_j + o == y + z && x_j + u == x + m) { vidas--; dx_j *= -1.0; x_j += 2; pp_borra(x,y); x -= 2; }
                     if (m == 2) { m = 0; z++; }
                 }
                 if (u == 13) { u = 0; o++; }
@@ -817,6 +822,11 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
             x_boom -= dx_boom;
         }
 
+        if ((y_boom == y_j && (x_boom >= x_j + 3 && x_boom <= x_j + 5)) || (y_boom == y_j + 1 && (x_boom == x_j + 2 || x_boom == x_j + 5)))
+        {
+            dy_boom = 0; dx_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; v_boss--;
+        }
+
         //interaccion con vitaminas
         vitaminasboss(matriz, x, y, vidas);
 
@@ -832,14 +842,31 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
                 if (u == 2) { u = 0; o++; }
             }
         }
-        
-        jefe_final_imprime(matriz_jf, x_j, y_j); //jefe final
-        
-        
+
+        if (c_boss == 0)jefe_final_imprime(matriz_jf, x_j, y_j); //jefe final
+
 
         if (dy_boom != 0 || dx_boom != 0) {//boomerang
             cursor(x_boom, y_boom);
             color(3); cout << "<";
+        }
+
+        if (v_boss == 0 && c_boss == 0) {
+            jefe_final_borrar(x_j, y_j);
+            for (int n = 43; n <= 49; n++)
+            {
+                matriz[31][n] = 0;
+                cursor(n, 31); color(1); cout << " ";
+            }
+            c_boss++;
+        }
+
+        if (x + 1 == 45 && y + 3 == 43)
+        {
+            Console::Clear();
+            opcion = felicitaciones();
+            if (opcion == 3) { break; }
+            if (opcion == 4)break;
         }
 
         if (vidas == 0)
@@ -849,11 +876,6 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
             if (opcion == 3) { break; }
             if (opcion == 4)break;
         }
-
-
-        //fin del reloj
-        fin = clock();
-        duracion = (double)(fin - inicio) / CLOCKS_PER_SEC;
 
         i++;
         if (i > num_agentes - 1)i = 0;
