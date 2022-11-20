@@ -126,18 +126,12 @@ void ali_imprime(int xxx, int yyy) { //imprime agentes, luego lo unimos en una s
         xx = xxx;
     }
 }
-void jefe_final_imprime(int xxx, int yyy) { //imprime jefe final
+void jefe_final_imprime(char matriz_jf[6][14], int xxx, int yyy) { //imprime jefe final
     color(7);
     int xx = xxx;
     int yy = yyy;
-    char matriz_jf[6][14] = { //matriz jefe final
-        {' ',' ',' ','(','_','(',' ',' ',' ',' ',' ',' ',' ',' '},
-        {' ',' ','(',239,239,')',' ',' ',' ',' ',' ',' ',' ',' '},
-        {' ',' ',' ','"',92,' ',')','>',',','_',' ',' ',' ',' '},
-        {'_','>','-','-','w','/','(','(','_',' ','>',',','_','>'},
-        {' ',' ',' ',' ',' ',' ','/','/','/',' ',' ',' ',' ',' '},
-        {' ',' ',' ',' ',' ',' ',34,'-',34,' ',' ',' ',' ',' '},
-    };
+
+    
     for (int f = 0; f < 6; f++, yy++)
     {
 
@@ -690,6 +684,14 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
     int x_a = 45, y_a = 43; //ubicacion amigo
     double x_j = 47, y_j = 21, dx_j = 0, dy_j = 0; //variables jefe final
     int cierra_puerta = 0;
+    char matriz_jf[6][14] = { //matriz jefe final
+        {' ',' ',' ','(','_','(',' ',' ',' ',' ',' ',' ',' ',' '},
+        {' ',' ','(',239,239,')',' ',' ',' ',' ',' ',' ',' ',' '},
+        {' ',' ',' ','"',92,' ',')','>',',','_',' ',' ',' ',' '},
+        {'_','>','-','-','w','/','(','(','_',' ','>',',','_','>'},
+        {' ',' ',' ',' ',' ',' ','/','/','/',' ',' ',' ',' ',' '},
+        {' ',' ',' ',' ',' ',' ',34,'-',34,' ',' ',' ',' ',' '},
+    };
 
     //imprime laberinto boss fight
     for (int f = 0; f < FILAS; f++)
@@ -707,7 +709,7 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
     //personaje principal
     pp_imprime(x, y);
     //jefe final
-    jefe_final_imprime(x_j, y_j);
+    jefe_final_imprime(matriz_jf,x_j, y_j);
     //amigo
     amigo_imprime(x_a, y_a);
 
@@ -725,10 +727,10 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
     for (int i = 0; i < 10; i++) {
         a_imprime(enemigos2[i].x_a, enemigos2[i].y_a);
     }
-    
+
     //variables para el tiempo
     clock_t inicio, fin;
-    double duracion=0.0;
+    double duracion = 0.0;
 
     int i = 0;
     while (1) {
@@ -736,7 +738,7 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
         //BORRAR
         a_borra(enemigos2[i].x_a, enemigos2[i].y_a); //agentes
         cursor(x_boom, y_boom); color(1); cout << " ";
-        
+
         jefe_final_borrar(x_j, y_j);
 
         //MOVER
@@ -769,14 +771,23 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
         for (int k = 0; k < num_agentes; k++) {//personaje principal si choca con un agente
             for (int u = 0, o = 0; o < 3; u++) {
                 for (int m = 0, z = 0; z < 3; m++) {
-                    if (enemigos2[k].y_a + o == y + z && enemigos2[k].x_a + u == x + m) { vidas--; a_borra(enemigos2[k].x_a, enemigos2[k].y_a); enemigos2 = elimina_agente(enemigos2, num_agentes, k); u = 0; o = 0; m = 0; z = 0; }
+                    if (enemigos2[k].y_a + o == y + z && enemigos2[k].x_a + u == x + m) { vidas--; a_borra(enemigos2[k].x_a, enemigos2[k].y_a); enemigos2 = elimina_agente(enemigos2, num_agentes, k); }
                     if (m == 2) { m = 0; z++; }
                 }
                 if (u == 2) { u = 0; o++; }
             }
         }
+        if (cierra_puerta == 1) {
+            for (int u = 0, o = 0; o < 6; u++) {//personaje principal si choca con jefe final, pierde vidas
+                for (int m = 0, z = 0; z < 3; m++) {
+                    if (y_j + o == y + z && x_j + u == x + m) { vidas--; }
+                    if (m == 2) { m = 0; z++; }
+                }
+                if (u == 13) { u = 0; o++; }
+            }
+        }
 
-        if (y >= 22 && y <= 25 && x == 33 && cierra_puerta ==0) {//cierra puertas cuando ingresa a la habitacion del jefe final
+        if (y >= 22 && y <= 25 && x == 33 && cierra_puerta == 0) {//cierra puertas cuando ingresa a la habitacion del jefe final
             cierra_puerta++;
             dy_j = 0.5; //comienza movimiento jefe final
             dx_j = 0.5; //comienza movimiento jefe final
@@ -803,42 +814,36 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
             x_boom -= dx_boom;
         }
 
-        for (int k = 0; k < num_agentes; k++) {//si choca con un agente
-            for (int u = 0, o = 0; o < 3; u++) {
-                if (enemigos2[k].y_a + o == y_boom && enemigos2[k].x_a + u == x_boom) { dy_boom = 0; dx_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; a_borra(enemigos2[k].x_a, enemigos2[k].y_a); enemigos2 = elimina_agente(enemigos2, num_agentes, k); u = 0; o = 0; }
-                if (u == 2) { u = 0; o++; }
-            }
-        }
         //interaccion con vitaminas
         vitaminas(matriz, x, y, vidas, tam);
 
         //DIBUJAR
         pp_imprime(x, y);//p principal
-    a_imprime(enemigos2[i].x_a, enemigos2[i].y_a);//agentes
-    jefe_final_imprime(x_j, y_j); inicio = clock(); //jefe final
+        a_imprime(enemigos2[i].x_a, enemigos2[i].y_a);//agentes
+        jefe_final_imprime(matriz_jf, x_j, y_j); inicio = clock(); //jefe final
 
-    if (dy_boom != 0 || dx_boom != 0) {//boomerang
-        cursor(x_boom, y_boom);
-        color(3); cout << "<";
+        if (dy_boom != 0 || dx_boom != 0) {//boomerang
+            cursor(x_boom, y_boom);
+            color(3); cout << "<";
+        }
+
+        if (vidas == 0)
+        {
+            Console::Clear();
+            opcion = go();
+            if (opcion == 3) { break; }
+            if (opcion == 4)break;
+        }
+
+
+        //fin del reloj
+        fin = clock();
+        duracion = (double)(fin - inicio) / CLOCKS_PER_SEC;
+
+        i++;
+        if (i > num_agentes - 1)i = 0;
+        Sleep(1);
     }
-
-    if (vidas == 0)
-    {
-        Console::Clear();
-        opcion = go();
-        if (opcion == 3) { break; }
-        if (opcion == 4)break;
-    }
-    
-    
-    //fin del reloj
-    fin = clock();
-    duracion = (double)(fin - inicio) / CLOCKS_PER_SEC;
-
-    i++;
-    if (i > num_agentes - 1)i = 0;
-    Sleep(1);
-}
 }
 
 int main()
@@ -1016,7 +1021,7 @@ int main()
         opcion = niveles();
         if (opcion == 1) {
             x = 85; y = 2; //ubicacion inicial personaje principal
-            //informacion nivel 2
+            //informacion nivel 1
             vidas = 30;
             num_agentes = 33;
             num_boomerangs = 0;
@@ -1071,6 +1076,7 @@ int main()
                 a_imprime(enemigos1[i].x_a, enemigos1[i].y_a);
             }
             int i = 0;
+
             while (1) {
                 informacion_nivel(vidas, num_boomerangs, num_agentes, num_vitaminas, num_portales, num_aliados);
 
@@ -1113,7 +1119,7 @@ int main()
                 for (int k = 0; k < num_agentes; k++) {//si choca con un agente
                     for (int u = 0, o = 0; o < 3; u++) {
                         for (int m = 0, z = 0; z < 3; m++) {
-                            if (enemigos1[k].y_a + o == y + z && enemigos1[k].x_a + u == x + m) { vidas--; a_borra(enemigos1[k].x_a, enemigos1[k].y_a); enemigos1 = elimina_agente(enemigos1, num_agentes, k); u = 0; o = 0; m = 0; z = 0; i--; }
+                            if (enemigos1[k].y_a + o == y + z && enemigos1[k].x_a + u == x + m) { vidas--; a_borra(enemigos1[k].x_a, enemigos1[k].y_a); enemigos1 = elimina_agente(enemigos1, num_agentes, k); }
                             if (m == 2) { m = 0; z++; }
                         }
                         if (u == 2) { u = 0; o++; }
@@ -1255,6 +1261,7 @@ int main()
 
             int c_tv = 0;
             int i = 0;
+           
             while (1) {
                 informacion_nivel(vidas, num_boomerangs, num_agentes, num_vitaminas, num_portales, num_aliados);
                 //BORRAR
@@ -1290,7 +1297,7 @@ int main()
                             if (tecla == ABAJO && matriz[y + 1][x] != 1) { y++; }
                             if (tecla == ARRIBA && matriz[y - 1][x] != 1) { y--; }
                         }
-                        if (activador_boomerang == true && num_boomerangs >= 1 && tam== false) { //teclas para activar al boomerang
+                        if (activador_boomerang == true && num_boomerangs >= 1 && tam == false) { //teclas para activar al boomerang
                             if (tecla == 'W' || tecla == 'w') { x_boom = x + 1; y_boom = y - 1; dy_boom = 1; e = 10; } //hacia arriba
                             if (tecla == 'S' || tecla == 's') { x_boom = x + 1; y_boom = y + 3; dy_boom = -1; e = -13; } //hacia abajo
                             if (tecla == 'A' || tecla == 'a') { x_boom = x - 1; y_boom = y + 1; dx_boom = 1; e = 10; } //hacia la izquierda
@@ -1298,8 +1305,8 @@ int main()
                         }
                     }
                 }
-                
-               if (c_tv == 0 && tam == true) { vidas = 1; c_tv++; }
+
+                if (c_tv == 0 && tam == true) { vidas = 1; c_tv++; }
 
                 //PORTALES
                 if (tam == false)
@@ -1370,7 +1377,7 @@ int main()
                     }
                     for (int k = 0; k < num_agentes; k++) {//si choca con un agente
                         for (int u = 0, o = 0; o < 3; u++) {
-                            if (enemigos[k].y_a + o == y_boom && enemigos[k].x_a + u == x_boom) { dy_boom = 0; dx_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; a_borra(enemigos[k].x_a, enemigos[k].y_a); enemigos = elimina_agente(enemigos, num_agentes, k); u = 0; o = 0; i--; }
+                            if (enemigos[k].y_a + o == y_boom && enemigos[k].x_a + u == x_boom) { dy_boom = 0; dx_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; a_borra(enemigos[k].x_a, enemigos[k].y_a); enemigos = elimina_agente(enemigos, num_agentes, k); }
                             if (u == 2) { u = 0; o++; }
                         }
                     }
@@ -1380,7 +1387,7 @@ int main()
                     for (int k = 0; k < num_agentes; k++) {
                         for (int u = 0, o = 0; o < 3; u++) {
                             for (int m = 0, z = 0; z < 3; m++) {
-                                if (enemigos[k].y_a + o == y + z && enemigos[k].x_a + u == x + m) { vidas--; a_borra(enemigos[k].x_a, enemigos[k].y_a); enemigos = elimina_agente(enemigos, num_agentes, k); u = 0; o = 0; m = 0; z = 0; i--; }
+                                if (enemigos[k].y_a + o == y + z && enemigos[k].x_a + u == x + m) { vidas--; a_borra(enemigos[k].x_a, enemigos[k].y_a); enemigos = elimina_agente(enemigos, num_agentes, k); }
                                 if (m == 2) { m = 0; z++; }
                             }
                             if (u == 2) { u = 0; o++; }
@@ -1423,7 +1430,7 @@ int main()
                         for (int k = 0; k < num_agentes; k++) { //aliado 2 elimina agentes
                             for (int u = 0, o = 0; o < 3; u++) {
                                 for (int m = 0, z = 0; z < 3; m++) {
-                                    if (enemigos[k].y_a + o == y1 + z && enemigos[k].x_a + u == x1 + m) { a_borra(enemigos[k].x_a, enemigos[k].y_a); enemigos = elimina_agente(enemigos, num_agentes, k); u = 0; o = 0; m = 0; z = 0; i--; }
+                                    if (enemigos[k].y_a + o == y1 + z && enemigos[k].x_a + u == x1 + m) { a_borra(enemigos[k].x_a, enemigos[k].y_a); enemigos = elimina_agente(enemigos, num_agentes, k); }
                                     if (m == 2) { m = 0; z++; }
                                 }
                                 if (u == 2) { u = 0; o++; }
