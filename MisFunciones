@@ -608,7 +608,7 @@ void creditos()
     cursor(42, 30); color(7); cout << "INTEGRANTES:";
     cursor(36, 31); cout << ".Elmer Riva Rodriguez";
     cursor(36, 32); cout << ".Fabio Nicolich Alvis";
-    cursor(36, 33); cout << ".Jose Maritnez Valdivia";
+    cursor(36, 33); cout << ".Jose Martinez Valdivia";
     return;
 }
 
