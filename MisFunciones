@@ -600,11 +600,10 @@ void creditos()
 
 )" << "\n";
 
-    cursor(49, 29); color(15); cout << char(173) << "GRACIAS POR JUGAR!";
-    cursor(44, 30); cout << "INTEGRANTES:";
-    cursor(38, 31); cout << ".Elmer Riva Rodriguez";
-    cursor(38, 32); cout << ".Fabio Nicolich Alvis";
-    cursor(38, 33); cout << ".Jose Maritnez Valdivia";
+    cursor(42, 30);color(7); cout << "INTEGRANTES:";
+    cursor(36, 31); cout << ".Elmer Riva Rodriguez";
+    cursor(36, 32); cout << ".Fabio Nicolich Alvis";
+    cursor(36, 33); cout << ".Jose Maritnez Valdivia";
     return;
 }
 
