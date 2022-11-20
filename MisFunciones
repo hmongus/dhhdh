@@ -358,7 +358,7 @@ void instrucciones()
     bcolor(1); cout << " "; bcolor(8); cout << " "; bcolor(1); cout << " "; bcolor(15); cout << " "; bcolor(1); "   "; bcolor(2); cout << " "; bcolor(1); cout << " "; bcolor(6); cout << " "; bcolor(1);
     cursor(12, 31); color(15); cout << ".Jefe Final: ";
     cursor(14, 32); color(15); cout << " (_(" << endl;
-    cursor(14, 33); color(15); cout << "('_')" << "       Perdera vidas con impactos solo en la cabeza..." << endl;
+    cursor(14, 33); color(15); cout << "('_')" << "       Perdera vidas con impactos del booomerang solo en la cabeza..." << endl;
     //falta agregarle detalles
     getch();
     Console::Clear();
