@@ -308,7 +308,7 @@ int main()
 
                 //DIBUJAR
                 pp_imprime(x, y);//p principal
-                enemigos1[i].y_a); a_imprime(enemigos1[i].x_a, enemigos1[i].y_a);//agentes
+                a_imprime(enemigos1[i].x_a, enemigos1[i].y_a);//agentes
                 ali_imprime(x1, y1);//aliado 2
                 
                 for (int k = 0; k < num_agentes; k++) {//si choca con un agente
