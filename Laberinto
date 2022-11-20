@@ -177,7 +177,7 @@ int main()
         if (opcion == 1) {
             x = 85; y = 2; //ubicacion inicial personaje principal
             //informacion nivel 1
-            vidas = 30;
+            vidas = 3;
             num_agentes = 33;
             num_boomerangs = 0;
             num_vitaminas = 4;
@@ -348,7 +348,7 @@ int main()
 
             x = 85; y = 2; //ubicacion inicial personaje principal
             //informacion de nivel 2
-            vidas = 18;
+            vidas = 4;
             num_agentes = 27;
             num_boomerangs = 0;
             num_vitaminas = 4;
