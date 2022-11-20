@@ -1,0 +1,861 @@
+#pragma once
+#include "iostream"
+#include "windows.h"
+#include <conio.h>
+#include "time.h"
+#define FILAS 47
+#define COLUMNAS 91
+#define IZQUIERDA 75
+#define DERECHA 77
+#define ABAJO 80
+#define ARRIBA 72
+#define SPACEBAR 32
+
+using namespace System;
+using namespace std;
+
+
+void ventana(int x, int y) {
+    Console::SetWindowSize(x, y);
+}
+void cursor(int x, int y) {
+    Console::SetCursorPosition(x, y);
+    Console::CursorVisible = false;
+}
+void color(int c)
+{
+    switch (c)
+    {
+    case 1: Console::ForegroundColor = ConsoleColor::Black; break;
+    case 2: Console::ForegroundColor = ConsoleColor::DarkBlue; break;
+    case 3: Console::ForegroundColor = ConsoleColor::DarkGreen; break;
+    case 4: Console::ForegroundColor = ConsoleColor::DarkRed; break;
+    case 5: Console::ForegroundColor = ConsoleColor::DarkMagenta; break;
+    case 6: Console::ForegroundColor = ConsoleColor::DarkYellow; break;
+    case 7: Console::ForegroundColor = ConsoleColor::Gray; break;
+    case 8: Console::ForegroundColor = ConsoleColor::DarkGray; break;
+    case 9: Console::ForegroundColor = ConsoleColor::Blue; break;
+    case 10: Console::ForegroundColor = ConsoleColor::Green; break;
+    case 11: Console::ForegroundColor = ConsoleColor::Cyan; break;
+    case 12: Console::ForegroundColor = ConsoleColor::Red; break;
+    case 13: Console::ForegroundColor = ConsoleColor::Magenta; break;
+    case 14: Console::ForegroundColor = ConsoleColor::Yellow; break;
+    case 15: Console::ForegroundColor = ConsoleColor::White; break;
+    }
+}
+
+void bcolor(int c)
+{
+    switch (c)
+    {
+    case 1: Console::BackgroundColor = ConsoleColor::Black; break;
+    case 2: Console::BackgroundColor = ConsoleColor::DarkBlue; break;
+    case 3: Console::BackgroundColor = ConsoleColor::DarkGreen; break;
+    case 4: Console::BackgroundColor = ConsoleColor::DarkRed; break;
+    case 5: Console::BackgroundColor = ConsoleColor::DarkMagenta; break;
+    case 6: Console::BackgroundColor = ConsoleColor::DarkYellow; break;
+    case 7: Console::BackgroundColor = ConsoleColor::Gray; break;
+    case 8: Console::BackgroundColor = ConsoleColor::DarkGray; break;
+    case 9: Console::BackgroundColor = ConsoleColor::Blue; break;
+    case 10: Console::BackgroundColor = ConsoleColor::Green; break;
+    case 11: Console::BackgroundColor = ConsoleColor::Cyan; break;
+    case 12: Console::BackgroundColor = ConsoleColor::Red; break;
+    case 13: Console::BackgroundColor = ConsoleColor::Magenta; break;
+    case 14: Console::BackgroundColor = ConsoleColor::Yellow; break;
+    case 15: Console::BackgroundColor = ConsoleColor::White; break;
+    }
+}
+
+void pp_imprime(int x, int y) { //imprime al presonaje principal
+
+    int temporalx;
+    temporalx = x;  //para regenar el valor de x inicial
+    char matriz_p[3][3] = {
+        {32,111,32},
+        {45,197,45},
+        {179,32,92},
+    };
+    color(15);
+    for (int f = 0; f < 3; f++, y++)
+    {
+        for (int c = 0; c < 3; c++, x++)
+        {
+            cursor(x, y);
+            cout << matriz_p[f][c];
+        }
+        x = temporalx;
+    }
+}
+void a_imprime(int xxx, int yyy) { //imprime agentes, luego lo unimos en una sola funcion de impresion
+    char matriz_a[3][3] = {
+                {200,32,188},
+                {32,219,32},
+                {201,32,187},
+    };
+    color(12);
+    int xx = xxx;
+    int yy = yyy;
+
+    for (int f = 0; f < 3; f++, yy++)
+    {
+
+        for (int c = 0; c < 3; c++, xx++)
+        {
+            cursor(xx, yy);
+            cout << matriz_a[f][c];
+        }
+        xx = xxx;
+    }
+}
+void ali_imprime(int xxx, int yyy) { //imprime agentes, luego lo unimos en una sola funcion de impresion
+    char matriz_a[3][2] = {
+                {'0',32},
+                {219,'{'},
+                {'W',32},
+    };
+    color(15);
+
+    int xx = xxx;
+    int yy = yyy;
+
+    for (int f = 0; f < 3; f++, yy++)
+    {
+
+        for (int c = 0; c < 2; c++, xx++)
+        {
+            cursor(xx, yy);
+            cout << matriz_a[f][c];
+        }
+        xx = xxx;
+    }
+}
+void jefe_final_imprime(char matriz_jf[6][14], int xxx, int yyy) { //imprime jefe final
+    color(7);
+    int xx = xxx;
+    int yy = yyy;
+
+
+    for (int f = 0; f < 6; f++, yy++)
+    {
+
+        for (int c = 0; c < 14; c++, xx++)
+        {
+            cursor(xx, yy);
+            cout << matriz_jf[f][c];
+        }
+        xx = xxx;
+    }
+}
+void amigo_imprime(int xxx, int yyy) {
+    char matriz_a[3][3] = {
+                    {'(','O',')'},
+                    {'-','|','_'},
+                    {'/',32,'|'},
+    };
+    color(10);
+
+    int xx = xxx;
+    int yy = yyy;
+
+    for (int f = 0; f < 3; f++, yy++)
+    {
+
+        for (int c = 0; c < 3; c++, xx++)
+        {
+            cursor(xx, yy);
+            cout << matriz_a[f][c];
+        }
+        xx = xxx;
+    }
+}
+
+void pp_borra(int x, int y) { //borra al presonaje principal
+
+    int temporalx;
+    temporalx = x; //para regenar el valor de x inicial
+    char mati[3][3] = {
+        {32,32,32},
+        {32,32,32},
+        {32,32,32},
+    };
+    color(1);
+    for (int f = 0; f < 3; f++, y++)
+    {
+        for (int c = 0; c < 3; c++, x++)
+        {
+            cursor(x, y);
+            cout << mati[f][c];
+        }
+        x = temporalx;
+    }
+}
+void a_borra(int xxx, int yyy) { //agentes borra
+    char matriz_a[3][3] = {
+                {32,32,32},
+                {32,32,32},
+                {32,32,32},
+    };
+    color(1);
+    int xx = xxx;
+    int yy = yyy;
+
+    for (int f = 0; f < 3; f++, yy++)
+    {
+
+        for (int c = 0; c < 3; c++, xx++)
+        {
+            cursor(xx, yy);
+            cout << matriz_a[f][c];
+        }
+        xx = xxx;
+    }
+}
+void ali_borra(int xxx, int yyy) {
+    char matriz_a[3][2] = {
+                {32,32},
+                {32,32},
+                {32,32},
+    };
+    color(1);
+
+    int xx = xxx;
+    int yy = yyy;
+
+    for (int f = 0; f < 3; f++, yy++)
+    {
+
+        for (int c = 0; c < 2; c++, xx++)
+        {
+            cursor(xx, yy);
+            cout << matriz_a[f][c];
+        }
+        xx = xxx;
+    }
+}
+
+void jefe_final_borrar(int xxx, int yyy) {
+    char matriz_a[6][14];
+    color(7);
+    int xx = xxx;
+    int yy = yyy;
+
+    for (int f = 0; f < 6; f++, yy++)
+    {
+
+        for (int c = 0; c < 14; c++, xx++)
+        {
+            matriz_a[f][c] = 32;
+            cursor(xx, yy);
+            cout << matriz_a[f][c];
+        }
+        xx = xxx;
+    }
+}
+
+void pp2_imprime(int x, int y) { cursor(x, y); color(8); cout << char(220); } //personaje principal pequeño
+void pp2_borra(int x, int y) { cursor(x, y); color(1); cout << " "; }
+
+void p_presentacion()
+{
+    int x = 30, y = 1, dy = 1;
+    int clr = 2 + rand() % 14;
+    Console::SetCursorPosition(x, y); color(clr); cout << R"(
+                    ___  ___ ___  ___________ ___________  ___ ______ _____ 
+                    |  \/  |/ _ \|___  |  ___/  __ | ___ \/ _ \|  ___|_   _|
+                    | .  . / /_\ \  / /| |__ | /  \| |_/ / /_\ | |_    | |  
+                    | |\/| |  _  | / / |  __|| |   |    /|  _  |  _|   | |  
+                    | |  | | | | ./ /__| |___| \__/| |\ \| | | | |     | |  
+                    \_|  |_\_| |_\_____\____/ \____\_| \_\_| |_\_|     \_/                                                         
+                    
+                        )" << "\n";
+
+    while (true)
+    {
+        clr = 2 + rand() % 14;
+        Console::SetCursorPosition(x, y); color(1); cout << R"(
+                    ___  ___ ___  ___________ ___________  ___ ______ _____ 
+                    |  \/  |/ _ \|___  |  ___/  __ | ___ \/ _ \|  ___|_   _|
+                    | .  . / /_\ \  / /| |__ | /  \| |_/ / /_\ | |_    | |  
+                    | |\/| |  _  | / / |  __|| |   |    /|  _  |  _|   | |  
+                    | |  | | | | ./ /__| |___| \__/| |\ \| | | | |     | |  
+                    \_|  |_\_| |_\_____\____/ \____\_| \_\_| |_\_|     \_/                                                         
+                    
+                        )" << "\n";
+        y += dy;
+        Console::SetCursorPosition(x, y); color(clr); cout << R"(
+                    ___  ___ ___  ___________ ___________  ___ ______ _____ 
+                    |  \/  |/ _ \|___  |  ___/  __ | ___ \/ _ \|  ___|_   _|
+                    | .  . / /_\ \  / /| |__ | /  \| |_/ / /_\ | |_    | |  
+                    | |\/| |  _  | / / |  __|| |   |    /|  _  |  _|   | |  
+                    | |  | | | | ./ /__| |___| \__/| |\ \| | | | |     | |  
+                    \_|  |_\_| |_\_____\____/ \____\_| \_\_| |_\_|     \_/                                                         
+                    
+                        )" << "\n";
+
+        if (y == 20)
+        {
+            dy = 0;
+            Console::SetCursorPosition(x, 1); color(clr); cout << R"(
+                                        _________-----_____
+                             _____------           __      ----_
+                     ___----             ___------              \
+                        ----________        ----                 \
+                                    -----__    |             _____)
+                                         __-                /     \
+                             _______-----    ___--          \    /)\
+                       ------_______      ---____            \__/  /
+                                    -----__    \ --    _          /\
+                                          --__--__     \_____/   \_/\
+                                                  ----|   /          |
+                                                      |  |___________|
+                                                      |  | ((_(_)| )_)
+                                                      |  \_((_(_)|/(_)
+                                                      \             (
+                                                       \_____________)
+                                                      
+                    
+                        )" << "\n";
+            cursor(x + 2, y + 9); color(12); cout << "PRESIONE ESPACIO PARA CONTINUAR";
+
+        }
+        if (kbhit())
+        {
+            char tecla = getch();
+            if (tecla == SPACEBAR)break;
+        }
+        _sleep(100);
+    }
+    Console::Clear();
+    return;
+}
+
+void instrucciones()
+{
+    cursor(38, 5); color(7); cout << R"(
+                    
+                  ___ _  _ ___ _____ ___ _   _  ___ ___ ___ ___  _  _ ___ ___ 
+                 |_ _| \| / __|_   _| _ | | | |/ __/ __|_ _/ _ \| \| | __/ __|
+                  | || .` \__ \ | | |   | |_| | (_| (__ | | (_) | .` | _|\__ \
+                 |___|_|\_|___/ |_| |_|_\\___/ \___\___|___\___/|_|\_|___|___/
+                                                              
+
+                        )" << "\n";
+    cursor(10, 13); color(15); cout << "- Con las teclas direccionales podras mover";
+    cursor(12, 14); color(15); cout << "al personaje principal, el cual cuenta con tan solo 3 vidas.";
+    cursor(10, 15); color(15); cout << "- El personaje principal empezará en un punto A";
+    cursor(12, 16); color(15); cout << "y tendra como objetivo pasar por un laberinto para llegar a un punto B.";
+    cursor(10, 17); color(15); cout << "- En el punto B estarán los amigos del personaje principal, estos esperan";
+    cursor(12, 18); color(15); cout << "ser rescatados";
+    cursor(10, 19); color(15); cout << "- El laberinto contará con diferentes elementos:";
+    cursor(12, 20); color(15); cout << ".Aliados "; bcolor(3); cout << " ";
+    cursor(12, 21); bcolor(1); cout << ".Agentes "; bcolor(12); cout << " ";
+    cursor(12, 22); bcolor(1); cout << ".Vitaminas: ";
+    cursor(14, 23); bcolor(4); cout << " "; bcolor(1); cout << ": Te da una vida extra.";
+    cursor(14, 24); bcolor(14); cout << " "; bcolor(1); cout << ": Reduce la forma del personaje.";
+    cursor(12, 25); color(15); cout << ".Portales "; bcolor(9); cout << " "; bcolor(1); cout << " "; bcolor(13); cout << " ";
+    bcolor(1); cout << " "; bcolor(8); cout << " "; bcolor(1); cout << " "; bcolor(15); cout << " "; bcolor(1); "   "; bcolor(2); cout << " "; bcolor(1); cout << " "; bcolor(6); cout << " "; bcolor(1);
+    //falta agregarle detalles
+    getch();
+    Console::Clear();
+}
+
+void flecha(int x, int y)
+{
+    cursor(x, y); cout << "---" << char(92);
+    cursor(x, y + 1); cout << "---" << char(47);
+}
+
+int niveles()
+{
+    int x, y, topcion;
+    bool print = false;
+    while (true)
+    {
+        int _clr_ = 2 + rand() % 14;
+        cursor(3, 2); color(_clr_); cout << R"(          
+      _   _ 
+     | \ | |                                                        
+     |  \| |                   
+     | . ` |
+     | |\  |
+     \_| \_/ 
+      _____ 
+     |_   _|
+       | |  
+       | |  
+      _| |_ 
+      \___/   
+      _   _ 
+     | | | |
+     | | | |
+     | | | |
+     \ \_/ /
+      \___/ 
+      _____ 
+     |  ___|
+     | |__  
+     |  __| 
+     | |___ 
+     \____/   
+      _     
+     | |    
+     | |    
+     | |    
+     | |____
+     \_____/       
+      _____ 
+     |  ___|
+     | |__  
+     |  __| 
+     | |___ 
+     \____/   
+     _____ 
+    /  ___|
+    \ `--. 
+     `--. \
+    /\__/ /
+    \____/ 
+                        )" << "\n";
+        _sleep(50);
+        cursor(12, 9); color(10); cout << R"(
+                     .-------------------------------------------------------------. 
+                     |   _    _  _____  _____    __   __  _____  __                |  
+                     |  | |  | ||     ||   _ |  |  |_|  ||  _  ||  |     ,-.___,-. |
+                     |  |  |_| ||  _  ||  | ||  |       || |_| ||  |     \_/_ _\_/ |
+                     |  |      || | | ||  |_||_ |       ||     ||  |       )O_O(   |
+                     |  |  _   || |_| ||   __  ||       ||     ||  |__    { (_) }  |
+                     |  | | |  ||     ||  |  | || ||_|| ||  _  ||     |    `-^-'   |
+                     |  |_|  |_||_____||__|  |_||_|   |_||_| |_||_____|            |
+                     '-------------------------------------------------------------' 
+
+
+                                               
+
+
+
+
+
+                                ------------------------------------------.
+                               |  __ __   ____  ____   ___                |
+                               | |  |  | /    ||    \ |   \      . - .    |
+                               | |  |  ||  o  ||  D  )|    \     (o o)    |
+                               | |  _  ||     ||    / |  D  |    | O \    |
+                               | |  |  ||  _  ||    \ |     |    \    \   |
+                               | |__|__||__|__||__|\_||_____|     `~~~'   |
+                               '------------------------------------------'
+
+)" << "\n";
+
+        if (kbhit())
+        {
+            char tecla = getch();
+            if (tecla == ARRIBA)
+            {
+                x = 16, y = 14;
+                print = true;
+            }
+            if (tecla == ABAJO)
+            {
+                x = 24, y = 30;
+                print = true;
+            }
+            if (x == 16 && y == 14 && tecla == SPACEBAR) { topcion = 1; break; }
+            if (x == 24 && y == 30 && tecla == SPACEBAR) { topcion = 2; break; }
+        }
+        if (print == true)
+        {
+            color(15); flecha(x, y);
+        }
+    }
+
+    return topcion;
+}
+
+int felicitaciones()
+{
+    char _T = 0;
+    int tdesicion;
+    while (true)
+    {
+        cursor(1, 10); color(11); cout << R"(                              
+       ######
+    ########## 
+   ######    _\_
+   ##===----[.].]
+   #(     ,   _\ 
+    #      )\__|
+     \        / 
+      `-._``-' 
+          >@
+           |
+           |
+           |
+           |
+           |
+           |
+           |
+           |
+           |
+           |
+)" << "\n";
+
+        _sleep(50);
+        cursor(20, 15); color(13); cout << R"(
+                       __      __  ______   __    __        __       __  ______  __    __ 
+                      /  \    /  |/      \ /  |  /  |      /  |  _  /  |/      |/  \  /  |
+                      $$  \  /$$//$$$$$$  |$$ |  $$ |      $$ | / \ $$ |$$$$$$/ $$  \ $$ |
+                       $$  \/$$/ $$ |  $$ |$$ |  $$ |      $$ |/$  \$$ |  $$ |  $$$  \$$ |
+                        $$  $$/  $$ |  $$ |$$ |  $$ |      $$ /$$$  $$ |  $$ |  $$$$  $$ |
+                         $$$$/   $$ |  $$ |$$ |  $$ |      $$ $$/$$ $$ |  $$ |  $$ $$ $$ |
+                          $$ |   $$ \__$$ |$$ \__$$ |      $$$$/  $$$$ | _$$ |_ $$ |$$$$ |
+                          $$ |   $$    $$/ $$    $$/       $$$/    $$$ |/ $$   |$$ | $$$ |
+                          $$/     $$$$$$/   $$$$$$/        $$/      $$/ $$$$$$/ $$/   $$/ 
+
+)" << "\n";
+
+        cursor(48, 27); color(15); cout << char(173) << "FELICIDADES!";
+        cursor(39, 28); cout << "SI DESEA JUGAR DE NUEVO, PRESIONE N";
+        cursor(36, 29); cout << "SI DESEA TERMINAR EL JUEGO, PRESIONE ESC";
+        if (_kbhit())
+        {
+            char _tecla = _getch();
+            if (_tecla == 'N' || _tecla == 'n') { tdesicion = 3; break; }
+            if (_tecla == 2) { tdesicion = 4; break; }
+        }
+    }
+    return tdesicion;
+}
+
+int go()
+{
+    char _T = 0;
+    int tdesicion;
+    while (true)
+    {
+        cursor(1, 12); color(11); cout << R"(                              
+               _..._
+             ,'     `.
+           ,'         `.
+         ,'    _   ,-.  `.
+         |    (_)  `-'   |
+         |        >      |
+         |     ,----.    |
+         |    /,-""-.\   |
+         `.  |/      "  ,'
+           `.         ,'
+             `._____,'
+)" << "\n";
+
+        _sleep(50);
+        cursor(20, 7); color(13); cout << R"(
+                                            __      __  ______   __    __      
+                                           /  \    /  |/      \ /  |  /  |    
+                                           $$  \  /$$//$$$$$$  |$$ |  $$ |     
+                                            $$  \/$$/ $$ |  $$ |$$ |  $$ |     
+                                             $$  $$/  $$ |  $$ |$$ |  $$ |    
+                                              $$$$/   $$ |  $$ |$$ |  $$ |    
+                                               $$ |   $$ \__$$ |$$ \__$$ |     
+                                               $$ |   $$    $$/ $$    $$/     
+                                               $$/     $$$$$$/   $$$$$$/      
+
+                                        __         ______    ______   ________ 
+                                       /  |       /      \  /      \ /        |
+                                       $$ |      /$$$$$$  |/$$$$$$  |$$$$$$$$/ 
+                                       $$ |      $$ |  $$ |$$ \__$$/    $$ |
+                                       $$ |      $$ |  $$ |$$      \    $$ |
+                                       $$ |      $$ |  $$ | $$$$$$  |   $$ |
+                                       $$ |_____ $$ \__$$ |/  \__$$ |   $$ |
+                                       $$       |$$    $$/ $$    $$/    $$ |
+                                       $$$$$$$$/  $$$$$$/   $$$$$$/     $$/
+
+)" << "\n";
+
+        cursor(49, 29); color(15); cout << char(173) << "NO TE RINDAS!";
+        cursor(40, 30); cout << "SI DESEA JUGAR DE NUEVO, PRESIONE N";
+        cursor(36, 31); cout << "SI DESEA TERMINAR EL JUEGO, PRESIONE F";
+        if (_kbhit())
+        {
+            char _tecla = _getch();
+            if (_tecla == 'N' || _tecla == 'n') { tdesicion = 3; break; }
+            if (_tecla == 'F' || _tecla == 'f') { tdesicion = 4; break; }
+        }
+    }
+    return tdesicion;
+}
+
+void creditos()
+{
+    _sleep(50);
+    cursor(30, 15); color(13); cout << R"(
+                    
+                              ___  ____   __    ___  __   __   ____ 
+                             / __)(  _ \ / _\  / __)(  ) / _\ / ___)
+                            ( (_ \ )   //    \( (__  )( /    \\___ \
+                             \___/(__\_)\_/\_/ \___)(__)\_/\_/(____/
+
+                         ____   __  ____      __  _  _   ___   __   ____ 
+                        (  _ \ /  \(  _ \   _(  )/ )( \ / __) / _\ (  _ \
+                         ) __/(  O ))   /  / \) \) \/ (( (_ \/    \ )   /
+                        (__)   \__/(__\_)  \____/\____/ \___/\_/\_/(__\_)
+
+)" << "\n";
+
+    cursor(49, 29); color(15); cout << char(173) << "GRACIAS POR JUGAR!";
+    cursor(44, 30); cout << "INTEGRANTES:";
+    cursor(38, 31); cout << ".Elmer Riva Rodriguez";
+    cursor(38, 32); cout << ".Fabio Nicolich Alvis";
+    cursor(38, 33); cout << ".Jose Maritnez Valdivia";
+    return;
+}
+
+struct agentes {
+    int x_a;
+    int y_a;
+    int dy_a;
+};
+
+void informacion_nivel(int vidas, int boomerangs, int num_agentes, int vitaminas, int portales, int aliados) {
+    cursor(1, 47); color(15); cout << "Vidas: " << vidas;
+    cout << " Boomerangs: " << boomerangs;
+    cout << endl;
+    cout << " Agentes: " << num_agentes << " Vitaminas: " << vitaminas << endl;
+    cout << " Portales " << portales << " Aliados " << aliados;
+}
+
+agentes* elimina_agente(agentes* enemigos, int& num_agentes, int k) {
+    agentes* temporal;
+    temporal = new agentes[num_agentes - 1];
+    if (k != num_agentes - 1) {
+        for (int i = 0, h = 0; i < num_agentes - 1; i++, h++) {
+            if (h == k) { h++; }
+            temporal[i] = enemigos[h];
+        }
+        num_agentes--;
+    }
+    else {
+        for (int i = 0, h = 0; i < num_agentes - 1; i++, h++) {
+            temporal[i] = enemigos[h];
+        }
+        num_agentes--;
+    }
+
+    return temporal;
+}
+
+void vitaminas(int matriz[FILAS][COLUMNAS], int x, int y, int& vidas, bool& tam)
+{
+    //perosnaje va por la derecha (tam)
+    if (matriz[y][x + 2] == 3 || matriz[y + 1][x + 2] == 3 || matriz[y + 2][x + 2] == 3) { tam = true; matriz[20][80] = 0; cursor(80, 20); color(1); cout << " "; }
+    //perosnaje va por la izquierda (tam)
+    if (matriz[y][x] == 3 && tam == true) { tam = false; matriz[43][10] = 0; }
+    //personaje va por abajo(tam)
+    if (matriz[y + 2][x] == 3 || matriz[y + 2][x + 1] == 3 || matriz[y + 2][x + 2] == 3) { tam = true; matriz[20][80] = 0; cursor(80, 20); color(1); cout << " "; }
+    if (tam == false)
+    {
+        //personaje va por abajo (vida)
+        if (matriz[y + 2][x] == 4 || matriz[y + 2][x + 1] == 4 || matriz[y + 2][x + 2] == 4) { vidas++; matriz[13][3] = 0; cursor(3, 13); cout << " "; }
+        //perosnaje va por la derecha (vida)
+        if (matriz[y][x + 2] == 4 || matriz[y + 1][x + 2] == 4 || matriz[y + 2][x + 2] == 4) { vidas++; matriz[24][56] = 0; cursor(56, 24); cout << " "; }
+    }
+    if (tam == true)
+    {
+        //personaje reducido por cualquier direccion
+        if (matriz[y][x] == 4) {
+            if (x == 3 && y == 13) { vidas++; matriz[13][3] = 0; }
+            if (x == 56 && y == 24) { vidas++; matriz[24][56] = 0; }
+        }
+    }
+
+}
+
+void vitaminas2(int matriz[FILAS][COLUMNAS], int x, int y, int& vidas)
+{
+    //personaje va por abajo (vida)
+    if (matriz[y + 2][x] == 4 || matriz[y + 2][x + 1] == 4 || matriz[y + 2][x + 2] == 4) { vidas++; matriz[38][48] = 0; }
+    //perosnaje va por la derecha (vida)
+    if (matriz[y][x + 2] == 4 || matriz[y + 1][x + 2] == 4 || matriz[y + 2][x + 2] == 4) { vidas++; matriz[3][64] = 0; }
+}
+
+void vitaminasboss(int matriz[FILAS][COLUMNAS], int x, int y, int& vidas)
+{
+
+
+    //perosnaje va por la derecha (vida)
+    if (matriz[y + 1][x + 2] == 4) { vidas++; matriz[10][31] = 0; cursor(31, 10); color(1); cout << " "; }
+    //personaje va por izquierda (vida)
+    if (matriz[y + 1][x] == 4) { vidas++; matriz[37][62] = 0; cursor(62, 37); color(1); cout << " "; }
+
+}
+
+void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_agentes, int num_boomerangs, int num_vitaminas, int num_portales, int num_aliados, int y_boom, int x_boom, int dy_boom, int dx_boom, bool& tam, int opcion, int e) {
+    //informacion de boss fight
+    vidas = 20;
+    num_agentes = 10;
+    num_boomerangs = 0;
+    num_vitaminas = 4;
+    num_portales = 0;
+    x = 85; y = 2; //ubicacion inicial personaje principal
+    int x_a = 45, y_a = 43; //ubicacion amigo
+    double x_j = 47, y_j = 21, dx_j = 0, dy_j = 0; //variables jefe final
+    int cierra_puerta = 0;
+    char matriz_jf[6][14] = { //matriz jefe final
+        {' ',' ',' ','(','_','(',' ',' ',' ',' ',' ',' ',' ',' '},
+        {' ',' ','(',239,239,')',' ',' ',' ',' ',' ',' ',' ',' '},
+        {' ',' ',' ','"',92,' ',')','>',',','_',' ',' ',' ',' '},
+        {'_','>','-','-','w','/','(','(','_',' ','>',',','_','>'},
+        {' ',' ',' ',' ',' ',' ','/','/','/',' ',' ',' ',' ',' '},
+        {' ',' ',' ',' ',' ',' ',34,'-',34,' ',' ',' ',' ',' '},
+    };
+
+    //imprime laberinto boss fight
+    for (int f = 0; f < FILAS; f++)
+    {
+        for (int c = 0; c < COLUMNAS; c++)
+        {
+            cursor(c, f);
+            if (matriz[f][c] == 0) color(1);
+            if (matriz[f][c] == 1) color(11);
+            //vitaminas
+            if (matriz[f][c] == 4) color(3);
+            cout << (char)219;
+        }
+    }
+    //personaje principal
+    pp_imprime(x, y);
+    //jefe final
+    jefe_final_imprime(matriz_jf, x_j, y_j);
+    //amigo
+    amigo_imprime(x_a, y_a);
+
+    //variables para los agentes del nivel boss fight con uso de una estructura
+    agentes* enemigos2; enemigos2 = new agentes[10];
+
+    int x_aa[10] = { 11, 14, 20, 28,34, 34, 57, 57, 68, 77 };
+    int y_aa[10] = { 34, 8, 17, 31,12, 38, 2, 33, 9, 37 };
+    int dy_aa[10] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+    for (int i = 0; i < 10; i++) {
+        enemigos2[i].x_a = x_aa[i];
+        enemigos2[i].y_a = y_aa[i];
+        enemigos2[i].dy_a = dy_aa[i];
+    }
+    for (int i = 0; i < 10; i++) {
+        a_imprime(enemigos2[i].x_a, enemigos2[i].y_a);
+    }
+
+    //variables para el tiempo
+    clock_t inicio, fin;
+    double duracion = 0.0;
+
+    int i = 0;
+    while (1) {
+        informacion_nivel(vidas, num_boomerangs, num_agentes, num_vitaminas, num_portales, num_aliados);
+        //BORRAR
+        a_borra(enemigos2[i].x_a, enemigos2[i].y_a); //agentes
+        cursor(x_boom, y_boom); color(1); cout << " ";
+
+        jefe_final_borrar(x_j, y_j);
+
+        //MOVER
+        //personaje principal
+
+
+        if (_kbhit()) {
+            char tecla = getch();
+            if (dy_boom == 0 && dx_boom == 0) { //se mueve si el boomerang no esta en movimiento
+                pp_borra(x, y); //personaje principal
+                if (tecla == DERECHA && matriz[y][x + 3] != 1 && matriz[y + 2][x + 3] != 1 && matriz[y + 1][x + 3] != 1) { x++; }
+                if (tecla == IZQUIERDA && matriz[y][x - 1] != 1 && matriz[y + 2][x - 1] != 1 && matriz[y + 1][x - 1] != 1) { x--; }
+                if (tecla == ABAJO && matriz[y + 3][x] != 1 && matriz[y + 3][x + 2] != 1 && matriz[y + 3][x + 1] != 1) { y++; }
+                if (tecla == ARRIBA && matriz[y - 1][x] != 1 && matriz[y - 1][x + 2] != 1 && matriz[y - 1][x + 1] != 1) { y--; }
+            }
+            if (num_boomerangs >= 1) { //teclas para activar al boomerang
+                if (tecla == 'W' || tecla == 'w') { x_boom = x + 1; y_boom = y - 1; dy_boom = 1; e = 10; } //hacia arriba
+                if (tecla == 'S' || tecla == 's') { x_boom = x + 1; y_boom = y + 3; dy_boom = -1; e = -13; } //hacia abajo
+                if (tecla == 'A' || tecla == 'a') { x_boom = x - 1; y_boom = y + 1; dx_boom = 1; e = 10; } //hacia la izquierda
+                if (tecla == 'D' || tecla == 'd') { x_boom = x + 3; y_boom = y + 1; dx_boom = -1; e = -13; } //hacia la derecha
+            }
+        }
+
+        //agentes
+        if (matriz[enemigos2[i].y_a - 1][enemigos2[i].x_a] == 1)enemigos2[i].dy_a *= -1;
+        if (matriz[enemigos2[i].y_a + 3][enemigos2[i].x_a] == 1)enemigos2[i].dy_a *= -1;
+
+        enemigos2[i].y_a -= enemigos2[i].dy_a;
+
+        for (int k = 0; k < num_agentes; k++) {//personaje principal si choca con un agente
+            for (int u = 0, o = 0; o < 3; u++) {
+                for (int m = 0, z = 0; z < 3; m++) {
+                    if (enemigos2[k].y_a + o == y + z && enemigos2[k].x_a + u == x + m) { vidas--; a_borra(enemigos2[k].x_a, enemigos2[k].y_a); enemigos2 = elimina_agente(enemigos2, num_agentes, k); }
+                    if (m == 2) { m = 0; z++; }
+                }
+                if (u == 2) { u = 0; o++; }
+            }
+        }
+        if (cierra_puerta == 1) {
+            for (int u = 0, o = 0; o < 6; u++) {//personaje principal si choca con jefe final, pierde vidas
+                for (int m = 0, z = 0; z < 3; m++) {
+                    if (y_j + o == y + z && x_j + u == x + m) { vidas--; }
+                    if (m == 2) { m = 0; z++; }
+                }
+                if (u == 13) { u = 0; o++; }
+            }
+        }
+
+        if (y >= 22 && y <= 25 && x == 33 && cierra_puerta == 0) {//cierra puertas cuando ingresa a la habitacion del jefe final
+            cierra_puerta++;
+            dy_j = 0.5; //comienza movimiento jefe final
+            dx_j = 0.5; //comienza movimiento jefe final
+            matriz[22][32] = 1; matriz[23][32] = 1; matriz[24][32] = 1; matriz[25][32] = 1;
+            color(11); cursor(32, 22); cout << char(219); cursor(32, 23); cout << char(219); cursor(32, 24); cout << char(219); cursor(32, 25); cout << char(219);
+        }
+
+        if (matriz[int(y_j)][int(x_j - 1)] == 1) { dx_j *= -1; }
+        if (matriz[int(y_j)][int(x_j + 14)] == 1) { dx_j *= -1; }
+        x_j += dx_j;
+
+        if (dy_boom != 0) {
+            if (y_boom == y - e) { dy_boom *= -1; }
+            if (y_boom == y) { dy_boom = 0; }
+            if (matriz[y_boom - 1][x_boom] == 1) { dy_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; }//si choca con una pared hacia arriba
+            if (matriz[y_boom + 1][x_boom] == 1) { dy_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; } //si choca con una pared hacia abajo
+            y_boom -= dy_boom;
+        }
+        if (dx_boom != 0) {
+            if (x_boom == x - e) { dx_boom *= -1; }
+            if (x_boom == x) { dx_boom = 0; }
+            if (matriz[y_boom][x_boom - 1] == 1) { dx_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; } //si choca con una pared hacia la izquierda
+            if (matriz[y_boom][x_boom + 1] == 1) { dx_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; } //si choca con una pared hacia la derecha
+            x_boom -= dx_boom;
+        }
+
+        //interaccion con vitaminas
+        vitaminasboss(matriz, x, y, vidas);
+
+        //DIBUJAR
+        pp_imprime(x, y);//p principal
+        a_imprime(enemigos2[i].x_a, enemigos2[i].y_a);//agentes
+        jefe_final_imprime(matriz_jf, x_j, y_j); inicio = clock(); //jefe final
+
+        if (dy_boom != 0 || dx_boom != 0) {//boomerang
+            cursor(x_boom, y_boom);
+            color(3); cout << "<";
+        }
+
+        if (vidas == 0)
+        {
+            Console::Clear();
+            opcion = go();
+            if (opcion == 3) { break; }
+            if (opcion == 4)break;
+        }
+
+
+        //fin del reloj
+        fin = clock();
+        duracion = (double)(fin - inicio) / CLOCKS_PER_SEC;
+
+        i++;
+        if (i > num_agentes - 1)i = 0;
+        Sleep(1);
+    }
+}
