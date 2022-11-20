@@ -211,7 +211,7 @@ int main()
             }
 
             //personaje principal
-            cursor(x, y); pp_imprime(x, y);
+            pp_imprime(x, y);
             //aliado 2 nivel 1
             x1 = 69; y1 = 34;
             //amigo
@@ -236,7 +236,7 @@ int main()
                 informacion_nivel(vidas, num_boomerangs, num_agentes, num_vitaminas, num_portales, num_aliados);
 
                 //BORRAR
-                cursor(enemigos1[i].x_a, enemigos1[i].y_a); a_borra(enemigos1[i].x_a, enemigos1[i].y_a); //agentes
+                a_borra(enemigos1[i].x_a, enemigos1[i].y_a); //agentes
                 //MOVER
                 //personaje principal
                 //uso de bool
@@ -271,15 +271,6 @@ int main()
 
                 enemigos1[i].y_a -= enemigos1[i].dy_a;
 
-                for (int k = 0; k < num_agentes; k++) {//si choca con un agente
-                    for (int u = 0, o = 0; o < 3; u++) {
-                        for (int m = 0, z = 0; z < 3; m++) {
-                            if (enemigos1[k].y_a + o == y + z && enemigos1[k].x_a + u == x + m) { vidas--; a_borra(enemigos1[k].x_a, enemigos1[k].y_a); enemigos1 = elimina_agente(enemigos1, num_agentes, k); _sleep(50); }
-                            if (m == 2) { m = 0; z++; }
-                        }
-                        if (u == 2) { u = 0; o++; }
-                    }
-                }
                 //interaccion con vitaminas
                 vitaminas2(matriz, x, y, vidas);
 
@@ -317,8 +308,18 @@ int main()
 
                 //DIBUJAR
                 pp_imprime(x, y);//p principal
-                cursor(enemigos1[i].x_a, enemigos1[i].y_a); a_imprime(enemigos1[i].x_a, enemigos1[i].y_a);//agentes
-                cursor(x1, y1); ali_imprime(x1, y1);//aliado 2
+                enemigos1[i].y_a); a_imprime(enemigos1[i].x_a, enemigos1[i].y_a);//agentes
+                ali_imprime(x1, y1);//aliado 2
+                
+                for (int k = 0; k < num_agentes; k++) {//si choca con un agente
+                    for (int u = 0, o = 0; o < 3; u++) {
+                        for (int m = 0, z = 0; z < 3; m++) {
+                            if (enemigos1[k].y_a + o == y + z && enemigos1[k].x_a + u == x + m) { vidas--; a_borra(enemigos1[k].x_a, enemigos1[k].y_a); enemigos1 = elimina_agente(enemigos1, num_agentes, k); _sleep(50); }
+                            if (m == 2) { m = 0; z++; }
+                        }
+                        if (u == 2) { u = 0; o++; }
+                    }
+                }
 
                 if ((y >= 41) && (x == 4))
                 {
@@ -420,7 +421,7 @@ int main()
             while (1) {
                 informacion_nivel(vidas, num_boomerangs, num_agentes, num_vitaminas, num_portales, num_aliados);
                 //BORRAR
-                cursor(enemigos[i].x_a, enemigos[i].y_a); a_borra(enemigos[i].x_a, enemigos[i].y_a); //agentes
+                a_borra(enemigos[i].x_a, enemigos[i].y_a); //agentes
                 if (activador_boomerang == true) {
                     cursor(x_boom, y_boom); color(1); cout << " ";
                 }
