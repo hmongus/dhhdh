@@ -787,7 +787,12 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
         if (cierra_puerta == 1) {
             for (int u = 0, o = 0; o < 6; u++) {//personaje principal si choca con jefe final, pierde vidas
                 for (int m = 0, z = 0; z < 3; m++) {
-                    if (y_j + o == y + z && x_j + u == x + m) { vidas--; dx_j *= -1.0; x_j += 2; pp_borra(x,y); x -= 2; }
+                    if (y_j + o == y + z && x_j + u == x + m) 
+                    { 
+                    vidas--; dx_j *= -1.0; x_j += 2; 
+                    if(x_j>=38){pp_borra(x,y); x -= 2;}
+                    if(x_j<38){pp_borra(x,y); x -= 1;}
+                    }
                     if (m == 2) { m = 0; z++; }
                 }
                 if (u == 13) { u = 0; o++; }
