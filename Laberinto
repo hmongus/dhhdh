@@ -673,6 +673,17 @@ void vitaminas2(int matriz[FILAS][COLUMNAS], int x, int y, int& vidas)
     if (matriz[y][x + 2] == 4 || matriz[y + 1][x + 2] == 4 || matriz[y + 2][x + 2] == 4) { vidas++; matriz[3][64] = 0; }
 }
 
+void vitaminasboss(int matriz[FILAS][COLUMNAS], int x, int y, int& vidas)
+{
+
+    
+    //perosnaje va por la derecha (vida)
+    if (matriz[y + 1][x + 2] == 4) { vidas++; matriz[10][31] = 0; cursor(31, 10); color(1); cout << " "; }
+    //personaje va por izquierda (vida)
+    if (matriz[y + 1][x] == 4) { vidas++; matriz[37][62] = 0; cursor(62, 37); color(1); cout << " "; }
+
+}
+
 void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_agentes, int num_boomerangs, int num_vitaminas, int num_portales, int num_aliados, int y_boom, int x_boom, int dy_boom, int dx_boom, bool& tam, int opcion, int e) {
     //informacion de boss fight
     vidas = 20;
@@ -815,7 +826,7 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
         }
 
         //interaccion con vitaminas
-        vitaminas(matriz, x, y, vidas, tam);
+        vitaminasboss(matriz, x, y, vidas);
 
         //DIBUJAR
         pp_imprime(x, y);//p principal
