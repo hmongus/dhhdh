@@ -743,11 +743,7 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
     for (int i = 0; i < 10; i++) {
         a_imprime(enemigos2[i].x_a, enemigos2[i].y_a);
     }
-
-    //variables para el tiempo
-    clock_t inicio, fin;
-    double duracion = 0.0;
-
+    
     int i = 0;
     while (1) {
         informacion_nivel(vidas, num_boomerangs, num_agentes, num_vitaminas, num_portales, num_aliados);
