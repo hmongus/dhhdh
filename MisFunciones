@@ -349,7 +349,7 @@ void instrucciones()
     cursor(10, 19); color(15); cout << "- El laberinto contará con diferentes elementos:";
     cursor(12, 20); color(15); cout << ".Aliados: ";
     cursor(14, 22); color(3); cout<< "0"; cursor(14, 23); cout<<char(219); cursor(14, 24); cout<<"W"; cursor(15,23); cout<<"{:"; color(15); cout<<"Eliminara enemigos";
-    cursor(30, 22); color(3); cout<<" 0"; cursor(30, 23);cout<<"}|: "; cursor(30, 24);cout<<" w"; color(15); cursor(34,23); cout<<"Te brindara boomerangs (usar A/W/S/D)";
+    cursor(35, 22); color(3); cout<<" 0"; cursor(35, 23);cout<<"}|: "; cursor(35, 24);cout<<" w"; color(15); cursor(39,23); cout<<"Te brindara boomerangs (A/W/S/D)";
     cursor(12, 26); bcolor(1); cout << ".Agentes "; bcolor(12); cout << " ";
     cursor(12, 27); bcolor(1); cout << ".Vitaminas: ";
     cursor(14, 28); bcolor(4); cout << " "; bcolor(1); cout << ": Te da una vida extra.";
