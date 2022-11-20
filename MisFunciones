@@ -779,15 +779,7 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
 
         enemigos2[i].y_a -= enemigos2[i].dy_a;
 
-        for (int k = 0; k < num_agentes; k++) {//personaje principal si choca con un agente
-            for (int u = 0, o = 0; o < 3; u++) {
-                for (int m = 0, z = 0; z < 3; m++) {
-                    if (enemigos2[k].y_a + o == y + z && enemigos2[k].x_a + u == x + m) { vidas--; a_borra(enemigos2[k].x_a, enemigos2[k].y_a); enemigos2 = elimina_agente(enemigos2, num_agentes, k); _sleep(50); }
-                    if (m == 2) { m = 0; z++; }
-                }
-                if (u == 2) { u = 0; o++; }
-            }
-        }
+       
         if (cierra_puerta == 1) {
             for (int u = 0, o = 0; o < 6; u++) {//personaje principal si choca con jefe final, pierde vidas
                 for (int m = 0, z = 0; z < 3; m++) {
@@ -831,7 +823,19 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
         //DIBUJAR
         pp_imprime(x, y);//p principal
         a_imprime(enemigos2[i].x_a, enemigos2[i].y_a);//agentes
+        for (int k = 0; k < num_agentes; k++) {//personaje principal si choca con un agente
+            for (int u = 0, o = 0; o < 3; u++) {
+                for (int m = 0, z = 0; z < 3; m++) {
+                    if (enemigos2[k].y_a + o == y + z && enemigos2[k].x_a + u == x + m) { vidas--; a_borra(enemigos2[k].x_a, enemigos2[k].y_a); enemigos2 = elimina_agente(enemigos2, num_agentes, k); _sleep(50); }
+                    if (m == 2) { m = 0; z++; }
+                }
+                if (u == 2) { u = 0; o++; }
+            }
+        }
+        
         jefe_final_imprime(matriz_jf, x_j, y_j); //jefe final
+        
+        
 
         if (dy_boom != 0 || dx_boom != 0) {//boomerang
             cursor(x_boom, y_boom);
