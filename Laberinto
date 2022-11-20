@@ -274,7 +274,7 @@ int main()
                 for (int k = 0; k < num_agentes; k++) {//si choca con un agente
                     for (int u = 0, o = 0; o < 3; u++) {
                         for (int m = 0, z = 0; z < 3; m++) {
-                            if (enemigos1[k].y_a + o == y + z && enemigos1[k].x_a + u == x + m) { vidas--; a_borra(enemigos1[k].x_a, enemigos1[k].y_a); enemigos1 = elimina_agente(enemigos1, num_agentes, k); }
+                            if (enemigos1[k].y_a + o == y + z && enemigos1[k].x_a + u == x + m) { vidas--; a_borra(enemigos1[k].x_a, enemigos1[k].y_a); enemigos1 = elimina_agente(enemigos1, num_agentes, k); _sleep(50); }
                             if (m == 2) { m = 0; z++; }
                         }
                         if (u == 2) { u = 0; o++; }
@@ -542,7 +542,7 @@ int main()
                     for (int k = 0; k < num_agentes; k++) {
                         for (int u = 0, o = 0; o < 3; u++) {
                             for (int m = 0, z = 0; z < 3; m++) {
-                                if (enemigos[k].y_a + o == y + z && enemigos[k].x_a + u == x + m) { vidas--; a_borra(enemigos[k].x_a, enemigos[k].y_a); enemigos = elimina_agente(enemigos, num_agentes, k); }
+                                if (enemigos[k].y_a + o == y + z && enemigos[k].x_a + u == x + m) { vidas--; a_borra(enemigos[k].x_a, enemigos[k].y_a); enemigos = elimina_agente(enemigos, num_agentes, k); _sleep(50); }
                                 if (m == 2) { m = 0; z++; }
                             }
                             if (u == 2) { u = 0; o++; }
@@ -555,13 +555,13 @@ int main()
                     for (int u = 0; u < num_agentes; u++)
                     {
                         //personaje va por su derecha
-                        if ((x == enemigos[i].x_a) && ((y == enemigos[i].y_a) || (y == enemigos[i].y_a + 1) || (y == enemigos[i].y_a + 2))) { vidas = 0; }
+                        if ((x == enemigos[i].x_a) && ((y == enemigos[i].y_a) || (y == enemigos[i].y_a + 1) || (y == enemigos[i].y_a + 2))) { vidas = 0; _sleep(50);}
                         //p va por su izquierda 
-                        if ((x == enemigos[i].x_a + 2) && ((y == enemigos[i].y_a) || (y == enemigos[i].y_a + 1) || (y == enemigos[i].y_a + 2))) { vidas = 0; }
+                        if ((x == enemigos[i].x_a + 2) && ((y == enemigos[i].y_a) || (y == enemigos[i].y_a + 1) || (y == enemigos[i].y_a + 2))) { vidas = 0; _sleep(50); }
                         //p va por arriba 
-                        if (((x == enemigos[i].x_a + 2) || (x == enemigos[i].x_a) || (x == enemigos[i].x_a + 1)) && (y == enemigos[i].y_a + 2)) { vidas = 0; }
+                        if (((x == enemigos[i].x_a + 2) || (x == enemigos[i].x_a) || (x == enemigos[i].x_a + 1)) && (y == enemigos[i].y_a + 2)) { vidas = 0; _sleep(50); }
                         //p va por abajo
-                        if (((x == enemigos[i].x_a + 2) || (x == enemigos[i].x_a) || (x == enemigos[i].x_a + 1)) && (y == enemigos[i].y_a)) { vidas = 0; }
+                        if (((x == enemigos[i].x_a + 2) || (x == enemigos[i].x_a) || (x == enemigos[i].x_a + 1)) && (y == enemigos[i].y_a)) { vidas = 0; _sleep(50); }
 
                     }
                 }
