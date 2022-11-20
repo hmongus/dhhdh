@@ -678,13 +678,10 @@ void vitaminas2(int matriz[FILAS][COLUMNAS], int x, int y, int& vidas)
 
 void vitaminasboss(int matriz[FILAS][COLUMNAS], int x, int y, int& vidas)
 {
-
-
     //perosnaje va por la derecha (vida)
     if (matriz[y + 1][x + 2] == 4) { vidas++; matriz[10][31] = 0; cursor(31, 10); color(1); cout << " "; }
     //personaje va por izquierda (vida)
     if (matriz[y + 1][x] == 4) { vidas++; matriz[37][62] = 0; cursor(62, 37); color(1); cout << " "; }
-
 }
 
 void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_agentes, int num_boomerangs, int num_vitaminas, int num_portales, int num_aliados, int y_boom, int x_boom, int dy_boom, int dx_boom, bool& tam, int opcion, int e) {
@@ -785,7 +782,7 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
         for (int k = 0; k < num_agentes; k++) {//personaje principal si choca con un agente
             for (int u = 0, o = 0; o < 3; u++) {
                 for (int m = 0, z = 0; z < 3; m++) {
-                    if (enemigos2[k].y_a + o == y + z && enemigos2[k].x_a + u == x + m) { vidas--; a_borra(enemigos2[k].x_a, enemigos2[k].y_a); enemigos2 = elimina_agente(enemigos2, num_agentes, k); }
+                    if (enemigos2[k].y_a + o == y + z && enemigos2[k].x_a + u == x + m) { vidas--; a_borra(enemigos2[k].x_a, enemigos2[k].y_a); enemigos2 = elimina_agente(enemigos2, num_agentes, k); _sleep(50); }
                     if (m == 2) { m = 0; z++; }
                 }
                 if (u == 2) { u = 0; o++; }
@@ -834,7 +831,7 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
         //DIBUJAR
         pp_imprime(x, y);//p principal
         a_imprime(enemigos2[i].x_a, enemigos2[i].y_a);//agentes
-        jefe_final_imprime(matriz_jf, x_j, y_j); inicio = clock(); //jefe final
+        jefe_final_imprime(matriz_jf, x_j, y_j); //jefe final
 
         if (dy_boom != 0 || dx_boom != 0) {//boomerang
             cursor(x_boom, y_boom);
