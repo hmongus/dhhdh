@@ -356,6 +356,9 @@ void instrucciones()
     cursor(14, 29); bcolor(14); cout << " "; bcolor(1); cout << ": Reduce la forma del personaje.";
     cursor(12, 30); color(15); cout << ".Portales "; bcolor(9); cout << " "; bcolor(1); cout << " "; bcolor(13); cout << " ";
     bcolor(1); cout << " "; bcolor(8); cout << " "; bcolor(1); cout << " "; bcolor(15); cout << " "; bcolor(1); "   "; bcolor(2); cout << " "; bcolor(1); cout << " "; bcolor(6); cout << " "; bcolor(1);
+    cursor(12, 31); color(15); cout << ".Jefe Final: ";
+    cursor(14, 32); color(15); cout << " (_(" << endl;
+    cursor(14, 33); color(15); cout << "('_')" << "       Perdera vidas con impactos solo en la cabeza..." << endl;
     //falta agregarle detalles
     getch();
     Console::Clear();
