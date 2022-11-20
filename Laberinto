@@ -348,7 +348,7 @@ int main()
 
             x = 85; y = 2; //ubicacion inicial personaje principal
             //informacion de nivel 2
-            vidas = 4;
+            vidas = 3;
             num_agentes = 27;
             num_boomerangs = 0;
             num_vitaminas = 4;
