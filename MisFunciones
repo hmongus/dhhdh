@@ -515,12 +515,12 @@ int felicitaciones()
 
         cursor(48, 27); color(15); cout << char(173) << "FELICIDADES!";
         cursor(39, 28); cout << "SI DESEA JUGAR DE NUEVO, PRESIONE N";
-        cursor(36, 29); cout << "SI DESEA TERMINAR EL JUEGO, PRESIONE ESC";
+        cursor(36, 29); cout << "SI DESEA TERMINAR EL JUEGO, PRESIONE F";
         if (_kbhit())
         {
             char _tecla = _getch();
             if (_tecla == 'N' || _tecla == 'n') { tdesicion = 3; break; }
-            if (_tecla == 2) { tdesicion = 4; break; }
+            if (_tecla == 'F' || _tecla== 'f') { tdesicion = 4; break; }
         }
     }
     return tdesicion;
