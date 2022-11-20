@@ -342,14 +342,14 @@ void instrucciones()
                         )" << "\n";
     cursor(10, 13); color(15); cout << "- Con las teclas direccionales podras mover";
     cursor(12, 14); color(15); cout << "al personaje principal, el cual cuenta con tan solo 3 vidas.";
-    cursor(10, 15); color(15); cout << "- El personaje principal empezará en un punto A";
+    cursor(10, 15); color(15); cout << "- El personaje principal empezara en un punto A";
     cursor(12, 16); color(15); cout << "y tendra como objetivo pasar por un laberinto para llegar a un punto B.";
-    cursor(10, 17); color(15); cout << "- En el punto B estarán los amigos del personaje principal, estos esperan";
+    cursor(10, 17); color(15); cout << "- En el punto B estaran los amigos del personaje principal, estos esperan";
     cursor(12, 18); color(15); cout << "ser rescatados";
-    cursor(10, 19); color(15); cout << "- El laberinto contará con diferentes elementos:";
+    cursor(10, 19); color(15); cout << "- El laberinto contara con diferentes elementos:";
     cursor(12, 20); color(15); cout << ".Aliados: ";
-    cursor(14, 22); color(3); cout<< "0"; cursor(14, 23); cout<<char(219); cursor(14, 24); cout<<"W"; cursor(15,23); cout<<"{:"; color(15); cout<<"Eliminara enemigos";
-    cursor(39, 22); color(3); cout<<" 0"; cursor(39, 23);cout<<"}|: "; cursor(39, 24);cout<<" w"; color(15); cursor(43,23); cout<<"Te brindara boomerangs (A/W/S/D)";
+    cursor(14, 22); color(3); cout << "0"; cursor(14, 23); cout << char(219); cursor(14, 24); cout << "W"; cursor(15, 23); cout << "{:"; color(15); cout << "Eliminara enemigos";
+    cursor(39, 22); color(3); cout << " 0"; cursor(39, 23); cout << "}|: "; cursor(39, 24); cout << " w"; color(15); cursor(43, 23); cout << "Te brindara boomerangs (A/W/S/D)";
     cursor(12, 26); bcolor(1); cout << ".Agentes "; bcolor(12); cout << " ";
     cursor(12, 27); bcolor(1); cout << ".Vitaminas: ";
     cursor(14, 28); bcolor(3); cout << " "; bcolor(1); cout << ": Te da una vida extra.";
@@ -602,7 +602,7 @@ void creditos()
 
 )" << "\n";
 
-    cursor(42, 30);color(7); cout << "INTEGRANTES:";
+    cursor(42, 30); color(7); cout << "INTEGRANTES:";
     cursor(36, 31); cout << ".Elmer Riva Rodriguez";
     cursor(36, 32); cout << ".Fabio Nicolich Alvis";
     cursor(36, 33); cout << ".Jose Maritnez Valdivia";
@@ -743,7 +743,7 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
     for (int i = 0; i < 10; i++) {
         a_imprime(enemigos2[i].x_a, enemigos2[i].y_a);
     }
-    
+
     int i = 0;
     while (1) {
         informacion_nivel(vidas, num_boomerangs, num_agentes, num_vitaminas, num_portales, num_aliados);
@@ -785,11 +785,11 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
         if (cierra_puerta == 1) {
             for (int u = 0, o = 0; o < 6; u++) {//personaje principal si choca con jefe final, pierde vidas
                 for (int m = 0, z = 0; z < 3; m++) {
-                    if (y_j + o == y + z && x_j + u == x + m) 
-                    { 
-                    vidas--; dx_j *= -1.0; x_j += 2; 
-                    if(x_j>=38){pp_borra(x,y); x -= 2;}
-                    if(x_j<38 && x_j>=37){pp_borra(x,y); x -= 1;}
+                    if (y_j + o == y + z && x_j + u == x + m)
+                    {
+                        vidas--; dx_j *= -1.0; x_j += 2;
+                        if (x_j >= 38) { pp_borra(x, y); x -= 2; }
+                        if (x_j < 38 && x_j >= 37) { pp_borra(x, y); x -= 1; }
                     }
                     if (m == 2) { m = 0; z++; }
                 }
@@ -823,7 +823,12 @@ void boss_fight(int matriz[FILAS][COLUMNAS], int x, int y, int vidas, int num_ag
             if (matriz[y_boom][x_boom + 1] == 1) { dx_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; } //si choca con una pared hacia la derecha
             x_boom -= dx_boom;
         }
-
+        for (int k = 0; k < num_agentes; k++) {//boomerang si choca con un agente
+            for (int u = 0, o = 0; o < 3; u++) {
+                if (enemigos2[k].y_a + o == y_boom && enemigos2[k].x_a + u == x_boom) { dy_boom = 0; dx_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; a_borra(enemigos2[k].x_a, enemigos2[k].y_a); enemigos2 = elimina_agente(enemigos2, num_agentes, k); }
+                if (u == 2) { u = 0; o++; }
+            }
+        }
         if ((y_boom == y_j && (x_boom >= x_j + 3 && x_boom <= x_j + 5)) || (y_boom == y_j + 1 && (x_boom == x_j + 2 || x_boom == x_j + 5)))
         {
             dy_boom = 0; dx_boom = 0; x_boom = x + 1; y_boom = y + 1; num_boomerangs--; v_boss--;
