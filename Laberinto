@@ -231,7 +231,7 @@ int main()
                 a_imprime(enemigos1[i].x_a, enemigos1[i].y_a);
             }
             int i = 0;
-         
+
             while (1) {
                 informacion_nivel(vidas, num_boomerangs, num_agentes, num_vitaminas, num_portales, num_aliados);
 
